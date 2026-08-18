@@ -36,7 +36,7 @@ except Exception:
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.7.4"
+VERSION    = "6.7.5"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
