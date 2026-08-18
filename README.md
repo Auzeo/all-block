@@ -8,7 +8,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](#)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](LICENSE)
 [![Built with customtkinter](https://img.shields.io/badge/UI-customtkinter-1f6feb)](#)
 
 </div>
@@ -68,27 +68,9 @@ The one thing that's deliberately left untouched is <kbd>Ctrl</kbd>+<kbd>Alt</kb
 
 ## Getting started
 
-### Run from source
-
-```bash
-git clone https://github.com/Auzeo/all-block.git
-cd all-block
-pip install -r requirements.txt
-python AllBlock.py
-```
+Download the latest `All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install, no dependencies.
 
 Right-click → **Run as Administrator** if you want website blocking and the strongest input lock — All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
-
-### Build a standalone .exe
-
-A ready-made PyInstaller spec is included:
-
-```bash
-pip install pyinstaller
-pyinstaller "All Block.spec" --noconfirm
-```
-
-The built executable will be in `dist/`.
 
 ## Usage
 
@@ -117,4 +99,4 @@ UI text is set in [Montserrat](https://github.com/JulietaUla/Montserrat) (SIL Op
 
 ## License
 
-[MIT](LICENSE) © Auzeo
+All Rights Reserved. See [LICENSE](LICENSE). © Auzeo
