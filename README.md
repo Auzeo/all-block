@@ -19,7 +19,9 @@
 
 Website blockers and app blockers are easy to argue with. You hit a paywall, you disable the extension, you're back on the site in ten seconds. All Block skips the negotiation: once a session starts, your mouse and keyboard stop working system‑wide, full stop, until the timer hits zero. There's no "just one more tab" — there's no input at all.
 
-It's a single-purpose tool built around one idea: the only distraction blocker that actually works is one you can't casually click your way out of.
+It's a single-purpose tool built around one idea: the only distraction blocker that actually works is one you can't casually click your way out of. Start a session and you're left with whatever isn't on a screen — a book, a walk, an actual conversation — until the timer decides otherwise.
+
+All Block is completely free. It was inspired by Blockit, the Android app that does the same "lock yourself out" trick on phones — this is that idea, brought to Windows desktops.
 
 ## Screenshots
 
@@ -76,7 +78,7 @@ Right-click → **Run as Administrator** if you want website blocking and the st
 
 1. Launch All Block.
 2. Scroll (or drag, or use the arrow keys) the wheel to pick a duration.
-3. Click **Start Block**.
+3. Click **Block**.
 4. Your input is gone. Go do the thing you were avoiding.
 
 ## Safety notes
@@ -96,6 +98,8 @@ All Block genuinely disables your mouse and keyboard for the length of a session
 ## Credits
 
 UI text is set in [Montserrat](https://github.com/JulietaUla/Montserrat) (SIL Open Font License).
+
+Inspired by Blockit, the Android app that locks your phone during a session — All Block brings the same idea to Windows.
 
 ## License
 

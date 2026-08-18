@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-BlockIt for Windows — Website & App Blocker
+All Block for Windows — Website & App Blocker
 ────────────────────────────────────────────
 Install:  pip install customtkinter psutil pillow
-Run:      python blockit.py   (right-click → Run as Administrator for website blocking)
+Run:      python AllBlock.py   (right-click → Run as Administrator for website blocking)
 """
 
 import customtkinter as ctk
@@ -41,9 +41,9 @@ APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon group
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
 REDIRECT   = "127.0.0.1"
-MARKER     = "# BlockIt"                # keep marker/data path stable — don't orphan user data
-DATA_FILE  = Path.home() / ".blockit" / "data.json"
-SESSION_STATE_FILE = Path.home() / ".blockit" / "session_state.json"
+MARKER     = "# All Block"
+DATA_FILE  = Path.home() / ".allblock" / "data.json"
+SESSION_STATE_FILE = Path.home() / ".allblock" / "session_state.json"
 
 def set_dpi_awareness():
     """Tell Windows we render at native resolution. Without this the OS bitmap-
@@ -730,7 +730,7 @@ def block_site(raw: str):
                 f.write("\n" + "\n".join(lines_to_add))
         return True, domain
     except PermissionError:
-        return False, "Run BlockIt as Administrator to block websites."
+        return False, "Run All Block as Administrator to block websites."
     except Exception as e:
         return False, str(e)
 
@@ -825,7 +825,7 @@ def clear_screen_ghosts():
 # keyboard input system-wide and does not require admin. BlockInput() is added as a
 # best-effort second layer. The ONLY thing neither can touch is Ctrl+Alt+Del — the
 # OS-enforced secure attention sequence — so the user can never be permanently
-# trapped: Ctrl+Alt+Del → Task Manager → end BlockIt always frees the machine.
+# trapped: Ctrl+Alt+Del → Task Manager → end All Block always frees the machine.
 
 _WH_KEYBOARD_LL = 13
 _WH_MOUSE_LL    = 14
@@ -1106,7 +1106,7 @@ if not hasattr(tk.Canvas, 'create_round_rect'):
 
 # ─── Main Window ──────────────────────────────────────────────────────────────
 
-class BlockIt(ctk.CTk):
+class AllBlock(ctk.CTk):
     def __init__(self):
         super().__init__()
         # customtkinter's own titlebar dark-mode sync hides+reshows the whole
@@ -1488,9 +1488,9 @@ class BlockIt(ctk.CTk):
                 play_sfx(_SFX_START)
                 self._start_focus_session()
             self._focus_btn = ctk.CTkButton(
-                self._scene, text="Start Block",
+                self._scene, text="Block",
                 image=icon("play", txt, 15), compound="left",
-                width=196, height=56, corner_radius=28,
+                width=160, height=56, corner_radius=28,
                 fg_color=fill, hover_color=hover_fill, text_color=txt,
                 border_width=1, border_color=fill,
                 cursor="hand2",
@@ -2220,7 +2220,7 @@ if __name__ == "__main__":
     ensure_logo_files()      # generate assets/logo.png + logo.ico on first run
     ensure_admin()   # relaunch elevated so BlockInput + website blocking work
     load_fonts()         # register bundled Montserrat before any widget is built
-    app = BlockIt()
+    app = AllBlock()
     try:
         app.mainloop()
     finally:
