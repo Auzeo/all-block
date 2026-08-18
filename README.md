@@ -78,7 +78,7 @@ Right-click → **Run as Administrator** if you want website blocking and the st
 
 1. Launch All Block.
 2. Scroll (or drag, or use the arrow keys) the wheel to pick a duration.
-3. Click **Block**.
+3. Click **Start**.
 4. Your input is gone. Go do the thing you were avoiding.
 
 ## Safety notes

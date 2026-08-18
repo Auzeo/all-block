@@ -531,17 +531,18 @@ def set_resume_on_login(enabled: bool):
 
 
 def ensure_admin():
-    """Relaunch elevated at startup. BlockInput() and hosts-file blocking both
-    silently no-op without admin, so we need it before the UI comes up."""
+    """Relaunch elevated at startup and require it — BlockInput() and hosts-file
+    blocking both silently no-op without admin, so the app refuses to run at all
+    without it rather than falling back to a weaker unelevated mode."""
     if is_admin():
         return
     try:
         params = " ".join(f'"{a}"' for a in sys.argv)
-        rc = ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
-        if rc > 32:          # elevated child launched; quit this non-admin instance
-            sys.exit()
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
     except Exception:
-        pass                 # user declined UAC → keep running unelevated (lock will warn)
+        pass
+    sys.exit()               # either an elevated child is launching, or the user
+                              # declined UAC — this unelevated instance never runs
 
 # ─── Fonts (bundled Montserrat, loaded privately for crisp HD text) ─────────────
 
@@ -838,6 +839,8 @@ _VK_CONTROL     = 0x11
 _VK_LCONTROL    = 0xA2
 _VK_RCONTROL    = 0xA3
 _VK_P           = 0x50
+_VK_L           = 0x4C
+_VK_M           = 0x4D
 _LRESULT        = ctypes.c_ssize_t
 _HOOKPROC       = ctypes.WINFUNCTYPE(_LRESULT, ctypes.c_int, wintypes.WPARAM, wintypes.LPARAM)
 
@@ -875,6 +878,9 @@ class _InputBlocker:
         self._ms_proc = None
         self.panic = False
         self._ctrl_down = False
+        self._p_down = False
+        self._l_down = False
+        self._m_down = False
         self._gesture_saved = None
         self._u = ctypes.windll.user32
         self._k = ctypes.windll.kernel32
@@ -899,7 +905,13 @@ class _InputBlocker:
                     self._ctrl_down = True
                 elif up:
                     self._ctrl_down = False
-            if down and vk == _VK_P and self._ctrl_down:
+            elif vk == _VK_P:
+                self._p_down = down
+            elif vk == _VK_L:
+                self._l_down = down
+            elif vk == _VK_M:
+                self._m_down = down
+            if down and self._ctrl_down and self._p_down and self._l_down and self._m_down:
                 self.panic = True
         if nCode == _HC_ACTION:
             return 1  # eat every key — nothing reaches any window
@@ -955,6 +967,9 @@ class _InputBlocker:
             return True
         self.panic = False
         self._ctrl_down = False
+        self._p_down = False
+        self._l_down = False
+        self._m_down = False
         try:
             hmod = self._k.GetModuleHandleW(None)
             self._kb_proc = _HOOKPROC(self._kb_cb)
@@ -1488,7 +1503,7 @@ class AllBlock(ctk.CTk):
                 play_sfx(_SFX_START)
                 self._start_focus_session()
             self._focus_btn = ctk.CTkButton(
-                self._scene, text="Block",
+                self._scene, text="Start",
                 image=icon("play", txt, 15), compound="left",
                 width=160, height=56, corner_radius=28,
                 fg_color=fill, hover_color=hover_fill, text_color=txt,
