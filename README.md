@@ -4,7 +4,7 @@
 
 # All Block
 
-**A ruthless focus timer for Windows. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
+**A ruthless FREE focus timer for Windows. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
 
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](#)
