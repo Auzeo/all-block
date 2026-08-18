@@ -36,7 +36,7 @@ except Exception:
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.7.3"
+VERSION    = "6.7.4"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
@@ -152,7 +152,6 @@ DEFAULT_MIN      = 1     # testing: starts at the 1-minute floor (raise to 45 fo
 MAJOR_TICKS      = [1, 15, 30, 45, 60, 90, 120, 150, 180]
 A_TOP, A_BOT     = 34.0, -34.0     # arc angular span (degrees) — legacy dial
 APEX_X, BIG_X    = 0.37, 0.63      # horizontal anchors (fraction of width) — legacy dial
-FAILSAFE_HOLD    = 5.0             # seconds to hold Esc as a hidden safety exit
 
 # Duration presets for the OptionWheel picker: (label, seconds)
 WHEEL_PRESETS = [
@@ -835,12 +834,10 @@ _WM_KEYDOWN     = 0x0100
 _WM_KEYUP       = 0x0101
 _WM_SYSKEYDOWN  = 0x0104
 _WM_SYSKEYUP    = 0x0105
-_VK_ESCAPE      = 0x1B
 _VK_CONTROL     = 0x11
 _VK_LCONTROL    = 0xA2
 _VK_RCONTROL    = 0xA3
 _VK_P           = 0x50
-_PANIC_HITS     = 25            # hold Esc ~1.5s to force-release (works through the hook)
 _LRESULT        = ctypes.c_ssize_t
 _HOOKPROC       = ctypes.WINFUNCTYPE(_LRESULT, ctypes.c_int, wintypes.WPARAM, wintypes.LPARAM)
 
@@ -870,17 +867,13 @@ class _KBDLLHOOKSTRUCT(ctypes.Structure):
                 ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong))]
 
 class _InputBlocker:
-    """Kiosk input lock via low-level hooks. start()/stop() are idempotent.
-    Holding Esc for ~1.5s, or pressing Ctrl+P, trips `panic` — the two inputs
-    the keyboard hook lets through as a command, so there is always an in-app
-    way out (besides Ctrl+Alt+Del)."""
+    """Kiosk input lock via low-level hooks. start()/stop() are idempotent."""
     def __init__(self):
         self._kb = None
         self._ms = None
         self._kb_proc = None
         self._ms_proc = None
         self.panic = False
-        self._esc_hits = 0
         self._ctrl_down = False
         self._gesture_saved = None
         self._u = ctypes.windll.user32
@@ -906,15 +899,8 @@ class _InputBlocker:
                     self._ctrl_down = True
                 elif up:
                     self._ctrl_down = False
-            if down:
-                if vk == _VK_ESCAPE:
-                    self._esc_hits += 1
-                    if self._esc_hits >= _PANIC_HITS:
-                        self.panic = True
-                else:
-                    self._esc_hits = 0
-                if vk == _VK_P and self._ctrl_down:
-                    self.panic = True
+            if down and vk == _VK_P and self._ctrl_down:
+                self.panic = True
         if nCode == _HC_ACTION:
             return 1  # eat every key — nothing reaches any window
         return self._u.CallNextHookEx(None, nCode, wParam, lParam)
@@ -968,7 +954,6 @@ class _InputBlocker:
         if self._kb or self._ms:
             return True
         self.panic = False
-        self._esc_hits = 0
         self._ctrl_down = False
         try:
             hmod = self._k.GetModuleHandleW(None)
@@ -999,7 +984,6 @@ class _InputBlocker:
         self._kb = self._ms = None
         self._kb_proc = self._ms_proc = None
         self.panic = False
-        self._esc_hits = 0
         self._ctrl_down = False
         self._restore_gestures()
 
@@ -2001,8 +1985,6 @@ class BlockIt(ctk.CTk):
         cv = tk.Canvas(lk, bg=C_BG, highlightthickness=0, bd=0)
         cv.pack(fill="both", expand=True)
         self._lock_canvas = cv
-        lk.bind("<KeyPress-Escape>", self._esc_down)
-        lk.bind("<KeyRelease-Escape>", self._esc_up)
         for seq in ("<Alt-F4>", "<Control-w>", "<Control-q>", "<Alt-Tab>"):
             lk.bind(seq, lambda e: "break")
         lk.protocol("WM_DELETE_WINDOW", lambda: None)
@@ -2023,7 +2005,6 @@ class BlockIt(ctk.CTk):
         lk.configure(bg=C_BG)
         self._lock_canvas.configure(bg=C_BG)
         lk.geometry(f"{sw}x{sh}+0+0")
-        self._esc_start = None
 
         lk.update_idletasks()
         lk.deiconify()
@@ -2057,13 +2038,6 @@ class BlockIt(ctk.CTk):
 
         animate(lk, 250, lambda t: self._safe_alpha(lk, _ease_out_cubic(t)),
                 on_done=_on_transition_done)
-
-    def _esc_down(self, _):
-        if self._esc_start is None:
-            self._esc_start = time.perf_counter()
-
-    def _esc_up(self, _):
-        self._esc_start = None
 
     def _safe_focus(self, win):
         try:
@@ -2103,7 +2077,7 @@ class BlockIt(ctk.CTk):
                 pass
         # re-assert the hard input lock every frame so a Ctrl+Alt+Del bounce can't unlock it
         block_user_input(True)
-        if _INPUT_BLOCKER.panic:            # user held Esc through the hook → bail out
+        if _INPUT_BLOCKER.panic:            # secret bailout combo tripped → bail out
             self._stop_session()
             play_sfx(_SFX_CANCEL)
             self._toast("Session ended early.", success=True)
@@ -2138,15 +2112,6 @@ class BlockIt(ctk.CTk):
         cv.create_text(cx, by + sub * 2.4,
                        text=f"{fmt_duration_words(max(1, self.session_total - 1))} session in progress",
                        fill=C_MUTED, font=(FONT, -sub))
-
-        # hidden safety exit: hold Esc for FAILSAFE_HOLD seconds (no on-screen prompt)
-        if self._esc_start is not None:
-            held = time.perf_counter() - self._esc_start
-            if held >= FAILSAFE_HOLD:
-                self._stop_session()
-                play_sfx(_SFX_CANCEL)
-                self._toast("Session ended early.", success=True)
-                return
 
         self._lock_after = lk.after(33, self._lock_tick)
 

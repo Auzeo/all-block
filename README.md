@@ -51,12 +51,9 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 - **Hard input lock** — low-level `WH_KEYBOARD_LL` / `WH_MOUSE_LL` Windows hooks swallow every mouse and keyboard event system-wide for the duration of a session, not just inside the app.
 - **Fullscreen countdown** — a distraction-free, always-on-top lock screen shows exactly how much time is left, and re-asserts itself instantly if anything (Alt-Tab, a touchpad gesture, a display change) tries to shove it aside.
 - **Flexible durations** — a smooth scroll-wheel picker from 10 seconds up to 3 hours, so you can use it for a quick test run or a full deep-work block.
-- **Built-in emergency exit** — hold <kbd>Esc</kbd> for about 1.5 seconds, or press <kbd>Ctrl</kbd>+<kbd>P</kbd>, to end a session early. You're never truly trapped: even in the worst case, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd> always reaches Task Manager.
 - **Resume on restart** — if a reboot or forced restart happens mid-session, All Block picks the countdown back up where it left off instead of silently letting you off the hook.
 - **Follows your Windows theme** — launches in light or dark mode to match your system setting automatically, with an animated circular wipe if you switch it manually.
-- **Optional site & app blocking** — infrastructure for redirecting specific websites (via the hosts file) and terminating specific processes is built in for admin-elevated sessions, alongside the hard input lock.
 - **Zero external assets** — every icon is hand-drawn on a canvas, every UI sound is synthesized in-process, and fonts are bundled — no network calls, no telemetry, nothing phoning home.
-- **Quiet, native feel** — custom title bar theming, smooth 60fps animations, and a compact 726×440 window that stays out of your way until you actually start a session.
 
 ## How it works
 
@@ -65,7 +62,7 @@ All Block is a single-file Python desktop app built on `customtkinter`. When you
 1. A fullscreen, always-on-top `Toplevel` window fades in and takes over the display.
 2. `SetWindowsHookEx` installs low-level keyboard and mouse hooks that intercept and discard input before any other application (including Explorer) ever sees it. `BlockInput()` is layered on as a second line of defense.
 3. A tick loop redraws the countdown, re-asserts topmost/fullscreen if the OS tries to demote the window, and re-arms the input hook every frame so a stray Ctrl+Alt+Del bounce can't sneak past it.
-4. When the timer hits zero (or you hold <kbd>Esc</kbd> to bail early), the hooks are released and the lock window smoothly fades away.
+4. When the timer hits zero, the hooks are released and the lock window smoothly fades away.
 
 The one thing that's deliberately left untouched is <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd> — Windows reserves that as a secure attention sequence no app can intercept, so there's always a way out to Task Manager if something goes wrong.
 
@@ -105,7 +102,6 @@ The built executable will be in `dist/`.
 All Block genuinely disables your mouse and keyboard for the length of a session — that's the entire point, so please use it deliberately:
 
 - Start a session only when you're actually ready to lose input for that long.
-- Remember the escape hatches: hold <kbd>Esc</kbd> for ~1.5s, press <kbd>Ctrl</kbd>+<kbd>P</kbd>, or as a last resort <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd> → End Task.
 - It's built and tested for solo, single-user desktops. It isn't designed as a parental-control or multi-user access-control tool.
 
 ## Tech stack
