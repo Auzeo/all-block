@@ -36,7 +36,7 @@ except Exception:
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.7.6"
+VERSION    = "6.8.1"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
@@ -170,6 +170,21 @@ WHEEL_PRESETS = [
     ("3 hours", 10800),
 ]
 WHEEL_DEFAULT_IDX = 3   # "10 min" — default duration
+
+# ─── Scheduler / plan gating ──────────────────────────────────────────────────
+
+DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]   # index == datetime.weekday()
+# sub-minute presets make no sense for an unattended recurring block
+SCHEDULE_DURATIONS = [(lbl, secs) for lbl, secs in WHEEL_PRESETS if secs >= 300]
+SCHEDULE_DEFAULT_IDX = 5          # "30 min"
+SCHEDULE_GRACE_S = 180            # only auto-fire within 3 min of the start time, so
+                                  # opening the app hours later can't spring a stale block
+SCHEDULE_LIMIT = 3                # hard cap on how many schedules a user can keep
+MAX_VISIBLE_SCHEDULE_ROWS = 3     # hard ceiling on rendered rows — the card is centred and
+                                  # grows with its content, so beyond this it runs off the
+                                  # window. Matches SCHEDULE_LIMIT so every schedule a user
+                                  # owns is always visible (and deletable); the "+N more"
+                                  # line should never actually come up.
 # OptionWheel look/feel (ported from the reactbits.dev component)
 WHEEL_TILT   = 6.0      # degrees between neighbouring options
 WHEEL_CURVE  = 1.0      # depth of the curve (0 = flat list)
@@ -253,6 +268,29 @@ def smooth_hover(btn, base, hover, ms=140):
 def bind_hover_sfx(btn, sound):
     """Play a sound once per genuine hover (see _hover_track)."""
     _hover_track(btn, lambda: play_sfx(sound), lambda: None)
+
+def bind_press_sfx(btn, sound=None):
+    """Play the click 'thock' the moment the button is pressed.
+
+    A CTkButton is a frame wrapping a canvas + label, and those children sit on
+    top of the frame and swallow <Button-1> — so the binding has to go on the
+    whole subtree, not just the widget itself."""
+    def fire(_e=None):
+        try:
+            if str(btn.cget("state")) == "disabled":
+                return
+        except Exception:
+            pass
+        play_sfx(_SFX_BTN_CLICK if sound is None else sound)
+
+    def walk(w):
+        try:
+            w.bind("<Button-1>", fire, add="+")
+        except Exception:
+            pass
+        for child in w.winfo_children():
+            walk(child)
+    walk(btn)
 
 def _make_focus_button(fill: str, glyph: str, text: str, kind: str = "play"):
     """Simple focus button — a clean inverted-ink pill (C_INK fill, C_BG glyph).
@@ -394,10 +432,35 @@ def _make_wood_tap(f0=190, ms=32, vol=0.34, noise_amt=0.28, decay_rate=8.0, rate
     wv.close()
     return buf.getvalue()
 
+def _make_button_click(ms=58, vol=0.44, rate=44100) -> bytes:
+    """Satisfying mechanical 'thock' for a real button press — a bright noise
+    transient and a short upper tick riding on a low body thump that gives it
+    weight. Deliberately deeper and punchier than the hover tap so press reads
+    as a distinct, heavier event. Short enough that fast clicking never lags."""
+    n = int(rate * ms / 1000)
+    frames = bytearray()
+    for i in range(n):
+        t = i / n
+        ti = i / rate
+        transient = (random.random() * 2 - 1) * math.exp(-ti * 820) * 0.50
+        top  = math.sin(2 * math.pi * (2050 * (1 - 0.35 * t)) * ti) * math.exp(-ti * 210) * 0.26
+        body = math.sin(2 * math.pi * (165 * (1 - 0.18 * t)) * ti) * math.exp(-ti * 36) * 0.66
+        body += math.sin(2 * math.pi * 165 * 2.7 * ti) * math.exp(-ti * 72) * 0.13
+        attack = min(1.0, i / max(1, n * 0.004))
+        s = (transient + top + body) * attack * vol
+        frames += struct.pack("<h", int(max(-1.0, min(1.0, s)) * 32767))
+    buf = io.BytesIO()
+    wv = wave.open(buf, "wb")
+    wv.setnchannels(1); wv.setsampwidth(2); wv.setframerate(rate)
+    wv.writeframes(bytes(frames))
+    wv.close()
+    return buf.getvalue()
+
 _BLIP_UP   = _make_blip(freq=960)
 _BLIP_DN   = _make_blip(freq=640)
 _SFX_CANCEL = _make_sfx_cancel()
 _SFX_BTN_HOVER = _make_wood_tap()
+_SFX_BTN_CLICK = _make_button_click()
 
 def _make_bowl_strike(f0=440, ms=900, vol=0.35, rate=44100) -> bytes:
     """Single soft resonant strike with two very close detuned frequencies
@@ -698,7 +761,7 @@ def set_window_icon(win):
 
 # ─── Persistence ──────────────────────────────────────────────────────────────
 
-DEFAULT_DATA = {"websites": [], "apps": [], "sessions": [],
+DEFAULT_DATA = {"websites": [], "apps": [], "sessions": [], "schedules": [],
                  "setup_complete": False, "auto_resume": True}
 
 def load_data() -> dict:
@@ -1068,6 +1131,35 @@ def fmt_duration_words(seconds: int) -> str:
         return f"{seconds} sec"
     return fmt_words(seconds / 60)
 
+def parse_hhmm(raw: str):
+    """'9:00' / '09.00' / '0900' -> (9, 0). None if it isn't a valid time of day."""
+    txt = str(raw).strip().replace(".", ":").replace(" ", "")
+    if ":" not in txt and txt.isdigit() and len(txt) == 4:
+        txt = txt[:2] + ":" + txt[2:]
+    parts = txt.split(":")
+    if len(parts) != 2 or not all(p.isdigit() for p in parts):
+        return None
+    hh, mm = int(parts[0]), int(parts[1])
+    if not (0 <= hh <= 23 and 0 <= mm <= 59):
+        return None
+    return hh, mm
+
+def days_label(days) -> str:
+    """Compact human name for a weekday set — 'Weekdays', 'Mon, Thu', etc."""
+    try:
+        d = sorted({int(x) for x in days if 0 <= int(x) <= 6})
+    except Exception:
+        d = []
+    if not d:
+        return "No days"
+    if d == [0, 1, 2, 3, 4]:
+        return "Weekdays"
+    if d == [5, 6]:
+        return "Weekends"
+    if d == [0, 1, 2, 3, 4, 5, 6]:
+        return "Every day"
+    return ", ".join(DAY_NAMES[i] for i in d)
+
 # ─── Shared UI helpers ────────────────────────────────────────────────────────
 
 def card(parent, **kw) -> ctk.CTkFrame:
@@ -1122,10 +1214,128 @@ def icon(kind: str, color: str, size: int = 20) -> ctk.CTkImage:
         d.line([s * 0.42, s - pad, s - pad, pad], fill=color, width=w)
     elif kind == "dot":
         d.ellipse([pad, pad, s - pad, s - pad], fill=color)
+    elif kind == "chart":
+        bw = max(2, s // 6)
+        gap = bw // 2
+        baseline = s - pad
+        x = pad
+        for hfrac in (0.45, 0.85, 0.6):
+            bh = (s - 2 * pad) * hfrac
+            d.rounded_rectangle([x, baseline - bh, x + bw, baseline], radius=bw * 0.3, fill=color)
+            x += bw + gap
+    elif kind == "calendar":
+        top = pad + w
+        d.rounded_rectangle([pad, top, s - pad, s - pad], radius=max(2, s // 12), outline=color, width=w)
+        hdr = top + (s - pad - top) * 0.30
+        d.line([pad, hdr, s - pad, hdr], fill=color, width=w)
+        for hx in (0.30, 0.70):                      # the two hanger rings
+            x = pad + (s - 2 * pad) * hx
+            d.line([x, max(0, pad - w), x, top + w], fill=color, width=w)
+        r = w * 0.8                                  # a dot marking a booked day
+        cx = pad + (s - 2 * pad) * 0.33
+        cy = hdr + (s - pad - hdr) * 0.55
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=color)
     img = img.resize((size, size), Image.LANCZOS)
     ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(size, size))
     _ICON_CACHE[key] = ctk_img
     return ctk_img
+
+# ─── Theme switch (round sun / moon button) ───────────────────────────────────
+
+def _sun_mask(size, cx, cy, r) -> Image.Image:
+    m = Image.new("L", size, 0)
+    d = ImageDraw.Draw(m)
+    # Solid core with clearly detached rays. Merging the rays into the core
+    # instead — or letting them sit thick and close — collapses the silhouette
+    # into a cog; the gap is what makes it read as a sun at 15px.
+    d.ellipse([cx - r * 0.62, cy - r * 0.62, cx + r * 0.62, cy + r * 0.62], fill=255)
+    for k in range(8):
+        a = math.pi * 2 * k / 8
+        d.line([cx + math.cos(a) * r, cy + math.sin(a) * r,
+                cx + math.cos(a) * r * 1.42, cy + math.sin(a) * r * 1.42],
+               fill=255, width=max(2, int(r * 0.17)))
+    return m
+
+def _moon_mask(size, cx, cy, r) -> Image.Image:
+    m = Image.new("L", size, 0)
+    d = ImageDraw.Draw(m)
+    d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=255)
+    ox, oy = r * 0.68, -r * 0.30          # bite an offset disc out to leave a crescent
+    d.ellipse([cx - r + ox, cy - r + oy, cx + r + ox, cy + r + oy], fill=0)
+    return m
+
+_THEME_SWITCH_CACHE: dict = {}
+THEME_SWITCH_W = THEME_SWITCH_H = 30      # plate diameter, drawn natively by the button itself
+THEME_GLYPH_SIZE = 15                     # declared glyph image size — matches the Stats icon so
+                                          # both buttons' image column reserves the same width and
+                                          # their bounding boxes (and the gap between them) line up
+THEME_SWITCH_FRAMES = 12
+
+def theme_switch_frames(hover: bool = False) -> list:
+    """Pre-baked frames of the round toggle turning sun into moon.
+
+    Frame 0 is the light-theme rest state, the last frame the dark-theme one, and
+    the frames between are the swap: the glyph rotates a quarter turn while the
+    outgoing shape shrinks away and the incoming one grows in, so the change reads
+    as one object turning rather than two icons cutting.
+
+    The glyph shows the mode you'd switch TO — with a single icon and no track,
+    position can't carry state, so the button has to name its action instead.
+
+    Re-running PIL every animation frame stutters, so the whole sweep is drawn
+    once per palette+hover state and swapped in as ready-made images. Keyed on
+    THEME so a palette change regenerates rather than serving stale colours."""
+    key = (THEME, hover)
+    if key in _THEME_SWITCH_CACHE:
+        return _THEME_SWITCH_CACHE[key]
+    # Authored at 3x the logical size, not 1x. CTk renders a CTkImage at
+    # logical size x widget scaling (2.0 here), so a 30px source gets upscaled
+    # and comes out visibly soft; oversampling means CTk only ever downscales.
+    D, n = THEME_SWITCH_W, THEME_SWITCH_FRAMES
+    OUT = D * 3
+    S = 2                                   # supersample on top of that
+    w = h = OUT * S
+    ink = C_INK if hover else C_MUTED       # hover darkens the glyph, matching the nav pills
+    cx = cy = w / 2
+    gr = w * 0.25
+
+    def ramp(x, lo, hi):
+        return max(0.0, min(1.0, (x - lo) / (hi - lo)))
+
+    def stamp(img, mask, color, scale, spin):
+        """Draw one glyph scaled about the centre and spun, at full opacity.
+
+        Scaling the shape rather than fading it keeps the glyph solid the whole
+        way through — a half-transparent icon against the plate just looks like a
+        rendering fault at 30px."""
+        if scale <= 0.02:
+            return
+        layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        layer.paste(Image.new("RGBA", (w, h), color), (0, 0), mask(gr * scale))
+        if spin:
+            layer = layer.rotate(spin, resample=Image.BICUBIC, center=(cx, cy))
+        img.alpha_composite(layer)
+
+    frames = []
+    for i in range(n):
+        t = i / max(1, n - 1)
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        # No plate drawn here — the button itself renders a native round plate
+        # (same as the Stats icon button), so this is glyph-only, transparent.
+        spin = 90.0 * _ease_in_out(t)
+        # moon (go dark) collapses through the first half, sun (go light) opens
+        # through the second — they never overlap, so no muddy double image
+        stamp(img, lambda r: _moon_mask((w, h), cx, cy, r), ink,
+              1.0 - ramp(t, 0.10, 0.52), spin)
+        # sun drawn smaller than the moon so the two match by ink coverage rather
+        # than by radius — its rays push well past its nominal circle
+        stamp(img, lambda r: _sun_mask((w, h), cx, cy, r * 0.84), ink,
+              ramp(t, 0.48, 0.90), spin - 90.0)
+        img = img.resize((OUT, OUT), Image.LANCZOS)
+        frames.append(ctk.CTkImage(light_image=img, dark_image=img,
+                                    size=(THEME_GLYPH_SIZE, THEME_GLYPH_SIZE)))
+    _THEME_SWITCH_CACHE[key] = frames
+    return frames
 
 
 
@@ -1207,6 +1417,8 @@ class AllBlock(ctk.CTk):
         self._build_body()
         self._go("timer")
         self._tick()
+        self._sched_overlay = None
+        self.after(3000, self._schedule_tick)
 
         try:
             self.attributes("-alpha", 0.0)
@@ -1295,7 +1507,7 @@ class AllBlock(ctk.CTk):
         admin_ok = is_admin()
         dot_color = C_GREEN if admin_ok else C_AMBER
         admin_wrap = ctk.CTkFrame(right, fg_color="transparent", cursor="hand2" if not admin_ok else "arrow")
-        admin_wrap.pack(side="left", padx=(0, 16))
+        admin_wrap.pack(side="left", padx=(0, 8))
         ctk.CTkLabel(admin_wrap, text="", image=icon("dot", dot_color, 9)).pack(side="left", padx=(0, 6))
         admin_lbl = label(admin_wrap, "Admin" if admin_ok else "No Admin", size=11, weight="bold", color=dot_color)
         admin_lbl.pack(side="left")
@@ -1303,16 +1515,78 @@ class AllBlock(ctk.CTk):
             for w in (admin_wrap, admin_lbl):
                 w.bind("<Button-1>", lambda _: elevate())
 
-        # theme toggle — label shows the mode you'll switch TO
-        theme_btn = ctk.CTkButton(
-            right, text=("Dark" if THEME == "light" else "Light"),
-            width=64, height=30, corner_radius=15,
+        sched_btn = ctk.CTkButton(
+            right, text="Schedule", image=icon("calendar", C_MUTED, 13), compound="left",
+            width=94, height=30, corner_radius=15,
             fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
             border_width=1, border_color=C_BORDER, cursor="hand2",
             font=ctk.CTkFont(size=11, weight="bold", family=FONT),
-            command=self._toggle_theme)
+            command=self._show_schedules)
+        sched_btn.pack(side="left", padx=(0, 8))
+        bind_hover_sfx(sched_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(sched_btn)
+
+        # Icon-only, round like the theme toggle — "Stats" was the only nav
+        # pill naming itself in text while the toggle next to it went wordless;
+        # matching that quiets the row down to one text label (Schedule).
+        stats_btn = ctk.CTkButton(
+            right, text="", image=icon("chart", C_MUTED, 15),
+            width=30, height=30, corner_radius=15,
+            fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
+            border_width=1, border_color=C_BORDER, cursor="hand2",
+            command=self._show_stats)
+        stats_btn.pack(side="left", padx=(0, 8))
+        bind_hover_sfx(stats_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(stats_btn)
+
+        # Theme toggle. The old control was a pill reading "Dark" — a word where
+        # the two neighbours use icons, and the same shape as the nav pills even
+        # though it doesn't navigate anywhere. A round icon button is the quieter
+        # answer: it stops competing with Schedule/Stats for attention, and the
+        # glyph turning over is a clearer confirmation than a text swap.
+        rest_frames = theme_switch_frames(hover=False)
+        hov_frames = theme_switch_frames(hover=True)
+        last = len(rest_frames) - 1
+        rest_idx = last if THEME == "dark" else 0
+
+        theme_btn = ctk.CTkButton(
+            right, text="", image=rest_frames[rest_idx],
+            width=THEME_SWITCH_W, height=THEME_SWITCH_H, corner_radius=15,
+            fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
+            border_width=1, border_color=C_BORDER, cursor="hand2")
         theme_btn.pack(side="left")
+
+        st = {"hover": False, "busy": False}
+
+        def show(pos):
+            src = hov_frames if st["hover"] else rest_frames
+            theme_btn.configure(image=src[max(0, min(last, int(round(pos))))])
+
+        def set_hover(on):
+            def handler(_e=None):
+                st["hover"] = on
+                if not st["busy"]:
+                    show(rest_idx)
+            return handler
+
+        def flip(_e=None):
+            if st["busy"] or getattr(self, "_theme_animating", False):
+                return
+            st["busy"] = True
+            end = 0 if THEME == "dark" else last
+            # Turn the glyph over first, then hand off to the circular reveal —
+            # the button reacting *before* the world changes is what makes the
+            # wipe read as a consequence of the click rather than a coincidence.
+            animate(theme_btn, 160,
+                    lambda t: show(rest_idx + (end - rest_idx) * _ease_out_cubic(t)))
+            self.after(170, self._toggle_theme)
+
+        theme_btn.configure(command=flip)
+        for w in (theme_btn, *theme_btn.winfo_children()):
+            w.bind("<Enter>", set_hover(True), add="+")
+            w.bind("<Leave>", set_hover(False), add="+")
         bind_hover_sfx(theme_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(theme_btn)
         self._theme_btn = theme_btn
 
         # single-purpose focus timer — no page navigation
@@ -1522,6 +1796,7 @@ class AllBlock(ctk.CTk):
                 command=self._stop_session_clicked)
             smooth_hover(btn, C_RED, "#a5342a")
             bind_hover_sfx(btn, _SFX_BTN_HOVER)
+            bind_press_sfx(btn)
             self._focus_btn = None
         else:
             # Compact pill with a play glyph + animated hover fade. In dark mode
@@ -1546,6 +1821,7 @@ class AllBlock(ctk.CTk):
                 command=_focus_pressed)
             smooth_hover(self._focus_btn, fill, hover_fill)
             bind_hover_sfx(self._focus_btn, _SFX_BTN_HOVER)
+            bind_press_sfx(self._focus_btn)
             # positioned in _draw_wheel
 
         self.after(20, self._draw_wheel)
@@ -1897,6 +2173,7 @@ class AllBlock(ctk.CTk):
                              command=_finish)
         smooth_hover(btn, C_INK, C_MUTED)
         bind_hover_sfx(btn, _SFX_BTN_HOVER)
+        bind_press_sfx(btn)
         btn.pack(side="bottom", pady=(18, 20), padx=20, fill="x")
 
         # The card has no fixed width — it auto-sizes around its widest packed
@@ -1914,6 +2191,396 @@ class AllBlock(ctk.CTk):
 
         _rescale()
         self._setup_configure_id = self.bind("<Configure>", _rescale, add="+")
+
+    # ─── Session stats ───────────────────────────────────────────────────────────
+
+    def _compute_stats(self):
+        sessions = self.data.get("sessions", [])
+        total_minutes = sum(float(s.get("duration", 0)) for s in sessions)
+        days = set()
+        for s in sessions:
+            try:
+                days.add(datetime.fromisoformat(s["date"]).date())
+            except Exception:
+                pass
+        streak = 0
+        cur = datetime.now().date()
+        if cur not in days:
+            cur -= timedelta(days=1)   # no session yet today still counts an active streak
+        while cur in days:
+            streak += 1
+            cur -= timedelta(days=1)
+        # 4 keeps the card clear of the window edge even on the shortest layout
+        recent = list(reversed(sessions))[:4]
+        return total_minutes, len(sessions), streak, recent
+
+    def _show_stats(self):
+        overlay = tk.Frame(self, bg=C_BG, highlightthickness=0, bd=0)
+        overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+        tk.Misc.lift(overlay)
+        self._stats_overlay = overlay
+
+        card = ctk.CTkFrame(overlay, fg_color=C_CARD, corner_radius=14,
+                             border_width=1, border_color=C_BORDER, width=340)
+        card.place(relx=0.5, rely=0.5, anchor="center")
+
+        def _close(_evt=None):
+            try:
+                self.unbind("<Escape>", esc_id)
+            except Exception:
+                pass
+            try:
+                overlay.destroy()
+            except Exception:
+                pass
+            self._stats_overlay = None
+
+        header = ctk.CTkFrame(card, fg_color="transparent")
+        header.pack(fill="x", padx=20, pady=(20, 0))
+        label(header, "Session Stats", size=14, weight="bold", color=C_INK).pack(side="left")
+        close_x = ctk.CTkButton(header, text="✕", width=26, height=26, corner_radius=13,
+                                 fg_color="transparent", hover_color=C_CARD2, text_color=C_MUTED,
+                                 font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                 command=_close)
+        close_x.pack(side="right")
+        bind_hover_sfx(close_x, _SFX_BTN_HOVER)
+        bind_press_sfx(close_x)
+
+        label(card, "Your focus history at a glance.", size=11, color=C_MUTED).pack(padx=20, pady=(3, 0), anchor="w")
+
+        total_minutes, count, streak, recent = self._compute_stats()
+
+        stats_row = ctk.CTkFrame(card, fg_color="transparent")
+        stats_row.pack(fill="x", padx=20, pady=(18, 4))
+
+        def _stat_block(value, caption):
+            blk = ctk.CTkFrame(stats_row, fg_color="transparent")
+            label(blk, value, size=18, weight="bold", color=C_INK).pack(anchor="w")
+            label(blk, caption, size=10, color=C_MUTED).pack(anchor="w")
+            blk.pack(side="left", padx=(0, 24))
+
+        _stat_block(fmt_duration_words(round(total_minutes * 60)), "Total focus time")
+        _stat_block(str(count), "Sessions")
+        _stat_block(f"{streak} day" + ("s" if streak != 1 else ""), "Current streak")
+
+        ctk.CTkFrame(card, fg_color=C_BORDER, height=1).pack(fill="x", padx=20, pady=(16, 10))
+        label(card, "Recent sessions", size=11, weight="bold", color=C_INK).pack(padx=20, anchor="w")
+
+        hist_wrap = ctk.CTkFrame(card, fg_color="transparent")
+        hist_wrap.pack(fill="x", padx=20, pady=(6, 4))
+
+        if not recent:
+            label(hist_wrap, "No sessions yet — start one to see it here.",
+                  size=10, color=C_MUTED).pack(anchor="w", pady=(0, 4))
+        else:
+            for s in recent:
+                row = ctk.CTkFrame(hist_wrap, fg_color="transparent")
+                row.pack(fill="x", pady=2)
+                try:
+                    when = datetime.fromisoformat(s.get("date", "")).strftime("%b %d, %I:%M %p")
+                except Exception:
+                    when = "—"
+                label(row, when, size=10, color=C_MUTED).pack(side="left")
+                dur_sec = round(float(s.get("duration", 0)) * 60)
+                label(row, fmt_duration_words(dur_sec), size=10, color=C_INK).pack(side="right")
+
+        close_btn = ctk.CTkButton(card, text="Close", height=34, corner_radius=17,
+                                   fg_color=C_INK, hover_color=C_MUTED, text_color=C_BG,
+                                   font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                   command=_close)
+        smooth_hover(close_btn, C_INK, C_MUTED)
+        bind_hover_sfx(close_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(close_btn)
+        close_btn.pack(side="bottom", pady=(14, 20), padx=20, fill="x")
+
+        esc_id = self.bind("<Escape>", _close, add="+")
+
+    # ─── Scheduler ───────────────────────────────────────────────────────────────
+
+    def _schedules(self) -> list:
+        return self.data.setdefault("schedules", [])
+
+    def _schedule_tick(self):
+        """Own slow loop rather than riding _tick — schedules only need
+        minute-ish resolution and this keeps the 500ms countdown path clean."""
+        if not self.winfo_exists() or getattr(self, "_shutting_down", False):
+            return
+        try:
+            self._fire_due_schedules()
+        except Exception:
+            pass
+        self.after(15000, self._schedule_tick)
+
+    def _fire_due_schedules(self):
+        if self.session_on or getattr(self, "_transitioning", False):
+            return
+        now = datetime.now()
+        today = now.date().isoformat()
+        for sc in self._schedules():
+            if not sc.get("enabled", True):
+                continue
+            try:
+                days = [int(d) for d in sc.get("days", [])]
+            except Exception:
+                continue
+            if now.weekday() not in days or sc.get("last_fired") == today:
+                continue
+            start = now.replace(hour=int(sc.get("hour", 9)), minute=int(sc.get("minute", 0)),
+                                second=0, microsecond=0)
+            if not (0 <= (now - start).total_seconds() <= SCHEDULE_GRACE_S):
+                continue
+            self._start_session_secs(int(sc.get("seconds", 1800)))
+            # only burn today's slot if the block actually started — a failed
+            # start (e.g. no admin rights) should still be retried in-window
+            if self.session_on:
+                sc["last_fired"] = today
+                save_data(self.data)
+            return
+
+    def _show_schedules(self):
+        overlay = tk.Frame(self, bg=C_BG, highlightthickness=0, bd=0)
+        overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+        tk.Misc.lift(overlay)
+        self._sched_overlay = overlay
+
+        card = ctk.CTkFrame(overlay, fg_color=C_CARD, corner_radius=14,
+                             border_width=1, border_color=C_BORDER, width=420)
+        card.place(relx=0.5, rely=0.5, anchor="center")
+
+        def _close(_evt=None):
+            try:
+                self.unbind("<Escape>", esc_id)
+            except Exception:
+                pass
+            try:
+                overlay.destroy()
+            except Exception:
+                pass
+            self._sched_overlay = None
+
+        header = ctk.CTkFrame(card, fg_color="transparent")
+        header.pack(fill="x", padx=20, pady=(20, 0))
+        label(header, "Schedules", size=14, weight="bold", color=C_INK).pack(side="left")
+        close_x = ctk.CTkButton(header, text="✕", width=26, height=26, corner_radius=13,
+                                 fg_color="transparent", hover_color=C_CARD2, text_color=C_MUTED,
+                                 font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                 command=_close)
+        close_x.pack(side="right")
+        bind_hover_sfx(close_x, _SFX_BTN_HOVER)
+        bind_press_sfx(close_x)
+
+        subtitle = label(card, "Blocks that start themselves, automatically.",
+                         size=11, color=C_MUTED)
+        subtitle.pack(padx=20, pady=(3, 0), anchor="w")
+
+        body = ctk.CTkFrame(card, fg_color="transparent")
+        body.pack(fill="x", padx=20, pady=(12, 16))
+
+        def show_subtitle(on):
+            """The tagline explains what schedules are for — useful over an empty
+            list, dead weight over rows that already demonstrate it, and at the
+            free limit the card needs those pixels to stay inside the window."""
+            if on:
+                subtitle.pack(before=body, padx=20, pady=(3, 0), anchor="w")
+            else:
+                subtitle.pack_forget()
+
+        def clear_body():
+            for w in body.winfo_children():
+                w.destroy()
+
+        def render_list():
+            clear_body()
+            items = self._schedules()
+            show_subtitle(not items)
+            if not items:
+                label(body, "Nothing scheduled yet — add one to block on autopilot.",
+                      size=10, color=C_MUTED).pack(anchor="w", pady=(0, 6))
+            host = body
+            # The card is centred and sized to its content, so every extra row
+            # pushes it toward the window edges. Past the cap the list stops
+            # growing and says how many it's holding back instead — a scrollable
+            # frame can't be height-pinned (CTk blocks grid_propagate and the
+            # scrollbar drives the frame taller than the canvas asks for), so
+            # the only reliable ceiling is not to render the overflow at all.
+            # When there is an overflow line it takes a row's place rather than
+            # stacking on top of the full set, so the tallest the list can ever
+            # get is the same either way.
+            cap = MAX_VISIBLE_SCHEDULE_ROWS
+            if len(items) > cap:
+                cap -= 1
+            shown, hidden = items[:cap], items[cap:]
+
+            for idx, sc in enumerate(shown):
+                on = bool(sc.get("enabled", True))
+                row = ctk.CTkFrame(host, fg_color=C_CARD2, corner_radius=10)
+                row.pack(fill="x", pady=3)
+                inner = ctk.CTkFrame(row, fg_color="transparent")
+                inner.pack(fill="x", padx=12, pady=8)
+
+                txt = ctk.CTkFrame(inner, fg_color="transparent")
+                txt.pack(side="left", fill="x", expand=True)
+                label(txt, f"{int(sc.get('hour', 9)):02d}:{int(sc.get('minute', 0)):02d}",
+                      size=15, weight="bold", color=C_INK if on else C_FAINT).pack(anchor="w")
+                label(txt, f"{days_label(sc.get('days', []))}  ·  {fmt_duration_words(int(sc.get('seconds', 1800)))}",
+                      size=10, color=C_MUTED).pack(anchor="w")
+
+                def _delete(i=idx):
+                    try:
+                        self._schedules().pop(i)
+                    except IndexError:
+                        pass
+                    save_data(self.data)
+                    render_list()
+
+                del_btn = ctk.CTkButton(inner, text="✕", width=24, height=24, corner_radius=12,
+                                         fg_color="transparent", hover_color=C_CARD, text_color=C_MUTED,
+                                         font=ctk.CTkFont(size=11, weight="bold", family=FONT),
+                                         command=_delete)
+                del_btn.pack(side="right", padx=(10, 0))
+                bind_hover_sfx(del_btn, _SFX_BTN_HOVER)
+                bind_press_sfx(del_btn)
+
+                var = tk.BooleanVar(value=on)
+
+                def _toggle(i=idx, v=var):
+                    try:
+                        self._schedules()[i]["enabled"] = bool(v.get())
+                    except IndexError:
+                        return
+                    save_data(self.data)
+                    play_tick(soft=True)
+                    render_list()
+
+                sw = ctk.CTkSwitch(inner, text="", variable=var, onvalue=True, offvalue=False,
+                                    width=44, height=22, switch_width=36, switch_height=20,
+                                    border_width=1, border_color=C_BORDER, progress_color=C_GREEN,
+                                    button_color="#ffffff", button_hover_color="#ffffff",
+                                    fg_color=C_CARD, command=_toggle)
+                sw.pack(side="right")
+
+            if hidden:
+                label(body, f"+{len(hidden)} more not shown", size=10, color=C_FAINT
+                      ).pack(anchor="w", pady=(6, 0))
+
+            if len(items) >= SCHEDULE_LIMIT:
+                gate = ctk.CTkFrame(body, fg_color=C_CARD2, corner_radius=10,
+                                     border_width=1, border_color=C_BORDER)
+                gate.pack(fill="x", pady=(12, 0))
+                # One line, not a headline plus a line: "Schedule limit reached"
+                # only restated what the missing add button already showed, and
+                # the card has to clear the window bottom at the limit.
+                label(gate, f"Limit of {SCHEDULE_LIMIT} schedules reached. Delete one to add another.",
+                      size=11, color=C_INK).pack(anchor="w", padx=14, pady=(10, 12))
+            else:
+                left = f"   ({SCHEDULE_LIMIT - len(items)} left)"
+                add = ctk.CTkButton(body, text=f"+  New schedule{left}", height=34, corner_radius=17,
+                                     fg_color=C_INK, hover_color=C_MUTED, text_color=C_BG,
+                                     font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                     command=render_form)
+                smooth_hover(add, C_INK, C_MUTED)
+                bind_hover_sfx(add, _SFX_BTN_HOVER)
+                bind_press_sfx(add)
+                add.pack(fill="x", pady=(12, 0))
+
+        def render_form():
+            clear_body()
+            picked = {0, 1, 2, 3, 4}          # weekdays is the overwhelmingly common case
+
+            label(body, "Days", size=11, weight="bold", color=C_INK).pack(anchor="w")
+            days_row = ctk.CTkFrame(body, fg_color="transparent")
+            days_row.pack(fill="x", pady=(6, 14))
+            chips = {}
+
+            def paint_chip(i):
+                sel = i in picked
+                chips[i].configure(fg_color=C_INK if sel else C_CARD2,
+                                   text_color=C_BG if sel else C_MUTED)
+
+            def toggle_day(i):
+                picked.symmetric_difference_update({i})
+                paint_chip(i)
+
+            for i, dn in enumerate(DAY_NAMES):
+                b = ctk.CTkButton(days_row, text=dn[0], width=34, height=34, corner_radius=17,
+                                   fg_color=C_CARD2, text_color=C_MUTED, hover_color=C_BORDER,
+                                   border_width=1, border_color=C_BORDER, cursor="hand2",
+                                   font=ctk.CTkFont(size=11, weight="bold", family=FONT),
+                                   command=lambda i=i: toggle_day(i))
+                b.pack(side="left", padx=(0, 6))
+                chips[i] = b
+                bind_hover_sfx(b, _SFX_BTN_HOVER)
+                bind_press_sfx(b)
+                paint_chip(i)
+
+            fields = ctk.CTkFrame(body, fg_color="transparent")
+            fields.pack(fill="x", pady=(0, 16))
+
+            tcol = ctk.CTkFrame(fields, fg_color="transparent")
+            tcol.pack(side="left")
+            label(tcol, "Start time", size=11, weight="bold", color=C_INK).pack(anchor="w")
+            time_e = ctk.CTkEntry(tcol, width=92, height=34, corner_radius=8,
+                                   fg_color=C_CARD2, border_color=C_BORDER, border_width=1,
+                                   text_color=C_INK, justify="center",
+                                   font=ctk.CTkFont(size=14, weight="bold", family=FONT))
+            time_e.insert(0, "09:00")
+            time_e.pack(anchor="w", pady=(6, 0))
+
+            dcol = ctk.CTkFrame(fields, fg_color="transparent")
+            dcol.pack(side="left", padx=(18, 0))
+            label(dcol, "Duration", size=11, weight="bold", color=C_INK).pack(anchor="w")
+            dur_menu = ctk.CTkOptionMenu(dcol, width=140, height=34, corner_radius=8,
+                                          values=[l for l, _ in SCHEDULE_DURATIONS],
+                                          fg_color=C_CARD2, button_color=C_CARD2,
+                                          button_hover_color=C_BORDER, text_color=C_INK,
+                                          dropdown_fg_color=C_CARD, dropdown_text_color=C_INK,
+                                          dropdown_hover_color=C_CARD2,
+                                          font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                          dropdown_font=ctk.CTkFont(size=12, family=FONT))
+            dur_menu.set(SCHEDULE_DURATIONS[SCHEDULE_DEFAULT_IDX][0])
+            dur_menu.pack(anchor="w", pady=(6, 0))
+
+            def _save():
+                hhmm = parse_hhmm(time_e.get())
+                if hhmm is None:
+                    self._toast("Enter a start time as HH:MM — e.g. 09:00.", success=False)
+                    return
+                if not picked:
+                    self._toast("Pick at least one day.", success=False)
+                    return
+                if len(self._schedules()) >= SCHEDULE_LIMIT:
+                    self._toast(f"Limit is {SCHEDULE_LIMIT} schedules — delete one to add another.", success=False)
+                    render_list()
+                    return
+                secs = dict(SCHEDULE_DURATIONS)[dur_menu.get()]
+                self._schedules().append({
+                    "days": sorted(picked), "hour": hhmm[0], "minute": hhmm[1],
+                    "seconds": int(secs), "enabled": True, "last_fired": ""})
+                save_data(self.data)
+                self._toast("Schedule saved.", success=True)
+                render_list()
+
+            btns = ctk.CTkFrame(body, fg_color="transparent")
+            btns.pack(fill="x")
+            cancel = ctk.CTkButton(btns, text="Cancel", width=110, height=34, corner_radius=17,
+                                    fg_color=C_CARD2, hover_color=C_BORDER, text_color=C_MUTED,
+                                    font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                    command=render_list)
+            cancel.pack(side="left")
+            bind_hover_sfx(cancel, _SFX_BTN_HOVER)
+            bind_press_sfx(cancel)
+
+            save_b = ctk.CTkButton(btns, text="Save schedule", height=34, corner_radius=17,
+                                    fg_color=C_INK, hover_color=C_MUTED, text_color=C_BG,
+                                    font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                    command=_save)
+            smooth_hover(save_b, C_INK, C_MUTED)
+            bind_hover_sfx(save_b, _SFX_BTN_HOVER)
+            bind_press_sfx(save_b)
+            save_b.pack(side="right", fill="x", expand=True, padx=(10, 0))
+
+        render_list()
+        esc_id = self.bind("<Escape>", _close, add="+")
 
     # ─── Resume after restart ───────────────────────────────────────────────────
 
