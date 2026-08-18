@@ -36,7 +36,7 @@ except Exception:
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.7.5"
+VERSION    = "6.7.6"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
@@ -526,6 +526,39 @@ def set_resume_on_login(enabled: bool):
             except FileNotFoundError:
                 pass
         winreg.CloseKey(key)
+    except Exception:
+        pass
+
+
+def create_desktop_shortcut():
+    """Best-effort Desktop\\All Block.lnk via WScript.Shell over PowerShell —
+    avoids pulling in pywin32 just for this one shortcut call."""
+    try:
+        desktop = os.path.join(os.environ["USERPROFILE"], "Desktop")
+        link_path = os.path.join(desktop, "All Block.lnk")
+        if getattr(sys, "frozen", False):
+            target, workdir, args = sys.executable, os.path.dirname(sys.executable), ""
+        else:
+            target = sys.executable
+            workdir = os.path.dirname(os.path.abspath(__file__))
+            args = os.path.abspath(__file__)
+        icon = _logo_ico_path()
+
+        def _q(s: str) -> str:
+            return s.replace("'", "''")
+
+        ps = (
+            f"$s = New-Object -ComObject WScript.Shell; "
+            f"$sc = $s.CreateShortcut('{_q(link_path)}'); "
+            f"$sc.TargetPath = '{_q(target)}'; "
+            f"$sc.Arguments = '{_q(args)}'; "
+            f"$sc.WorkingDirectory = '{_q(workdir)}'; "
+            f"$sc.IconLocation = '{_q(icon)}'; "
+            f"$sc.Save()"
+        )
+        subprocess.run(
+            ["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
+            capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW, check=False)
     except Exception:
         pass
 
@@ -1828,11 +1861,24 @@ class AllBlock(ctk.CTk):
         resume_lbl = label(card, "Otherwise a restart silently ends the lock early.", size=10, color=C_FAINT)
         resume_lbl.pack(padx=20, pady=(2, 0), anchor="w")
 
+        row3 = ctk.CTkFrame(card, fg_color="transparent")
+        row3.pack(fill="x", padx=20, pady=(16, 0))
+        self._shortcut_var = tk.BooleanVar(value=True)
+        label(row3, "Create desktop shortcut", size=11, color=C_INK).pack(side="left")
+        sw2 = ctk.CTkSwitch(row3, text="", variable=self._shortcut_var, onvalue=True, offvalue=False,
+                             width=44, height=22, switch_width=36, switch_height=20, border_width=1,
+                             border_color=C_BORDER, progress_color=C_GREEN, button_color="#ffffff",
+                             button_hover_color="#ffffff", fg_color=C_CARD,
+                             command=lambda: play_tick(soft=True))
+        sw2.pack(side="right")
+
         def _finish():
             self.data["setup_complete"] = True
             self.data["auto_resume"] = bool(self._resume_var.get())
             save_data(self.data)
             set_resume_on_login(self.data["auto_resume"])
+            if self._shortcut_var.get():
+                create_desktop_shortcut()
             if getattr(self, "_setup_configure_id", None):
                 try:
                     self.unbind("<Configure>", self._setup_configure_id)
