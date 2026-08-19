@@ -23,22 +23,30 @@ import random
 import io
 import wave
 import struct
-import tempfile
-import hashlib
 from datetime import datetime, timedelta
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageTk, ImageGrab
 import threading
 
 try:
-    import winsound
+    # winsound.PlaySound opens and tears down the audio device on every single
+    # call — for short, frequent UI ticks (fast wheel scrolling) that open/close
+    # transient itself is audible as a click/pop, regardless of the waveform.
+    # pygame's mixer opens the device once and stays open, so playback is just
+    # a buffer swap — no per-call device churn, no pop.
+    os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
+    import pygame
+    # buffer: 1024 frames (~23ms). 256 was tight enough that any stall on Tk's
+    # main thread starved the mixer, and an underrun is itself audible as a click.
+    pygame.mixer.pre_init(frequency=44100, size=-16, channels=1, buffer=1024)
+    pygame.mixer.init()
 except Exception:
-    winsound = None
+    pygame = None
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.9.7"
+VERSION    = "7.0.0"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
@@ -404,26 +412,26 @@ def _make_click(freq=1500, ms=16, vol=0.32, rate=44100) -> bytes:
 _CLICK = _make_click()
 _CLICK_SOFT = _make_click(freq=1150, ms=14, vol=0.22)
 
-def _make_wheel_tick(pitch=1.0, ms=8, vol=0.42, rate=44100) -> bytes:
-    """Crisp mechanical detent — the click of a good scroll wheel or a camera
-    dial. A bright 2.2 kHz transient opens it, a short high ring above gives
-    it a metallic edge, and a whisper of noise only in the first millisecond
-    keeps the attack from sounding synthetic. Everything decays fast and
-    cleanly: no grit, no saturation, no tail to smear when you scroll quickly."""
+def _make_wheel_tick(pitch=1.0, ms=18, vol=0.30, rate=44100) -> bytes:
+    """Soft felt detent — a warm, round tap with no metallic ring.
+
+    Both ends are pinned to true silence: a ~2ms fade-in and a ~3ms fade-out
+    on top of the decay. A waveform that starts or stops at non-zero amplitude
+    is a step discontinuity, and that is what a speaker reproduces as a click,
+    so the envelope matters more here than the tone does."""
     n = int(rate * ms / 1000)
-    freq = 2200 * pitch
+    freq = 620 * pitch
+    attack_n = max(1, int(rate * 0.002))
+    release_n = max(1, int(rate * 0.003))
     frames = bytearray()
     for i in range(n):
         ti = i / rate
-        # main body: bright transient with a fast, clean exponential decay
-        s = math.sin(2 * math.pi * freq * ti) * math.exp(-ti * 620) * 0.80
-        # short ring an octave-and-a-fifth up for the metallic "tik" edge
-        s += math.sin(2 * math.pi * freq * 3.0 * ti) * math.exp(-ti * 1500) * 0.22
-        # 1 ms of noise dust, purely to sharpen the leading edge
-        if ti < 0.001:
-            s += (random.random() * 2 - 1) * (1 - ti / 0.001) * 0.16
-        # ~0.3 ms attack ramp — sharp, but not a DC step (which would pop)
-        s *= min(1.0, i / max(1, rate * 0.0003))
+        s = math.sin(2 * math.pi * freq * ti) * 0.85
+        s += math.sin(2 * math.pi * freq * 2.0 * ti) * 0.15   # slight body, no ring
+        s *= math.exp(-ti * 260)                              # gentle percussive decay
+        s *= min(1.0, i / attack_n)                           # fade in from zero
+        if i > n - release_n:                                 # fade out to zero
+            s *= (n - i) / release_n
         s *= vol
         frames += struct.pack("<h", int(max(-1.0, min(1.0, s)) * 32767))
     buf = io.BytesIO()
@@ -538,96 +546,58 @@ def play_tick(soft=False):
     sound = _CLICK_SOFT if soft else _CLICK
     play_sfx(sound)
 
-_SOUND_FILE_CACHE: dict = {}
+_PG_SOUND_CACHE: dict = {}
 
-def _sound_file_path(data: bytes) -> str:
-    """winsound refuses to combine SND_MEMORY with SND_ASYNC (raises
-    RuntimeError, silently swallowed by the worker's try/except — which is
-    why turning on SND_ASYNC broke every sound instead of just fixing the
-    wheel). SND_FILENAME + SND_ASYNC is the supported async combo, so each
-    procedurally-generated sound is written to a cached temp .wav once and
-    played by path from then on."""
-    key = hashlib.md5(data).hexdigest()
-    path = _SOUND_FILE_CACHE.get(key)
-    if path and os.path.exists(path):
-        return path
-    tmp_dir = os.path.join(tempfile.gettempdir(), "allblock_sfx")
-    os.makedirs(tmp_dir, exist_ok=True)
-    path = os.path.join(tmp_dir, f"{key}.wav")
-    if not os.path.exists(path):
-        with open(path, "wb") as f:
-            f.write(data)
-    _SOUND_FILE_CACHE[key] = path
-    return path
+def _pg_sound(data: bytes):
+    """Wrap a raw wav-bytes constant in a pygame Sound once and cache it —
+    these bytes objects are fixed module-level constants, so id() is a stable,
+    cheap cache key (no need to hash the contents)."""
+    key = id(data)
+    snd = _PG_SOUND_CACHE.get(key)
+    if snd is None:
+        snd = pygame.mixer.Sound(io.BytesIO(data))
+        _PG_SOUND_CACHE[key] = snd
+    return snd
 
-class _SoundWorker:
-    """Persistent sound worker thread with cancellable queue — zero thread-creation latency."""
-    def __init__(self):
-        self._queue = []
-        self._lock = threading.Lock()
-        self._cv = threading.Condition(self._lock)
-        self._running = True
-        self._thread = threading.Thread(target=self._run, daemon=True)
-        self._thread.start()
-    
-    def play(self, sound):
-        if winsound is None or sound is None:
-            return
-        with self._cv:
-            # Only keep the LATEST sound — drop older queued sounds
-            self._queue = [sound]
-            self._cv.notify()
-    
-    def clear(self):
-        """Cancel all pending sounds instantly."""
-        with self._cv:
-            self._queue = []
-    
-    def shutdown(self):
-        with self._cv:
-            self._running = False
-            self._cv.notify()
-    
-    def _run(self):
-        while True:
-            with self._cv:
-                while not self._queue and self._running:
-                    self._cv.wait()
-                if not self._running:
-                    return
-                sound = self._queue.pop(0)
-            try:
-                # SND_ASYNC: without it, PlaySound blocks this thread for the
-                # sound's real playback duration. Under fast/continuous wheel
-                # scrolling that's slower than notches arrive, so most ticks
-                # got silently swallowed by the "keep only latest" queue
-                # before they ever played — the wheel sound sounded unchanged
-                # because most of it was being dropped, not because the new
-                # tick was wrong. Async lets each new tick cut in immediately.
-                path = _sound_file_path(sound)
-                winsound.PlaySound(path, winsound.SND_FILENAME | winsound.SND_ASYNC)
-            except Exception:
-                pass
+# Plenty of channels so overlapping ticks can each ring out on their own.
+# Routing every tick through ONE channel was the real source of the "pop":
+# starting a sound on a busy channel stops the current one instantly, and
+# cutting a waveform at non-zero amplitude is a step discontinuity — which
+# is heard as a click regardless of the sample data. Ticks are ~10ms, so
+# letting them overlap and mix is both harmless and what real detents do.
+if pygame is not None:
+    try:
+        pygame.mixer.set_num_channels(16)
+    except Exception:
+        pass
 
-_SOUND_WORKER = _SoundWorker()
 SFX_ENABLED = True
 
 def play_sfx(sound):
-    if not SFX_ENABLED:
+    if not SFX_ENABLED or pygame is None or sound is None:
         return
-    _SOUND_WORKER.play(sound)
+    try:
+        # .play() on the Sound (not a fixed Channel) lets the mixer pick a free
+        # channel, so a new tick never truncates the one still ringing.
+        _pg_sound(sound).play()
+    except Exception:
+        pass
 
 def cancel_pending_sfx():
-    _SOUND_WORKER.clear()
+    pass  # nothing is queued — each sound plays on its own channel
 
 def stop_sfx():
-    """Cancel any queued sound and silence whatever is actively playing right now."""
-    _SOUND_WORKER.clear()
-    if winsound is not None:
-        try:
-            winsound.PlaySound(None, winsound.SND_PURGE)
-        except Exception:
-            pass
+    """Silence whatever is actively playing right now.
+
+    fadeout() rather than stop(): ramping to zero over a few ms avoids the
+    discontinuity an instant cut would leave. Short enough to still read as
+    immediate, long enough that the stop itself makes no sound."""
+    if pygame is None:
+        return
+    try:
+        pygame.mixer.fadeout(15)
+    except Exception:
+        pass
 
 # ─── Admin helpers ─────────────────────────────────────────────────────────────
 
@@ -1775,6 +1745,7 @@ class AllBlock(ctk.CTk):
         self._wheel_sel    = WHEEL_DEFAULT_IDX          # settled option index
         self._wheel_pos    = float(WHEEL_DEFAULT_IDX)   # smoothed float position
         self._wheel_target = float(WHEEL_DEFAULT_IDX)   # position it eases toward
+        self._wheel_prev_v = float(WHEEL_DEFAULT_IDX)   # last position, for tick pitch
         self._wheel_raf    = None                       # after() id of the ease loop
         self._wheel_last   = 0.0
         self._wheel_rowH   = 64.0
@@ -2426,8 +2397,11 @@ class AllBlock(ctk.CTk):
             settled = abs(tgt - nxt) < 0.001
             self._wheel_pos = tgt if settled else nxt
             self._draw_wheel()
-            if settled:
-                stop_sfx()
+            # NB: no stop_sfx() here. This fires the moment the wheel settles —
+            # only a few ms after the detent tick started — and used to truncate
+            # the tick mid-waveform. Cutting a waveform at non-zero amplitude is
+            # a step discontinuity, which is audible as a hard "pop" no matter
+            # what the sample data is. The tick is ~10ms and ends on its own.
             # schedule on the ROOT, not the scene canvas — a theme rebuild destroys
             # the canvas and would silently kill a canvas-scheduled callback, leaving
             # _wheel_raf stuck non-None so the wheel freezes.
@@ -2445,16 +2419,17 @@ class AllBlock(ctk.CTk):
             self._wheel_sel = idx
             self.selected_minutes = max(1, round(WHEEL_PRESETS[idx][1] / 60))
             if play_sound:
-                play_tick(soft=True)
+                # The felt detent, NOT play_tick(soft=True). _CLICK_SOFT is a
+                # 14ms 1150Hz click — that hard, high, abruptly-ended burst is
+                # the "pop". _BLIP_* is the low, zero-pinned tick built for
+                # exactly this, with the direction of travel in its pitch.
+                play_sfx(_BLIP_UP if value > self._wheel_prev_v else _BLIP_DN)
+        self._wheel_prev_v = v
         self._wheel_loop()
 
     def _wheel_scroll(self, event):
         step = -1 if event.delta > 0 else 1   # scroll up → earlier option
-        # Every physical notch gets the detent click — not just fast, continuous
-        # scrolling — since a normal single-notch scroll is well over 30ms apart
-        # and was falling through to the generic soft click instead.
-        play_sfx(_BLIP_UP if step < 0 else _BLIP_DN)
-        self._wheel_apply(round(self._wheel_target) + step, True, play_sound=False)
+        self._wheel_apply(round(self._wheel_target) + step, True)
 
     def _wheel_press(self, event):
         self._scene.focus_set()
