@@ -23,6 +23,8 @@ import random
 import io
 import wave
 import struct
+import tempfile
+import hashlib
 from datetime import datetime, timedelta
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageTk, ImageGrab
@@ -36,7 +38,7 @@ except Exception:
 # ─── Constants ────────────────────────────────────────────────────────────────
 
 APP_NAME   = "All Block"
-VERSION    = "6.8.1"
+VERSION    = "6.9.7"
 APP_AUMID  = "IFM.AllBlock.Focus"   # stable taskbar identity (shared icon grouping)
 DEV_FORCE_SETUP_WIZARD = False   # TEMP dev convenience: shows the wizard every launch instead of once. Set False when done testing.
 HOSTS_FILE = r"C:\Windows\System32\drivers\etc\hosts"
@@ -111,16 +113,16 @@ def sync_titlebar_dark_mode(win, is_dark):
 # so they stay a dark surface with a white glyph in both themes.
 _PALETTES = {
     "light": dict(
-        C_BG="#f3f2f0", C_CARD="#ffffff", C_CARD2="#ebeae6",
-        C_INK="#2b2a28", C_INK2="#454340", C_BTN="#2b2a28", C_BTN2="#454340",
-        C_GHOST="#dad9d4", C_LINE="#dedcd6", C_MUTED="#6f6c64", C_FAINT="#9b978e",
-        C_GREEN="#3f9d5a", C_AMBER="#c98a1e", C_RED="#c0392b", C_BORDER="#e3e2de",
+        C_BG="#fafafa", C_CARD="#ffffff", C_CARD2="#ece8de",
+        C_INK="#18181a", C_INK2="#47454a", C_BTN="#18181a", C_BTN2="#47454a",
+        C_GHOST="#ddd7c9", C_LINE="#e6e1d4", C_MUTED="#68646a", C_FAINT="#9a9590",
+        C_GREEN="#1f9d55", C_AMBER="#b8790a", C_RED="#cf3b2e", C_BLUE="#3568c9", C_BORDER="#e3ddcf",
     ),
     "dark": dict(
         C_BG="#0b0b0d", C_CARD="#151518", C_CARD2="#1e1e22",
         C_INK="#f5f5f7", C_INK2="#d6d6da", C_BTN="#26262b", C_BTN2="#313138",
         C_GHOST="#3a3a40", C_LINE="#2a2a30", C_MUTED="#a6a6ad", C_FAINT="#75757e",
-        C_GREEN="#4cc479", C_AMBER="#d8a13a", C_RED="#e05a4d", C_BORDER="#2a2a30",
+        C_GREEN="#4cc479", C_AMBER="#d8a13a", C_RED="#e05a4d", C_BLUE="#5b8ff0", C_BORDER="#2a2a30",
     ),
 }
 THEME = "light"
@@ -230,6 +232,34 @@ def animate(widget, ms, on_frame, on_done=None):
             on_done()
     frame()
 
+_MODAL_SLIDE = 0.035   # how far below center a modal starts, as a rely fraction
+
+def _animate_modal_in(card):
+    """Slide a modal card up into place instead of snapping onto the screen
+    at once. Resizing a CTkFrame via pack_propagate(False) + configure(width=,
+    height=) was tried first, but fights CTk's own DPI-scaling pass on the
+    frame and blows its size up to something screen-sized — so this animates
+    position only (a few percent below center, easing up to center), which
+    doesn't touch size at all and reads just as smooth.
+
+    The card must already be placed at this same start offset (see
+    _MODAL_SLIDE) by the caller before its contents are built — building all
+    the child widgets (icons, switches, etc.) takes several event-loop turns
+    and can force an early partial redraw at wherever the card is *currently*
+    placed. If that placement were the final centered spot, the modal would
+    flash fully-formed at rest, then jump down to the start offset and slide
+    back up — the "glitchy" snap the animation was supposed to avoid."""
+    def frame(t):
+        if not card.winfo_exists():
+            return
+        e = _ease_out_cubic(t)
+        rely = 0.5 + _MODAL_SLIDE * (1 - e)
+        card.place(relx=0.5, rely=rely, anchor="center")
+    def done():
+        if card.winfo_exists():
+            card.place(relx=0.5, rely=0.5, anchor="center")
+    animate(card, 140, frame, done)
+
 def _hover_track(widget, on_true, on_false):
     """Fire on_true once when the pointer genuinely enters `widget` and on_false
     once when it genuinely leaves. CTkButton is really three stacked sub-widgets
@@ -272,9 +302,12 @@ def bind_hover_sfx(btn, sound):
 def bind_press_sfx(btn, sound=None):
     """Play the click 'thock' the moment the button is pressed.
 
-    A CTkButton is a frame wrapping a canvas + label, and those children sit on
-    top of the frame and swallow <Button-1> — so the binding has to go on the
-    whole subtree, not just the widget itself."""
+    A CTkButton is a frame wrapping a canvas + label — but CTkButton already
+    forwards <Button-1> from those children up to the frame itself so the
+    whole thing acts as one clickable unit. Binding on every sub-widget (as
+    this used to) double-fired: once from the child that was actually under
+    the cursor, once more from that same click bubbling to the frame. One
+    binding, on the frame alone, is all that's needed."""
     def fire(_e=None):
         try:
             if str(btn.cget("state")) == "disabled":
@@ -283,14 +316,10 @@ def bind_press_sfx(btn, sound=None):
             pass
         play_sfx(_SFX_BTN_CLICK if sound is None else sound)
 
-    def walk(w):
-        try:
-            w.bind("<Button-1>", fire, add="+")
-        except Exception:
-            pass
-        for child in w.winfo_children():
-            walk(child)
-    walk(btn)
+    try:
+        btn.bind("<Button-1>", fire, add="+")
+    except Exception:
+        pass
 
 def _make_focus_button(fill: str, glyph: str, text: str, kind: str = "play"):
     """Simple focus button — a clean inverted-ink pill (C_INK fill, C_BG glyph).
@@ -375,14 +404,28 @@ def _make_click(freq=1500, ms=16, vol=0.32, rate=44100) -> bytes:
 _CLICK = _make_click()
 _CLICK_SOFT = _make_click(freq=1150, ms=14, vol=0.22)
 
-def _make_blip(freq=760, ms=15, rate=44100) -> bytes:
-    """Ultra-short Nintendo-style blip — 15ms so zero perceptible backlog."""
+def _make_wheel_tick(pitch=1.0, ms=8, vol=0.42, rate=44100) -> bytes:
+    """Crisp mechanical detent — the click of a good scroll wheel or a camera
+    dial. A bright 2.2 kHz transient opens it, a short high ring above gives
+    it a metallic edge, and a whisper of noise only in the first millisecond
+    keeps the attack from sounding synthetic. Everything decays fast and
+    cleanly: no grit, no saturation, no tail to smear when you scroll quickly."""
     n = int(rate * ms / 1000)
+    freq = 2200 * pitch
     frames = bytearray()
     for i in range(n):
-        env = 1.0 if i < n * 0.3 else (1.0 - (i - n * 0.3) / (n * 0.7)) ** 2
-        sq = 1.0 if (i * freq / rate) % 1.0 < 0.5 else -1.0
-        frames += struct.pack("<h", int(sq * env * 0.25 * 32767))
+        ti = i / rate
+        # main body: bright transient with a fast, clean exponential decay
+        s = math.sin(2 * math.pi * freq * ti) * math.exp(-ti * 620) * 0.80
+        # short ring an octave-and-a-fifth up for the metallic "tik" edge
+        s += math.sin(2 * math.pi * freq * 3.0 * ti) * math.exp(-ti * 1500) * 0.22
+        # 1 ms of noise dust, purely to sharpen the leading edge
+        if ti < 0.001:
+            s += (random.random() * 2 - 1) * (1 - ti / 0.001) * 0.16
+        # ~0.3 ms attack ramp — sharp, but not a DC step (which would pop)
+        s *= min(1.0, i / max(1, rate * 0.0003))
+        s *= vol
+        frames += struct.pack("<h", int(max(-1.0, min(1.0, s)) * 32767))
     buf = io.BytesIO()
     wv = wave.open(buf, "wb")
     wv.setnchannels(1); wv.setsampwidth(2); wv.setframerate(rate)
@@ -456,8 +499,8 @@ def _make_button_click(ms=58, vol=0.44, rate=44100) -> bytes:
     wv.close()
     return buf.getvalue()
 
-_BLIP_UP   = _make_blip(freq=960)
-_BLIP_DN   = _make_blip(freq=640)
+_BLIP_UP   = _make_wheel_tick(pitch=1.12)
+_BLIP_DN   = _make_wheel_tick(pitch=0.86)
 _SFX_CANCEL = _make_sfx_cancel()
 _SFX_BTN_HOVER = _make_wood_tap()
 _SFX_BTN_CLICK = _make_button_click()
@@ -494,6 +537,28 @@ _SFX_COMPLETE = _make_bowl_strike(f0=330, ms=1100, vol=0.18)
 def play_tick(soft=False):
     sound = _CLICK_SOFT if soft else _CLICK
     play_sfx(sound)
+
+_SOUND_FILE_CACHE: dict = {}
+
+def _sound_file_path(data: bytes) -> str:
+    """winsound refuses to combine SND_MEMORY with SND_ASYNC (raises
+    RuntimeError, silently swallowed by the worker's try/except — which is
+    why turning on SND_ASYNC broke every sound instead of just fixing the
+    wheel). SND_FILENAME + SND_ASYNC is the supported async combo, so each
+    procedurally-generated sound is written to a cached temp .wav once and
+    played by path from then on."""
+    key = hashlib.md5(data).hexdigest()
+    path = _SOUND_FILE_CACHE.get(key)
+    if path and os.path.exists(path):
+        return path
+    tmp_dir = os.path.join(tempfile.gettempdir(), "allblock_sfx")
+    os.makedirs(tmp_dir, exist_ok=True)
+    path = os.path.join(tmp_dir, f"{key}.wav")
+    if not os.path.exists(path):
+        with open(path, "wb") as f:
+            f.write(data)
+    _SOUND_FILE_CACHE[key] = path
+    return path
 
 class _SoundWorker:
     """Persistent sound worker thread with cancellable queue — zero thread-creation latency."""
@@ -532,13 +597,24 @@ class _SoundWorker:
                     return
                 sound = self._queue.pop(0)
             try:
-                winsound.PlaySound(sound, winsound.SND_MEMORY)
+                # SND_ASYNC: without it, PlaySound blocks this thread for the
+                # sound's real playback duration. Under fast/continuous wheel
+                # scrolling that's slower than notches arrive, so most ticks
+                # got silently swallowed by the "keep only latest" queue
+                # before they ever played — the wheel sound sounded unchanged
+                # because most of it was being dropped, not because the new
+                # tick was wrong. Async lets each new tick cut in immediately.
+                path = _sound_file_path(sound)
+                winsound.PlaySound(path, winsound.SND_FILENAME | winsound.SND_ASYNC)
             except Exception:
                 pass
 
 _SOUND_WORKER = _SoundWorker()
+SFX_ENABLED = True
 
 def play_sfx(sound):
+    if not SFX_ENABLED:
+        return
     _SOUND_WORKER.play(sound)
 
 def cancel_pending_sfx():
@@ -759,10 +835,202 @@ def set_window_icon(win):
     except Exception:
         pass
 
+# ─── System tray ──────────────────────────────────────────────────────────────
+
+_TRAY_MSG = 0x0400 + 17          # WM_APP + 17, our private notification message
+_TRAY_ID_SHOW, _TRAY_ID_QUIT = 1001, 1002
+
+
+def _tray_ico_path(badged: bool) -> str:
+    """Write (once) the two tray icons: the plain mark, and the same mark with a
+    green dot in the corner meaning 'a schedule is armed'. Kept beside the data
+    file rather than in assets/ so a frozen, read-only install still works."""
+    d = DATA_FILE.parent / "tray"
+    d.mkdir(parents=True, exist_ok=True)
+    p = d / ("tray-sched.ico" if badged else "tray.ico")
+    if p.exists():
+        return str(p)
+    img = make_logo(256).convert("RGBA")
+    if badged:
+        s = 256
+        dr = ImageDraw.Draw(img)
+        r = s * 0.135
+        cx, cy = s - r - s * 0.035, s - r - s * 0.035
+        # ring of background colour first, so the dot stays readable against
+        # the logo underneath at 16px as well as at full size
+        dr.ellipse([cx - r * 1.34, cy - r * 1.34, cx + r * 1.34, cy + r * 1.34],
+                   fill=(19, 19, 22, 255))
+        dr.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(31, 157, 85, 255))
+    img.save(str(p), format="ICO",
+             sizes=[(16, 16), (20, 20), (24, 24), (32, 32), (48, 48), (64, 64), (256, 256)])
+    return str(p)
+
+
+class _TrayIcon:
+    """A Windows notification-area icon, driven by Shell_NotifyIcon through
+    ctypes (no third-party dependency, so nothing new to bundle).
+
+    Win32 needs a window and a message pump to deliver tray clicks, so both
+    live on a private thread. Tkinter is not thread-safe, so clicks are handed
+    back as callables on a queue that the app drains from its own `after` loop.
+    """
+
+    def __init__(self):
+        self.actions = []                 # click results, drained by the app
+        self._lock = threading.Lock()
+        self._hwnd = None
+        self._thread = None
+        self._alive = False
+        self._badged = False
+        self._tip = "All Block"
+
+    # ---- public API (safe to call from the Tk thread) -----------------------
+
+    def start(self):
+        if self._alive or os.name != "nt":
+            return
+        self._alive = True
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+
+    def update(self, badged: bool, tip: str):
+        """Swap between the plain and schedule-armed icon, and retitle it."""
+        if not self._alive or (badged == self._badged and tip == self._tip):
+            return
+        self._badged, self._tip = badged, tip
+        if self._hwnd:
+            try:
+                self._notify(1)           # NIM_MODIFY
+            except Exception:
+                pass
+
+    def stop(self):
+        if not self._alive:
+            return
+        self._alive = False
+        try:
+            if self._hwnd:
+                self._notify(2)           # NIM_DELETE
+                ctypes.windll.user32.PostMessageW(self._hwnd, 0x0010, 0, 0)  # WM_CLOSE
+        except Exception:
+            pass
+
+    def take_actions(self):
+        with self._lock:
+            out, self.actions = self.actions, []
+        return out
+
+    # ---- Win32 internals (private thread) -----------------------------------
+
+    def _notify(self, op):
+        user32 = ctypes.windll.user32
+        hicon = user32.LoadImageW(None, _tray_ico_path(self._badged), 1, 0, 0,
+                                  0x00000010 | 0x00008000)   # LR_LOADFROMFILE|LR_SHARED
+        # NOTIFYICONDATAW, laid out by hand — the struct is stable across the
+        # versions of Windows this app supports.
+        buf = ctypes.create_string_buffer(976)
+        ctypes.memset(buf, 0, 976)
+        ctypes.c_uint32.from_buffer(buf, 0).value = 976
+        ctypes.c_void_p.from_buffer(buf, 8).value = self._hwnd
+        ctypes.c_uint32.from_buffer(buf, 16).value = 1                 # uID
+        ctypes.c_uint32.from_buffer(buf, 20).value = 0x01 | 0x02 | 0x04  # MESSAGE|ICON|TIP
+        ctypes.c_uint32.from_buffer(buf, 24).value = _TRAY_MSG
+        ctypes.c_void_p.from_buffer(buf, 32).value = hicon
+        tip = (self._tip or "All Block")[:127]
+        ctypes.memmove(ctypes.addressof(buf) + 40, ctypes.create_unicode_buffer(tip),
+                       (len(tip) + 1) * 2)
+        return ctypes.windll.shell32.Shell_NotifyIconW(op, ctypes.byref(buf))
+
+    def _queue(self, fn_name):
+        with self._lock:
+            self.actions.append(fn_name)
+
+    def _menu(self):
+        user32 = ctypes.windll.user32
+        menu = user32.CreatePopupMenu()
+        user32.AppendMenuW(menu, 0, _TRAY_ID_SHOW, "Open All Block")
+        user32.AppendMenuW(menu, 0x800, 0, None)          # MF_SEPARATOR
+        user32.AppendMenuW(menu, 0, _TRAY_ID_QUIT, "Quit")
+        pt = wintypes.POINT()
+        user32.GetCursorPos(ctypes.byref(pt))
+        # the foreground dance Shell_NotifyIcon menus require, or the menu
+        # sticks open until you click elsewhere
+        user32.SetForegroundWindow(self._hwnd)
+        cmd = user32.TrackPopupMenu(menu, 0x0100 | 0x0002,  # RETURNCMD | RIGHTALIGN
+                                    pt.x, pt.y, 0, self._hwnd, None)
+        user32.PostMessageW(self._hwnd, 0, 0, 0)
+        user32.DestroyMenu(menu)
+        if cmd == _TRAY_ID_SHOW:
+            self._queue("show")
+        elif cmd == _TRAY_ID_QUIT:
+            self._queue("quit")
+
+    def _run(self):
+        try:
+            user32 = ctypes.windll.user32
+            LRESULT = ctypes.c_ssize_t
+            WNDPROC = ctypes.WINFUNCTYPE(LRESULT, wintypes.HWND, ctypes.c_uint,
+                                          wintypes.WPARAM, wintypes.LPARAM)
+            user32.DefWindowProcW.restype = LRESULT
+            user32.DefWindowProcW.argtypes = [wintypes.HWND, ctypes.c_uint,
+                                               wintypes.WPARAM, wintypes.LPARAM]
+
+            def proc(hwnd, msg, wp, lp):
+                if msg == _TRAY_MSG:
+                    ev = lp & 0xFFFF
+                    if ev in (0x0202, 0x0203):        # left click / double click
+                        self._queue("show")
+                    elif ev == 0x0205:                # right button up
+                        self._menu()
+                    return 0
+                return user32.DefWindowProcW(hwnd, msg, wp, lp)
+
+            self._proc = WNDPROC(proc)                # keep a ref alive
+
+            class WNDCLASS(ctypes.Structure):
+                _fields_ = [("style", ctypes.c_uint), ("lpfnWndProc", WNDPROC),
+                            ("cbClsExtra", ctypes.c_int), ("cbWndExtra", ctypes.c_int),
+                            ("hInstance", wintypes.HINSTANCE), ("hIcon", wintypes.HICON),
+                            ("hCursor", wintypes.HANDLE), ("hbrBackground", wintypes.HANDLE),
+                            ("lpszMenuName", wintypes.LPCWSTR), ("lpszClassName", wintypes.LPCWSTR)]
+
+            # ctypes defaults every return to a 32-bit int, which truncates
+            # 64-bit handles into garbage — declare the ones we pass around.
+            kernel32 = ctypes.windll.kernel32
+            kernel32.GetModuleHandleW.restype = wintypes.HMODULE
+            kernel32.GetModuleHandleW.argtypes = [wintypes.LPCWSTR]
+            user32.CreateWindowExW.restype = wintypes.HWND
+            user32.CreateWindowExW.argtypes = [
+                wintypes.DWORD, wintypes.LPCWSTR, wintypes.LPCWSTR, wintypes.DWORD,
+                ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                wintypes.HWND, wintypes.HMENU, wintypes.HINSTANCE, wintypes.LPVOID]
+            user32.LoadImageW.restype = wintypes.HANDLE
+
+            wc = WNDCLASS()
+            wc.lpfnWndProc = self._proc
+            wc.hInstance = kernel32.GetModuleHandleW(None)
+            wc.lpszClassName = "AllBlockTrayWnd"
+            user32.RegisterClassW(ctypes.byref(wc))
+            self._hwnd = user32.CreateWindowExW(0, "AllBlockTrayWnd", "All Block",
+                                                 0, 0, 0, 0, 0, None, None,
+                                                 wc.hInstance, None)
+            self._notify(0)                            # NIM_ADD
+
+            msg = wintypes.MSG()
+            while self._alive and user32.GetMessageW(ctypes.byref(msg), None, 0, 0) > 0:
+                user32.TranslateMessage(ctypes.byref(msg))
+                user32.DispatchMessageW(ctypes.byref(msg))
+        except Exception as e:
+            # A missing tray icon must never take the app down with it; keep the
+            # reason around so a dev run can see why it gave up.
+            self._error = "{}: {}".format(type(e).__name__, e)
+            self._alive = False
+
+
 # ─── Persistence ──────────────────────────────────────────────────────────────
 
 DEFAULT_DATA = {"websites": [], "apps": [], "sessions": [], "schedules": [],
-                 "setup_complete": False, "auto_resume": True}
+                 "setup_complete": False, "auto_resume": True, "sfx_enabled": True}
 
 def load_data() -> dict:
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -1223,6 +1491,21 @@ def icon(kind: str, color: str, size: int = 20) -> ctk.CTkImage:
             bh = (s - 2 * pad) * hfrac
             d.rounded_rectangle([x, baseline - bh, x + bw, baseline], radius=bw * 0.3, fill=color)
             x += bw + gap
+    elif kind in ("sound", "mute"):
+        # speaker cone, plus either two arcs (on) or a slash (off)
+        bx0, bx1 = pad, pad + (s - 2 * pad) * 0.26
+        by0, by1 = s * 0.38, s * 0.62
+        d.rectangle([bx0, by0, bx1, by1], fill=color)
+        d.polygon([(bx1, by0), (bx1, by1), (s * 0.52, s - pad), (s * 0.52, pad)], fill=color)
+        if kind == "sound":
+            for k, rr in enumerate((0.18, 0.30)):
+                r = (s - 2 * pad) * rr
+                cx, cy = s * 0.54, s / 2
+                d.arc([cx - r, cy - r, cx + r, cy + r], start=-55, end=55,
+                      fill=color, width=max(2, w - k))
+        else:
+            d.line([s * 0.60, s * 0.38, s * 0.86, s * 0.62], fill=color, width=w)
+            d.line([s * 0.60, s * 0.62, s * 0.86, s * 0.38], fill=color, width=w)
     elif kind == "calendar":
         top = pad + w
         d.rounded_rectangle([pad, top, s - pad, s - pad], radius=max(2, s // 12), outline=color, width=w)
@@ -1235,12 +1518,73 @@ def icon(kind: str, color: str, size: int = 20) -> ctk.CTkImage:
         cx = pad + (s - 2 * pad) * 0.33
         cy = hdr + (s - pad - hdr) * 0.55
         d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=color)
-    img = img.resize((size, size), Image.LANCZOS)
+    elif kind == "link":
+        # external-link glyph: a rounded square with an arrow breaking out
+        # of its top-right corner, for "opens something outside the app"
+        d.rounded_rectangle([pad, s * 0.34, s * 0.66, s - pad], radius=max(2, s // 14),
+                             outline=color, width=w)
+        ar0, ar1 = s * 0.46, s - pad
+        d.line([ar0, s * 0.30 + (ar1 - ar0) * 0.55, ar1, s * 0.30], fill=color, width=w)
+        head = w * 1.6
+        d.line([ar1 - head * 1.7, s * 0.30, ar1, s * 0.30], fill=color, width=w)
+        d.line([ar1, s * 0.30, ar1, s * 0.30 + head * 1.7], fill=color, width=w)
+    # Keep the full 4x-supersampled bitmap rather than shrinking it to `size`
+    # here — CTkImage re-resizes whatever it's given to size * the display's
+    # DPI scaling factor at draw time. Handing it an already-tiny size x size
+    # image made it upscale a low-res bitmap on any scaled display, which is
+    # what actually caused the blur; a high-res source lets that resize be a
+    # clean downscale instead.
     ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(size, size))
     _ICON_CACHE[key] = ctk_img
     return ctk_img
 
-# ─── Theme switch (round sun / moon button) ───────────────────────────────────
+# ─── Toggle switch (pill track + shadowed knob, checkmark grows in on-side) ───
+# Replaces CTkSwitch's flat bar everywhere in the app with a rounder, more
+# tactile control: a soft drop shadow under the knob for depth, and a
+# checkmark that grows in as the knob lands on-side rather than a bare dot.
+
+_SWITCH_CACHE: dict = {}
+SWITCH_W, SWITCH_H = 44, 24
+
+def _switch_frame(t: float) -> ctk.CTkImage:
+    key = (THEME, round(t, 3))
+    if key in _SWITCH_CACHE:
+        return _SWITCH_CACHE[key]
+    scale = 6
+    W, H = SWITCH_W * scale, SWITCH_H * scale
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    track = _lerp_color(C_GHOST, C_GREEN, t)
+    d.rounded_rectangle([0, 0, W, H], radius=H // 2, fill=track)
+
+    margin = int(H * 0.09)
+    knob_d = H - margin * 2
+    kx = margin + knob_d / 2 + (W - margin * 2 - knob_d) * t
+    ky = H / 2
+
+    shadow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(shadow)
+    sd.ellipse([kx - knob_d / 2, ky - knob_d / 2 + H * 0.10,
+                kx + knob_d / 2, ky + knob_d / 2 + H * 0.10], fill=(0, 0, 0, 90))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(H * 0.05))
+    img.alpha_composite(shadow)
+    d.ellipse([kx - knob_d / 2, ky - knob_d / 2, kx + knob_d / 2, ky + knob_d / 2], fill="#ffffff")
+
+    # checkmark grows in only once the knob is past the midpoint, so it
+    # never appears half-formed on the off side
+    ck_t = max(0.0, (t - 0.5) / 0.5)
+    if ck_t > 0:
+        r = knob_d * 0.30 * ck_t
+        cw = max(2, int(H * 0.09))
+        d.line([kx - r * 0.55, ky + r * 0.05, kx - r * 0.05, ky + r * 0.55], fill=track, width=cw)
+        d.line([kx - r * 0.05, ky + r * 0.55, kx + r * 0.65, ky - r * 0.45], fill=track, width=cw)
+
+    # Keep the 6x-supersampled bitmap rather than shrinking it here — see the
+    # matching note in icon(): CTkImage re-resizes to size * DPI scaling at
+    # draw time, so handing it a low-res bitmap was what actually blurred it.
+    ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(SWITCH_W, SWITCH_H))
+    _SWITCH_CACHE[key] = ctk_img
+    return ctk_img
 
 def _sun_mask(size, cx, cy, r) -> Image.Image:
     m = Image.new("L", size, 0)
@@ -1266,7 +1610,7 @@ def _moon_mask(size, cx, cy, r) -> Image.Image:
 
 _THEME_SWITCH_CACHE: dict = {}
 THEME_SWITCH_W = THEME_SWITCH_H = 30      # plate diameter, drawn natively by the button itself
-THEME_GLYPH_SIZE = 15                     # declared glyph image size — matches the Stats icon so
+THEME_GLYPH_SIZE = 15                     # declared glyph image size — matches the gear icon so
                                           # both buttons' image column reserves the same width and
                                           # their bounding boxes (and the gap between them) line up
 THEME_SWITCH_FRAMES = 12
@@ -1321,7 +1665,7 @@ def theme_switch_frames(hover: bool = False) -> list:
         t = i / max(1, n - 1)
         img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         # No plate drawn here — the button itself renders a native round plate
-        # (same as the Stats icon button), so this is glyph-only, transparent.
+        # (same as the gear icon button), so this is glyph-only, transparent.
         spin = 90.0 * _ease_in_out(t)
         # moon (go dark) collapses through the first half, sun (go light) opens
         # through the second — they never overlap, so no muddy double image
@@ -1337,8 +1681,43 @@ def theme_switch_frames(hover: bool = False) -> list:
     _THEME_SWITCH_CACHE[key] = frames
     return frames
 
+def make_switch(parent, variable: tk.BooleanVar, command=None) -> ctk.CTkButton:
+    """A hardware-style toggle button bound to a BooleanVar — drop-in
+    replacement for CTkSwitch. Plays the soft tick and slides the knob over,
+    then calls command() once it lands."""
+    state = {"pos": 1.0 if variable.get() else 0.0, "busy": False}
+    # hover=False rather than a transparent hover_color — CTk rejects
+    # "transparent" for hover_color, and the drawn image already carries the
+    # whole visual, so there is nothing for a hover tint to usefully do.
+    btn = ctk.CTkButton(parent, text="", image=_switch_frame(state["pos"]),
+                         width=SWITCH_W, height=SWITCH_H, corner_radius=SWITCH_H // 2,
+                         fg_color="transparent", hover=False,
+                         border_width=0, cursor="hand2")
 
+    def _click(_evt=None):
+        if state["busy"]:
+            return
+        state["busy"] = True
+        on = not variable.get()
+        variable.set(on)
+        play_tick(soft=True)
+        start, end = state["pos"], (1.0 if on else 0.0)
 
+        def frame(t):
+            pos = start + (end - start) * _ease_out_cubic(t)
+            state["pos"] = pos
+            if btn.winfo_exists():
+                btn.configure(image=_switch_frame(pos))
+
+        def done():
+            state["busy"] = False
+            if command:
+                command()
+
+        animate(btn, 140, frame, done)
+
+    btn.configure(command=_click)
+    return btn
 
 # Monkey-patch create_round_rect onto Canvas if not exists
 if not hasattr(tk.Canvas, 'create_round_rect'):
@@ -1373,6 +1752,8 @@ class AllBlock(ctk.CTk):
         # the post-transition flash. Drive the DWM call ourselves instead.
         self._deactivate_windows_window_header_manipulation = True
         self.data     = load_data()
+        global SFX_ENABLED
+        SFX_ENABLED = bool(self.data.get("sfx_enabled", True))
 
         apply_palette(detect_system_theme())   # always match the OS on launch — manual toggles are session-only
         ctk.set_appearance_mode(THEME)
@@ -1447,10 +1828,49 @@ class AllBlock(ctk.CTk):
         self.protocol("WM_DELETE_WINDOW", self._on_close)
         # Re-center once mapped/laid out, in case the actual rendered size differs.
         self.after(100, self._center_window)
+        self._tray = _TrayIcon()
+        self._tray.start()
+        self.after(400, self._tray_tick)
+
+    def _tray_tick(self):
+        """Keep the tray icon in step with the schedules, and run whatever the
+        tray thread asked for. Polled rather than called back directly because
+        the tray's message pump lives on another thread and Tk isn't reentrant."""
+        if getattr(self, "_shutting_down", False):
+            return
+        try:
+            armed = any(sc.get("enabled", True) for sc in self._schedules())
+            n = sum(1 for sc in self._schedules() if sc.get("enabled", True))
+            self._tray.update(armed, "All Block — {} schedule{} enabled".format(n, "" if n == 1 else "s")
+                              if armed else "All Block")
+            for act in self._tray.take_actions():
+                if act == "show":
+                    self._restore_from_tray()
+                elif act == "quit":
+                    # A session is a hard lockout by design — the tray must not
+                    # become the back door out of one.
+                    if getattr(self, "_lock", None) is None:
+                        self._on_close()
+                        return
+        except Exception:
+            pass
+        self.after(500, self._tray_tick)
+
+    def _restore_from_tray(self):
+        try:
+            self.deiconify()
+            self.lift()
+            self.focus_force()
+        except Exception:
+            pass
 
     def _on_close(self):
         """Clean up before destroying the window."""
         self._shutting_down = True
+        try:
+            self._tray.stop()
+        except Exception:
+            pass
         # The fullscreen lock overlay is kept alive (withdrawn, never destroyed)
         # for the whole app session to dodge a DWM ghosting bug, and is marked
         # topmost at the raw Win32 level (SetWindowPos/HWND_TOPMOST in
@@ -1526,24 +1946,8 @@ class AllBlock(ctk.CTk):
         bind_hover_sfx(sched_btn, _SFX_BTN_HOVER)
         bind_press_sfx(sched_btn)
 
-        # Icon-only, round like the theme toggle — "Stats" was the only nav
-        # pill naming itself in text while the toggle next to it went wordless;
-        # matching that quiets the row down to one text label (Schedule).
-        stats_btn = ctk.CTkButton(
-            right, text="", image=icon("chart", C_MUTED, 15),
-            width=30, height=30, corner_radius=15,
-            fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
-            border_width=1, border_color=C_BORDER, cursor="hand2",
-            command=self._show_stats)
-        stats_btn.pack(side="left", padx=(0, 8))
-        bind_hover_sfx(stats_btn, _SFX_BTN_HOVER)
-        bind_press_sfx(stats_btn)
-
-        # Theme toggle. The old control was a pill reading "Dark" — a word where
-        # the two neighbours use icons, and the same shape as the nav pills even
-        # though it doesn't navigate anywhere. A round icon button is the quieter
-        # answer: it stops competing with Schedule/Stats for attention, and the
-        # glyph turning over is a clearer confirmation than a text swap.
+        # Theme toggle sits in the header, where a one-click, frequently-used
+        # switch belongs; stats — looked at occasionally — lives in Settings.
         rest_frames = theme_switch_frames(hover=False)
         hov_frames = theme_switch_frames(hover=True)
         last = len(rest_frames) - 1
@@ -1554,7 +1958,7 @@ class AllBlock(ctk.CTk):
             width=THEME_SWITCH_W, height=THEME_SWITCH_H, corner_radius=15,
             fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
             border_width=1, border_color=C_BORDER, cursor="hand2")
-        theme_btn.pack(side="left")
+        theme_btn.pack(side="left", padx=(0, 8))
 
         st = {"hover": False, "busy": False}
 
@@ -1588,6 +1992,18 @@ class AllBlock(ctk.CTk):
         bind_hover_sfx(theme_btn, _SFX_BTN_HOVER)
         bind_press_sfx(theme_btn)
         self._theme_btn = theme_btn
+
+        settings_btn = ctk.CTkButton(
+            right, text="", image=icon("gear", C_MUTED, 15),
+            width=30, height=30, corner_radius=15,
+            fg_color=C_CARD, hover_color=C_CARD2, text_color=C_MUTED,
+            border_width=1, border_color=C_BORDER, cursor="hand2",
+            command=self._show_settings)
+        settings_btn.pack(side="left", padx=(0, 8))
+        bind_hover_sfx(settings_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(settings_btn)
+
+        # Theme toggle lives in the Settings page now — see _show_settings.
 
         # single-purpose focus timer — no page navigation
         self._nav_btns: dict[str, ctk.CTkButton] = {}
@@ -2018,7 +2434,7 @@ class AllBlock(ctk.CTk):
             self._wheel_raf = None if settled else self.after(8, step)
         step()
 
-    def _wheel_apply(self, value, snap):
+    def _wheel_apply(self, value, snap, play_sound=True):
         n = len(WHEEL_PRESETS)
         v = max(0.0, min(n - 1, value))
         if snap:
@@ -2028,22 +2444,17 @@ class AllBlock(ctk.CTk):
         if idx != self._wheel_sel:
             self._wheel_sel = idx
             self.selected_minutes = max(1, round(WHEEL_PRESETS[idx][1] / 60))
-            play_tick(soft=True)
+            if play_sound:
+                play_tick(soft=True)
         self._wheel_loop()
 
     def _wheel_scroll(self, event):
         step = -1 if event.delta > 0 else 1   # scroll up → earlier option
-        now = time.perf_counter()
-        # Play blip only if scrolling is CONTINUOUS (gap < 30ms).
-        # If gap >= 30ms, wheel stopped - play NOTHING and reset immediately.
-        if now - getattr(self, "_last_blip_time", 0) < 0.03:
-            play_sfx(_BLIP_UP if step < 0 else _BLIP_DN)
-        self._last_blip_time = now
-        self._wheel_apply(round(self._wheel_target) + step, True)
-        # Reset immediately when scroll pauses (30ms window)
-        if hasattr(self, "_blip_stop_timer") and self._blip_stop_timer:
-            self.after_cancel(self._blip_stop_timer)
-        self._blip_stop_timer = self.after(30, lambda: setattr(self, "_last_blip_time", 0))
+        # Every physical notch gets the detent click — not just fast, continuous
+        # scrolling — since a normal single-notch scroll is well over 30ms apart
+        # and was falling through to the generic soft click instead.
+        play_sfx(_BLIP_UP if step < 0 else _BLIP_DN)
+        self._wheel_apply(round(self._wheel_target) + step, True, play_sound=False)
 
     def _wheel_press(self, event):
         self._scene.focus_set()
@@ -2128,11 +2539,7 @@ class AllBlock(ctk.CTk):
         row2.pack(fill="x", padx=20, pady=(16, 0))
         self._resume_var = tk.BooleanVar(value=bool(self.data.get("auto_resume", True)))
         label(row2, "Resume on restart", size=11, color=C_INK).pack(side="left")
-        sw = ctk.CTkSwitch(row2, text="", variable=self._resume_var, onvalue=True, offvalue=False,
-                            width=44, height=22, switch_width=36, switch_height=20, border_width=1,
-                            border_color=C_BORDER, progress_color=C_GREEN, button_color="#ffffff",
-                            button_hover_color="#ffffff", fg_color=C_CARD,
-                            command=lambda: play_tick(soft=True))
+        sw = make_switch(row2, self._resume_var)
         sw.pack(side="right")
         resume_lbl = label(card, "Otherwise a restart silently ends the lock early.", size=10, color=C_FAINT)
         resume_lbl.pack(padx=20, pady=(2, 0), anchor="w")
@@ -2141,11 +2548,7 @@ class AllBlock(ctk.CTk):
         row3.pack(fill="x", padx=20, pady=(16, 0))
         self._shortcut_var = tk.BooleanVar(value=True)
         label(row3, "Create desktop shortcut", size=11, color=C_INK).pack(side="left")
-        sw2 = ctk.CTkSwitch(row3, text="", variable=self._shortcut_var, onvalue=True, offvalue=False,
-                             width=44, height=22, switch_width=36, switch_height=20, border_width=1,
-                             border_color=C_BORDER, progress_color=C_GREEN, button_color="#ffffff",
-                             button_hover_color="#ffffff", fg_color=C_CARD,
-                             command=lambda: play_tick(soft=True))
+        sw2 = make_switch(row3, self._shortcut_var)
         sw2.pack(side="right")
 
         def _finish():
@@ -2192,6 +2595,172 @@ class AllBlock(ctk.CTk):
         _rescale()
         self._setup_configure_id = self.bind("<Configure>", _rescale, add="+")
 
+    # ─── Settings ────────────────────────────────────────────────────────────────
+
+    def _show_settings(self):
+        overlay = tk.Frame(self, bg=C_BG, highlightthickness=0, bd=0)
+        overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+        tk.Misc.lift(overlay)
+        self._settings_overlay = overlay
+
+        # Wide and short rather than tall and narrow: four settings in a 2x2
+        # grid of tiles reads in one glance and leaves the card well clear of
+        # the window edges, where a single stacked column ran the full height.
+        card = ctk.CTkFrame(overlay, fg_color=C_CARD, corner_radius=14,
+                             border_width=1, border_color=C_BORDER, width=520)
+        # Start at the animation's slide-in offset, not the final centered
+        # spot — see _animate_modal_in for why placing it centered here would
+        # cause a glitchy snap-then-jump-then-slide instead of one smooth move.
+        card.place(relx=0.5, rely=0.5 + _MODAL_SLIDE, anchor="center")
+
+        def _close(_evt=None):
+            try:
+                self.unbind("<Escape>", esc_id)
+            except Exception:
+                pass
+            try:
+                overlay.destroy()
+            except Exception:
+                pass
+            self._settings_overlay = None
+
+        header = ctk.CTkFrame(card, fg_color="transparent")
+        header.pack(fill="x", padx=20, pady=(18, 0))
+        label(header, "Settings", size=14, weight="bold", color=C_INK).pack(side="left")
+        close_x = ctk.CTkButton(header, text="✕", width=26, height=26, corner_radius=13,
+                                 fg_color="transparent", hover_color=C_CARD2, text_color=C_MUTED,
+                                 font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                 command=_close)
+        close_x.pack(side="right")
+        bind_hover_sfx(close_x, _SFX_BTN_HOVER)
+        bind_press_sfx(close_x)
+
+        # Sound is a mute control, not a feature to advertise — an icon-only
+        # button tucked beside the close X, quiet enough to ignore until you
+        # want it, instead of a labelled row competing with real settings.
+        sfx_var = tk.BooleanVar(value=bool(self.data.get("sfx_enabled", True)))
+        sfx_btn = ctk.CTkButton(header, text="", width=26, height=26, corner_radius=13,
+                                 fg_color="transparent", hover_color=C_CARD2,
+                                 image=icon("sound" if sfx_var.get() else "mute", C_FAINT, 14),
+                                 command=lambda: _toggle_sfx())
+        sfx_btn.pack(side="right", padx=(0, 4))
+
+        def _toggle_sfx():
+            global SFX_ENABLED
+            enabled = not bool(sfx_var.get())
+            sfx_var.set(enabled)
+            SFX_ENABLED = enabled
+            self.data["sfx_enabled"] = enabled
+            save_data(self.data)
+            if enabled:
+                play_tick(soft=True)
+            else:
+                # kill the queue *and* whatever is mid-playback, so silence
+                # lands on the click rather than after the current sound ends
+                stop_sfx()
+            if sfx_btn.winfo_exists():
+                sfx_btn.configure(image=icon("sound" if enabled else "mute", C_FAINT, 14))
+
+        admin_ok = is_admin()
+        dot = C_GREEN if admin_ok else C_AMBER
+        row1 = ctk.CTkFrame(card, fg_color="transparent")
+        row1.pack(fill="x", padx=20, pady=(14, 2))
+        ctk.CTkLabel(row1, text="", image=icon("dot", dot, 7)).pack(side="left", padx=(0, 8))
+        label(row1, "Administrator access" + (" — granted" if admin_ok else " — not granted"),
+              size=11, weight="bold", color=C_INK if admin_ok else C_AMBER).pack(side="left")
+        admin_lbl = label(card,
+              "Website blocking and the strongest input lock are active."
+              if admin_ok else
+              "Some blocking is skipped without it. Restart All Block as admin to enable everything.",
+              size=10, color=C_MUTED)
+        admin_lbl.pack(anchor="w", padx=(35, 20))
+
+        grid = ctk.CTkFrame(card, fg_color="transparent")
+        grid.pack(fill="x", padx=20, pady=(14, 0))
+        grid.grid_columnconfigure(0, weight=1, uniform="tile")
+        grid.grid_columnconfigure(1, weight=1, uniform="tile")
+
+        def tile(r, c, title, caption, icon_kind, accent):
+            """One settings cell: a tinted icon badge, title/caption, and a
+            control docked right. The badge's accent colour is what actually
+            breaks up the grid — four identical beige tiles read as one flat
+            block, four tinted category colours read as a settings menu."""
+            t = ctk.CTkFrame(grid, fg_color=C_CARD2, corner_radius=10)
+            t.grid(row=r, column=c, sticky="nsew", padx=(0, 5) if c == 0 else (5, 0),
+                   pady=(0, 8) if r == 0 else 0)
+            inner = ctk.CTkFrame(t, fg_color="transparent")
+            inner.pack(fill="x", padx=12, pady=10)
+            badge = ctk.CTkFrame(inner, fg_color=_lerp_color(C_CARD2, accent, 0.18),
+                                  corner_radius=8, width=30, height=30)
+            badge.pack(side="left", padx=(0, 10))
+            badge.pack_propagate(False)
+            ctk.CTkLabel(badge, text="", image=icon(icon_kind, accent, 15)).pack(expand=True)
+            txt = ctk.CTkFrame(inner, fg_color="transparent")
+            txt.pack(side="left", fill="x", expand=True)
+            label(txt, title, size=11, weight="bold", color=C_INK).pack(anchor="w")
+            label(txt, caption, size=9, color=C_MUTED).pack(anchor="w")
+            return inner
+
+        resume_cell = tile(0, 0, "Resume on restart", "Survives a reboot mid-lock.",
+                            "timer", C_GREEN)
+        resume_var = tk.BooleanVar(value=bool(self.data.get("auto_resume", True)))
+
+        def _on_resume_toggle():
+            enabled = bool(resume_var.get())
+            self.data["auto_resume"] = enabled
+            save_data(self.data)
+            set_resume_on_login(enabled)
+
+        make_switch(resume_cell, resume_var, command=_on_resume_toggle).pack(side="right")
+
+        stats_cell = tile(0, 1, "Session stats", "Focus time, streak, history.",
+                           "chart", C_AMBER)
+        stats_btn = ctk.CTkButton(stats_cell, text="View", width=64, height=26, corner_radius=13,
+                                   fg_color=C_CARD, hover_color=C_GHOST, text_color=C_INK,
+                                   font=ctk.CTkFont(size=11, weight="bold", family=FONT),
+                                   command=lambda: (_close(), self._show_stats()))
+        stats_btn.pack(side="right")
+        bind_hover_sfx(stats_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(stats_btn)
+
+        sched_cell = tile(1, 0, "Schedules", "Blocks that start themselves.",
+                          "calendar", C_BLUE)
+        sched_btn = ctk.CTkButton(sched_cell, text="Manage", width=64, height=26, corner_radius=13,
+                                   fg_color=C_CARD, hover_color=C_GHOST, text_color=C_INK,
+                                   font=ctk.CTkFont(size=11, weight="bold", family=FONT),
+                                   command=lambda: (_close(), self._show_schedules()))
+        sched_btn.pack(side="right")
+        bind_hover_sfx(sched_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(sched_btn)
+
+        shortcut_cell = tile(1, 1, "Desktop shortcut", "Launch it from the desktop.",
+                             "link", C_RED)
+        shortcut_btn = ctk.CTkButton(shortcut_cell, text="Create", width=64, height=26, corner_radius=13,
+                                      fg_color=C_CARD, hover_color=C_GHOST, text_color=C_INK,
+                                      font=ctk.CTkFont(size=11, weight="bold", family=FONT),
+                                      command=lambda: _create_shortcut())
+        shortcut_btn.pack(side="right")
+        bind_hover_sfx(shortcut_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(shortcut_btn)
+
+        def _create_shortcut():
+            create_desktop_shortcut()
+            shortcut_btn.configure(text="Done", state="disabled")
+            self.after(1600, lambda: shortcut_btn.configure(text="Create", state="normal")
+                       if shortcut_btn.winfo_exists() else None)
+
+        close_btn = ctk.CTkButton(card, text="Close", height=34, corner_radius=17,
+                                   fg_color=C_INK, hover_color=C_MUTED, text_color=C_BG,
+                                   font=ctk.CTkFont(size=12, weight="bold", family=FONT),
+                                   command=_close)
+        smooth_hover(close_btn, C_INK, C_MUTED)
+        bind_hover_sfx(close_btn, _SFX_BTN_HOVER)
+        bind_press_sfx(close_btn)
+        close_btn.pack(side="bottom", pady=(16, 18), padx=20, fill="x")
+
+        esc_id = self.bind("<Escape>", _close, add="+")
+        _animate_modal_in(card)
+
     # ─── Session stats ───────────────────────────────────────────────────────────
 
     def _compute_stats(self):
@@ -2222,7 +2791,7 @@ class AllBlock(ctk.CTk):
 
         card = ctk.CTkFrame(overlay, fg_color=C_CARD, corner_radius=14,
                              border_width=1, border_color=C_BORDER, width=340)
-        card.place(relx=0.5, rely=0.5, anchor="center")
+        card.place(relx=0.5, rely=0.5 + _MODAL_SLIDE, anchor="center")
 
         def _close(_evt=None):
             try:
@@ -2294,6 +2863,7 @@ class AllBlock(ctk.CTk):
         close_btn.pack(side="bottom", pady=(14, 20), padx=20, fill="x")
 
         esc_id = self.bind("<Escape>", _close, add="+")
+        _animate_modal_in(card)
 
     # ─── Scheduler ───────────────────────────────────────────────────────────────
 
@@ -2345,7 +2915,7 @@ class AllBlock(ctk.CTk):
 
         card = ctk.CTkFrame(overlay, fg_color=C_CARD, corner_radius=14,
                              border_width=1, border_color=C_BORDER, width=420)
-        card.place(relx=0.5, rely=0.5, anchor="center")
+        card.place(relx=0.5, rely=0.5 + _MODAL_SLIDE, anchor="center")
 
         def _close(_evt=None):
             try:
@@ -2452,11 +3022,7 @@ class AllBlock(ctk.CTk):
                     play_tick(soft=True)
                     render_list()
 
-                sw = ctk.CTkSwitch(inner, text="", variable=var, onvalue=True, offvalue=False,
-                                    width=44, height=22, switch_width=36, switch_height=20,
-                                    border_width=1, border_color=C_BORDER, progress_color=C_GREEN,
-                                    button_color="#ffffff", button_hover_color="#ffffff",
-                                    fg_color=C_CARD, command=_toggle)
+                sw = make_switch(inner, var, command=_toggle)
                 sw.pack(side="right")
 
             if hidden:
@@ -2581,6 +3147,7 @@ class AllBlock(ctk.CTk):
 
         render_list()
         esc_id = self.bind("<Escape>", _close, add="+")
+        _animate_modal_in(card)
 
     # ─── Resume after restart ───────────────────────────────────────────────────
 
