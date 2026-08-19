@@ -8,7 +8,18 @@
 <meta name="description" content="A Windows focus timer that actually blocks. Roll the wheel, hit start, and everything that isn't the work is gone until the clock runs out.">
 <meta property="og:title" content="All Block">
 <meta property="og:description" content="No is a feature. Your computer finally has one.">
-<meta property="og:image" content="img/wheel_light.png">
+<meta property="og:url" content="https://auzeo.github.io/all-block/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="All Block">
+<!-- absolute, because WhatsApp/Slack/Discord don't resolve relative og:image -->
+<meta property="og:image" content="https://auzeo.github.io/all-block/img/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="628">
+<meta property="og:image:alt" content="The All Block landing page: a duration wheel set to 10 minutes beside the headline No is a feature.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="All Block">
+<meta name="twitter:description" content="No is a feature. Your computer finally has one.">
+<meta name="twitter:image" content="https://auzeo.github.io/all-block/img/og-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -47,25 +58,25 @@ img{max-width:100%;height:auto;display:block}
   display:flex;justify-content:center;padding-inline:16px}
 .nav-pill{display:flex;align-items:center;gap:2px;
   background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:6px;box-shadow:0 12px 34px -18px rgba(0,0,0,.34)}
+  padding:4px;box-shadow:0 12px 34px -18px rgba(0,0,0,.34)}
 .nav-pill a{position:relative;text-decoration:none;color:var(--ash);
-  font-size:14.5px;font-weight:500;padding:9px 18px;border-radius:999px;
+  font-size:13.5px;font-weight:500;padding:6px 15px;border-radius:999px;
   transition:color .2s,background .2s;white-space:nowrap}
 .nav-pill a:hover{color:var(--ink);background:var(--sand)}
 .nav-pill a.here{color:var(--ink);font-weight:700}
 .nav-pill a.here::after{content:"";position:absolute;left:50%;bottom:3px;
   width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink)}
 /* the badge sits inside the pill now, so it needs no shadow of its own */
-.nav-pill a.nav-badge{width:40px;height:40px;flex:none;border-radius:50%;padding:0;
+.nav-pill a.nav-badge{width:31px;height:31px;flex:none;border-radius:50%;padding:0;
   background:var(--ink);display:grid;place-items:center;
-  margin-right:8px;transition:transform .25s}
+  margin-right:6px;transition:transform .25s}
 .nav-badge:hover{transform:rotate(-12deg);background:var(--ink)}
-.nav-badge svg{width:19px;height:19px}
+.nav-badge svg{width:15px;height:15px}
 /* .nav-pill a would otherwise out-specify these two on colour */
 .nav-pill a.nav-cta{display:inline-flex;align-items:center;
   background:var(--ink);color:var(--card);
-  font-weight:700;font-size:14.5px;padding:11px 24px;border-radius:999px;
-  margin-left:8px;transition:background .22s,color .22s}
+  font-weight:700;font-size:13.5px;padding:8px 19px;border-radius:999px;
+  margin-left:6px;transition:background .22s,color .22s}
 .nav-pill a.nav-cta:hover{background:var(--lock);color:#fff}
 /* below this the four section links would wrap; keep the badge and the action */
 @media(max-width:760px){.nav-pill a:not(.nav-badge):not(.nav-cta){display:none}}
@@ -125,7 +136,40 @@ img{max-width:100%;height:auto;display:block}
   letter-spacing:.18em;text-transform:uppercase;color:#a0a0a8}
 .wheel-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--ink);
   background:var(--sand);border-radius:999px;padding:7px 14px;
-  font-weight:700;letter-spacing:.12em}
+  font-weight:700;letter-spacing:.12em;font-family:var(--mono);font-size:10.5px;
+  text-transform:uppercase;border:0;cursor:pointer;
+  transition:background .2s,color .2s}
+.wheel-foot .go:hover{background:var(--ink);color:var(--card)}
+.wheel-foot .go:focus-visible{outline:2px solid var(--lock);outline-offset:2px}
+
+/* ── the demo: the app's lock screen, taking the whole page ───────── */
+.demo{position:fixed;inset:0;z-index:200;background:var(--void);color:var(--chalk);
+  display:grid;place-items:center;padding:var(--gut);text-align:center}
+.demo[hidden]{display:none}
+.js .demo{opacity:0;transition:opacity .32s ease}
+.js .demo.on{opacity:1}
+.demo-back{position:absolute;top:22px;left:22px;display:inline-flex;
+  align-items:center;gap:7px;background:transparent;color:var(--dim);
+  border:1px solid var(--edge);border-radius:999px;padding:9px 16px;
+  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;
+  transition:color .2s,border-color .2s}
+.demo-back:hover{color:var(--chalk);border-color:var(--dim)}
+.demo-back:focus-visible{outline:2px solid var(--lock-hi);outline-offset:3px}
+.demo-inner{max-width:560px}
+.demo-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--lock-hi);margin:0}
+.demo-clock{font-family:var(--mono);font-weight:700;line-height:1;
+  font-size:clamp(64px,15vw,150px);letter-spacing:-.02em;margin:18px 0 0;
+  font-variant-numeric:tabular-nums}
+.demo-bar{height:3px;background:var(--edge);border-radius:2px;margin:30px 0 26px;
+  overflow:hidden}
+.demo-bar i{display:block;height:100%;width:100%;background:var(--lock-hi);
+  transform-origin:left;transform:scaleX(1)}
+.demo-line{margin:0;font-size:19px;font-weight:600;color:var(--chalk)}
+.demo-sub{margin:10px 0 0;color:var(--dim);font-size:15.5px}
+.demo-foot{margin:34px 0 0;font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:#55555e}
+.demo.done .demo-eyebrow{color:var(--dim)}
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:34px}
   .hero-say{order:-1}
@@ -221,6 +265,28 @@ img{max-width:100%;height:auto;display:block}
   font-size:14px;color:var(--ash)}
 .shot figcaption b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
 
+/* ── first run: three steps, numbered because they are a sequence ─── */
+.first{padding:clamp(90px,13vw,150px) 0}
+/* this one's intro is a paragraph, not a caption, so it gets room */
+.first .head{max-width:56ch}
+.first .head h2{max-width:13ch}
+.first .head p{max-width:52ch}
+.steps{list-style:none;counter-reset:step;margin:48px 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.step{counter-increment:step;margin:0}
+/* the three mockups aren't the same shape; one ratio keeps the captions level */
+.step img{width:100%;aspect-ratio:16/10;object-fit:cover;
+  border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 26px 60px -50px rgba(0,0,0,.55)}
+.step-say{margin-top:16px;padding-left:38px;position:relative;
+  color:var(--ash);font-size:15px}
+.step-say b{display:block;color:var(--ink);font-weight:700;margin-bottom:2px}
+.step-say::before{content:counter(step);position:absolute;left:0;top:1px;
+  width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--card);
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  display:grid;place-items:center}
+@media(max-width:860px){.steps{grid-template-columns:1fr;gap:34px}}
+
 /* ── features ─────────────────────────────────────────────────────── */
 .feat{padding:clamp(90px,13vw,150px) 0;background:var(--card);
   border-block:1px solid var(--line)}
@@ -281,7 +347,8 @@ footer a:hover{color:var(--ink)}
     <a href="#block" data-spy="block">The block</a>
     <a href="#schedule" data-spy="schedule">Schedule</a>
     <a href="#inside" data-spy="inside">Features</a>
-    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest">Download</a>
+    <a href="#firstrun" data-spy="firstrun">First run</a>
+    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/All.Block.exe">Download</a>
   </div>
 </nav>
 
@@ -291,27 +358,28 @@ footer a:hover{color:var(--ink)}
 
     <div class="wheel-stage">
       <div class="wheel" tabindex="0" role="slider" aria-label="Focus duration"
-           aria-valuemin="1" aria-valuemax="90" aria-valuenow="10"
-           aria-valuetext="10 minutes">
+           aria-valuemin="10" aria-valuemax="10800" aria-valuenow="600"
+           aria-valuetext="10 min">
         <div class="wheel-track"></div>
         <div class="wheel-slot"></div>
       </div>
       <div class="wheel-foot">
         <span>Duration</span>
-        <span class="go">
+        <button class="go" id="demoStart" type="button">
           <svg width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0l9 5-9 5z"/></svg>
-          Start
-        </span>
+          Start demo
+        </button>
       </div>
     </div>
 
     <div class="hero-say">
       <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.0.0</b></p>
       <h1>No is a feature<em>your computer finally has one</em></h1>
-      <p class="hero-sub">Roll the wheel, hit start, and your computer stops
-        offering you a way out until the clock hits zero.</p>
+      <p class="hero-sub">Roll the wheel, hit start, and your mouse and keyboard
+        stop working until the clock hits zero. Not a blocker you can argue
+        with — no input at all.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/All.Block.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
@@ -323,6 +391,24 @@ footer a:hover{color:var(--ink)}
   </div>
 </header>
 
+<!-- ═══ DEMO LOCK — what the app puts on screen for the whole session ═══ -->
+<div class="demo" id="demo" hidden aria-hidden="true" role="dialog"
+     aria-modal="true" aria-label="All Block session demo">
+  <button class="demo-back" id="demoBack" type="button">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    Back
+  </button>
+  <div class="demo-inner">
+    <p class="demo-eyebrow" id="demoState">● Locked</p>
+    <div class="demo-clock" id="demoClock">10:00</div>
+    <div class="demo-bar"><i id="demoBar"></i></div>
+    <p class="demo-line">Your mouse and keyboard are switched off system-wide.</p>
+    <p class="demo-sub" id="demoSub">Clicking, typing, Alt+Tab, Ctrl+Alt+Del — nothing
+      reaches Windows until the clock hits zero.</p>
+    <p class="demo-foot">This is a demo, so Back still works. In the real app it doesn't.</p>
+  </div>
+</div>
+
 <!-- ═══ THE BLOCK ═══ -->
 <section class="scrub" id="block">
   <div class="scrub-pin">
@@ -332,15 +418,16 @@ footer a:hover{color:var(--ink)}
         <div class="clock" id="cd">90:00</div>
         <div class="bar"><i id="cdbar"></i></div>
         <p class="state" id="cdstate">Locked — keep scrolling</p>
-        <p class="lede">No pause button. No “just five more minutes”. The session
-          runs to zero, and it comes back still locked if you reboot to escape it.</p>
+        <p class="lede">Your mouse and keyboard stop working — system-wide, not
+          just in this app. No pause button, no “just five more minutes”, and it
+          comes back still locked if you reboot to escape it.</p>
       </div>
       <ul class="blocklist" id="cutlist">
-        <li><span class="nm">Browsers</span><span class="tag">Cut</span></li>
-        <li><span class="nm">Games &amp; launchers</span><span class="tag">Cut</span></li>
-        <li><span class="nm">Chat &amp; social apps</span><span class="tag">Cut</span></li>
-        <li><span class="nm">The Task Manager escape</span><span class="tag">Cut</span></li>
-        <li class="keep"><span class="nm">Your work</span><span class="tag">Kept</span></li>
+        <li><span class="nm">Mouse</span><span class="tag">Dead</span></li>
+        <li><span class="nm">Keyboard</span><span class="tag">Dead</span></li>
+        <li><span class="nm">Alt+Tab, Win, Ctrl+Alt+Del</span><span class="tag">Dead</span></li>
+        <li><span class="nm">The Task Manager escape</span><span class="tag">Dead</span></li>
+        <li class="keep"><span class="nm">The clock</span><span class="tag">Kept</span></li>
       </ul>
     </div>
   </div>
@@ -451,15 +538,51 @@ footer a:hover{color:var(--ink)}
   </div>
 </section>
 
+<!-- ═══ FIRST RUN — the SmartScreen warning everyone hits ═══ -->
+<section class="first" id="firstrun">
+  <div class="wrap">
+    <div class="head rise">
+      <p class="eyebrow">First run</p>
+      <h2>Windows will warn you</h2>
+      <p>All Block isn't code-signed — a certificate costs more than this app
+         makes, which is nothing. SmartScreen flags anything unsigned, so you
+         get this once. Here's the way through it.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step rise">
+        <img src="img/smartscreen-1-warning.png" width="1120" height="640" loading="lazy"
+             alt="The Windows protected your PC dialog, with the More info link highlighted">
+        <div class="step-say"><b>Click “More info”</b>
+          The warning says Windows doesn't recognise the publisher — not that it
+          found anything wrong.</div>
+      </li>
+      <li class="step rise">
+        <img src="img/smartscreen-2-runanyway.png" width="1120" height="680" loading="lazy"
+             alt="The expanded SmartScreen dialog showing the Run anyway button">
+        <div class="step-say"><b>Click “Run anyway”</b>
+          The button only appears after the first step.</div>
+      </li>
+      <li class="step rise">
+        <img src="img/smartscreen-3-uac.png" width="1200" height="720" loading="lazy"
+             alt="The Windows User Account Control prompt asking to allow All Block to make changes">
+        <div class="step-say"><b>Click “Yes” on the admin prompt</b>
+          Admin is what lets All Block hold the input lock against everything
+          else. Without it, some of the blocking is skipped.</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
 <!-- ═══ GET IT ═══ -->
 <section class="get" id="get">
   <div class="wrap">
-    <p class="eyebrow rise">Free download &nbsp;·&nbsp; <b>Windows 10 &amp; 11</b></p>
+    <p class="eyebrow rise">Free download &nbsp;·&nbsp; <b>Windows&nbsp;10&nbsp;&amp;&nbsp;11</b></p>
     <h2 class="rise">Start today</h2>
     <p class="rise">One download, one wheel, and the rest of the afternoon
        back where it belongs.</p>
     <div class="hero-cta rise">
-      <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">
+      <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/All.Block.exe">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
         Download All Block
       </a>
@@ -488,17 +611,24 @@ var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
    the surface of a cylinder, placed with rotateX(θ) translateZ(R). That is
    what gives it the curve the app's wheel has — options roll away over the
    top and bottom edges instead of just fading.                          */
-var PRESETS = [1,5,10,15,20,25,30,45,60,90];
-var DEG = 15, RAD = 235, DEFAULT_IDX = 2;
+/* WHEEL_PRESETS, copied from the app so the labels read the same here as
+   they do on your machine — "1½ hour", not "90 min". */
+var PRESETS = [
+  ["10 sec",     10], ["1 min",    60], ["5 min",   300], ["10 min",  600],
+  ["15 min",    900], ["20 min", 1200], ["25 min", 1500], ["30 min", 1800],
+  ["45 min",   2700], ["1 hour", 3600], ["1½ hour", 5400],
+  ["2 hours",  7200], ["3 hours", 10800]
+];
+var DEG = 15, RAD = 235, DEFAULT_IDX = 3;   // "10 min", the app's default
 
 var el    = document.querySelector(".wheel"),
     track = el.querySelector(".wheel-track"),
     pos = DEFAULT_IDX, target = DEFAULT_IDX, raf = null;
 
-var opts = PRESETS.map(function(m){
+var opts = PRESETS.map(function(p){
   var s = document.createElement("span");
   s.className = "wheel-opt";
-  s.textContent = m + " min";
+  s.textContent = p[0];
   track.appendChild(s);
   return s;
 });
@@ -514,8 +644,11 @@ function draw(){
     opts[i].classList.toggle("is-sel", Math.round(pos) === i);
   }
   var idx = Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)));
-  el.setAttribute("aria-valuenow", PRESETS[idx]);
-  el.setAttribute("aria-valuetext", PRESETS[idx] + " minutes");
+  el.setAttribute("aria-valuenow", PRESETS[idx][1]);
+  el.setAttribute("aria-valuetext", PRESETS[idx][0]);
+}
+function picked(){
+  return PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(target)))];
 }
 
 function loop(){
@@ -553,6 +686,78 @@ el.addEventListener("pointerup", drop);
 el.addEventListener("pointercancel", drop);
 draw();
 
+/* ── the demo ─────────────────────────────────────────────────────────
+   The real session runs for the duration you picked. Here it runs the
+   whole thing in DEMO_SECS of wall time, so the clock still counts the
+   right numbers down from the right starting point — it just moves in
+   bigger steps. Anything shorter than that plays at real speed.      */
+var DEMO_SECS = 15;
+var demo      = document.getElementById("demo"),
+    demoClock = document.getElementById("demoClock"),
+    demoBar   = document.getElementById("demoBar"),
+    demoState = document.getElementById("demoState"),
+    demoSub   = document.getElementById("demoSub"),
+    demoTimer = null, lastFocus = null;
+
+function mmss(s){
+  s = Math.max(0, Math.ceil(s));
+  var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), q = s % 60;
+  var pad = function(n){ return (n < 10 ? "0" : "") + n; };
+  return h ? h + ":" + pad(m) + ":" + pad(q) : pad(m) + ":" + pad(q);
+}
+
+function openDemo(){
+  var total = picked()[1];
+  var rate  = Math.max(1, total / DEMO_SECS);   // session-seconds per real second
+  var left  = total, t0 = null;
+
+  lastFocus = document.activeElement;
+  demo.hidden = false; demo.setAttribute("aria-hidden", "false");
+  demo.classList.remove("done");
+  demoState.textContent = "● Locked";
+  demoSub.textContent = "Clicking, typing, Alt+Tab, Ctrl+Alt+Del — nothing " +
+                        "reaches Windows until the clock hits zero.";
+  demoClock.textContent = mmss(left);
+  demoBar.style.transform = "scaleX(1)";
+  requestAnimationFrame(function(){ demo.classList.add("on"); });
+  document.body.style.overflow = "hidden";
+  document.getElementById("demoBack").focus();
+
+  if (demoTimer) cancelAnimationFrame(demoTimer);
+  (function tick(ts){
+    if (t0 === null) t0 = ts;
+    left = total - (ts - t0) / 1000 * rate;
+    if (left <= 0){
+      demoClock.textContent = mmss(0);
+      demoBar.style.transform = "scaleX(0)";
+      demo.classList.add("done");
+      demoState.textContent = "● Unlocked";
+      demoSub.textContent = "Session over. Your mouse and keyboard come straight back.";
+      demoTimer = null;
+      return;
+    }
+    demoClock.textContent = mmss(left);
+    demoBar.style.transform = "scaleX(" + (left / total) + ")";
+    demoTimer = requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+function closeDemo(){
+  if (demoTimer){ cancelAnimationFrame(demoTimer); demoTimer = null; }
+  demo.classList.remove("on");
+  document.body.style.overflow = "";
+  setTimeout(function(){
+    demo.hidden = true; demo.setAttribute("aria-hidden", "true");
+    if (lastFocus) lastFocus.focus();
+  }, 320);
+}
+
+document.getElementById("demoStart").addEventListener("click", openDemo);
+document.getElementById("demoBack").addEventListener("click", closeDemo);
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && !demo.hidden) closeDemo();
+});
+
 /* ── reveal on enter ─────────────────────────────────────────────── */
 var io = new IntersectionObserver(function(entries){
   entries.forEach(function(en){
@@ -573,7 +778,7 @@ var spy = new IntersectionObserver(function(entries){
     if (links[en.target.id]) links[en.target.id].classList.add("here");
   });
 }, {rootMargin:"-45% 0px -50% 0px"});
-["top","block","schedule","inside"].forEach(function(id){
+["top","block","schedule","inside","firstrun"].forEach(function(id){
   var n = document.getElementById(id); if (n) spy.observe(n);
 });
 
@@ -596,10 +801,9 @@ function paint(){
   if (Math.abs(p - lastP) < .0015) return;
   lastP = p;
 
-  var start = PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)))];
-  var left = Math.max(0, start * 60 * (1 - p));
-  var m = Math.floor(left / 60), s = Math.floor(left % 60);
-  cd.textContent = m + ":" + (s < 10 ? "0" + s : s);
+  /* PRESETS entries are [label, seconds], so take the seconds. */
+  var start = PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)))][1];
+  cd.textContent = mmss(Math.max(0, start * (1 - p)));
   cdbar.style.width = (p * 100).toFixed(2) + "%";
 
   items.forEach(function(li, i){
