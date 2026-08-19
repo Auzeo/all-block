@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>All Block — no is a feature</title>
-<meta name="description" content="A Windows focus timer that actually blocks. Roll the wheel, hit start, and everything that isn't the work is gone until the clock runs out.">
+<meta name="description" content="A Windows focus timer that switches your mouse and keyboard off. A harder-to-break alternative to Cold Turkey — and the scheduler starts the blocks without you.">
 <meta property="og:title" content="All Block">
 <meta property="og:description" content="No is a feature. Your computer finally has one.">
 <meta property="og:url" content="https://auzeo.github.io/all-block/">
@@ -265,6 +265,19 @@ img{max-width:100%;height:auto;display:block}
   font-size:14px;color:var(--ash)}
 .shot figcaption b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
 
+/* ── vs: the argument, so it's set as an argument and not as cards ─── */
+.vs{padding:clamp(80px,11vw,132px) 0;border-top:1px solid var(--line)}
+.vs-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(32px,6vw,84px);align-items:start}
+.vs h2{font-size:clamp(29px,3.3vw,44px);text-transform:uppercase;margin-top:14px}
+.vs-say p{margin:0 0 18px;color:var(--ash);font-size:17px;max-width:56ch}
+.vs-say em{font-style:normal;color:var(--ink);font-weight:600}
+/* the scheduler line is the point of the section, so it gets the weight */
+.vs-pull{margin-top:26px!important;padding-left:22px;
+  border-left:3px solid var(--lock);
+  color:var(--ink)!important;font-weight:600}
+@media(max-width:860px){.vs-grid{grid-template-columns:1fr}}
+
 /* ── first run: three steps, numbered because they are a sequence ─── */
 .first{padding:clamp(90px,13vw,150px) 0}
 /* this one's intro is a paragraph, not a caption, so it gets room */
@@ -479,6 +492,29 @@ footer a:hover{color:var(--ink)}
              alt="The Session Stats window showing total focus time, session count, a seven day streak and recent sessions">
         <figcaption><b>The receipts</b>Focus time, sessions, and the streak you'd rather not break.</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VS — for people arriving from another blocker ═══ -->
+<section class="vs" id="vs">
+  <div class="wrap vs-grid">
+    <div class="rise">
+      <p class="eyebrow">Coming from Cold Turkey</p>
+      <h2>The same idea, with fewer doors</h2>
+    </div>
+    <div class="vs-say rise">
+      <p>Cold Turkey and the rest block <em>things</em> — sites, apps, a list you
+         keep up to date. A list has edges, and the itch is very good at finding
+         them: the app you forgot to add, the second browser, the setting you can
+         still reach because your keyboard still works.</p>
+      <p>All Block doesn't keep a list. It takes the mouse and keyboard away for
+         the length of the session, runs as admin so nothing else can shut it
+         down, and comes back still locked if you reboot to get out of it.</p>
+      <p class="vs-pull">The scheduler is the part that removes the itch. A block
+         that turns up on its own at 09:00 was never a decision you made — and the
+         itch lives entirely in that decision. Take the moment away and there's
+         nothing left to argue with.</p>
     </div>
   </div>
 </section>
