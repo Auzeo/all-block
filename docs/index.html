@@ -766,6 +766,18 @@ var io = new IntersectionObserver(function(entries){
 }, {threshold:.16, rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll(".rise, #week").forEach(function(n){ io.observe(n); });
 
+/* Going home shouldn't leave "#top" in the address bar — people copy the URL
+   from there to share it, and a fragment gives link scrapers a second cache
+   key for the same page. Scroll to the top ourselves and strip the hash. */
+document.querySelectorAll('a[href="#top"]').forEach(function(a){
+  a.addEventListener("click", function(e){
+    e.preventDefault();
+    scrollTo({top:0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+                              ? "auto" : "smooth"});
+    history.replaceState(null, "", location.pathname + location.search);
+  });
+});
+
 /* ── nav follows the section you're in ───────────────────────────── */
 var links = {};
 /* [data-spy] only — the badge and the download action share the pill but
