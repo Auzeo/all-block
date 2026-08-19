@@ -1,21 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>document.documentElement.className="js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>All Block — pick a number, lose the internet</title>
-<meta name="description" content="A Windows focus timer that actually blocks. Pick a duration on the wheel, and the internet is gone until the clock runs out.">
+<title>All Block — the off switch for everything else</title>
+<meta name="description" content="A Windows focus timer that actually blocks. Roll the wheel, hit start, and everything that isn't the work is gone until the clock runs out.">
 <meta property="og:title" content="All Block">
-<meta property="og:description" content="Pick a number. Lose the internet.">
-<meta property="og:image" content="img/wheel_dark.png">
+<meta property="og:description" content="The off switch for everything else.">
+<meta property="og:image" content="img/wheel_light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#08080a; --slab:#131316; --slab2:#1b1b20; --edge:#26262c;
-  --chalk:#f5f5f7; --ash:#8a8a92; --lock:#4cc479; --amber:#d8a13a;
-  --pane:#fafafa; --pane-ink:#18181a; --pane-ash:#6e6e76;
+  /* pulled from the app's own light palette */
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
+  --lock:#1f9d55; --amber:#b8790a; --blue:#3568c9; --red:#cf3b2e;
+  /* the lock section inverts — that's the point of it */
+  --void:#0b0b0d; --chalk:#f5f5f7; --edge:#26262c; --dim:#8a8a92;
+  --lock-hi:#4cc479;
   --display:"Archivo",system-ui,sans-serif;
   --body:"Montserrat",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
@@ -24,307 +29,321 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--void);color:var(--chalk);
+  margin:0;background:var(--paper);color:var(--ink);
   font-family:var(--body);font-size:17px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.95;margin:0;
   font-variation-settings:"wdth" 112;letter-spacing:-.02em}
 a{color:inherit}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:var(--gut)}
-
-/* ── eyebrow: a machine label, not decoration ─────────────────────── */
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--ash)}
+  text-transform:uppercase;color:var(--ash);margin:0}
 .eyebrow b{color:var(--lock);font-weight:400}
 
-/* ── nav ──────────────────────────────────────────────────────────── */
-nav{position:fixed;inset:16px 16px auto;z-index:50;display:flex;
-  align-items:center;justify-content:space-between;
-  padding:12px 20px;border:1px solid var(--edge);border-radius:999px;
-  background:rgba(8,8,10,.72);backdrop-filter:blur(14px);
-  max-width:1180px;margin-inline:auto}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);
-  font-weight:900;letter-spacing:.16em;font-size:14px;text-decoration:none}
-.brand svg{width:22px;height:22px}
-.nav-links{display:flex;align-items:center;gap:24px;font-size:14px}
-.nav-links a{text-decoration:none;color:var(--ash);transition:color .2s}
-.nav-links a:hover{color:var(--chalk)}
+/* ── nav: badge · pill · action ───────────────────────────────────── */
+.nav{position:fixed;top:16px;left:0;right:0;z-index:60;
+  display:flex;align-items:center;gap:10px;
+  max-width:1180px;margin-inline:auto;padding-inline:16px}
+.nav-badge{width:48px;height:48px;flex:none;border-radius:50%;
+  background:var(--ink);display:grid;place-items:center;text-decoration:none;
+  box-shadow:0 10px 30px -14px rgba(0,0,0,.5);transition:transform .25s}
+.nav-badge:hover{transform:rotate(-12deg)}
+.nav-badge svg{width:22px;height:22px}
+.nav-pill{display:flex;align-items:center;gap:2px;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:6px;box-shadow:0 12px 34px -20px rgba(0,0,0,.34)}
+.nav-pill a{position:relative;text-decoration:none;color:var(--ash);
+  font-size:14.5px;font-weight:500;padding:9px 18px;border-radius:999px;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-pill a:hover{color:var(--ink);background:var(--sand)}
+.nav-pill a.here{color:var(--ink);font-weight:700}
+.nav-pill a.here::after{content:"";position:absolute;left:50%;bottom:3px;
+  width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink)}
+.nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:9px;
+  text-decoration:none;background:var(--ink);color:var(--card);
+  font-weight:700;font-size:14.5px;padding:14px 26px;border-radius:999px;
+  box-shadow:0 12px 34px -18px rgba(0,0,0,.5);
+  transition:background .22s,color .22s}
+.nav-cta:hover{background:var(--lock);color:#fff}
+@media(max-width:880px){.nav-pill{display:none}.nav-cta{margin-left:auto}}
+
+/* ── buttons ──────────────────────────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
-  font-family:var(--body);font-weight:700;font-size:15px;
-  padding:13px 26px;border-radius:999px;border:1px solid transparent;
-  background:var(--chalk);color:#0a0a0c;cursor:pointer;
-  transition:background .2s,color .2s,border-color .2s}
-.btn:hover{background:var(--lock);color:#06110b}
-.btn--ghost{background:transparent;color:var(--chalk);border-color:var(--edge)}
-.btn--ghost:hover{background:var(--slab2);color:var(--chalk);border-color:var(--ash)}
-.btn--sm{padding:9px 18px;font-size:14px}
-nav .btn{padding:9px 20px;font-size:14px}
-@media(max-width:820px){.nav-links a:not(.btn){display:none}}
+  font-family:var(--body);font-weight:700;font-size:15.5px;
+  padding:16px 30px;border-radius:999px;border:1px solid transparent;
+  background:var(--ink);color:var(--card);cursor:pointer;
+  transition:background .22s,color .22s,border-color .22s}
+.btn:hover{background:var(--lock);color:#fff}
+.btn--ghost{background:transparent;color:var(--ink);border-color:#d8d8de}
+.btn--ghost:hover{background:var(--sand);color:var(--ink);border-color:#c3c3cc}
 
-/* ── hero: two wheels, back to back ───────────────────────────────── */
-.hero{min-height:100svh;display:grid;place-items:center;
-  padding:130px 0 80px;position:relative}
-.hero::after{content:"";position:absolute;inset:auto 0 0;height:180px;
-  background:linear-gradient(transparent,var(--void));pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr minmax(320px,.95fr) 1fr;
-  align-items:center;gap:clamp(16px,3vw,48px);width:100%}
-.hero-say{text-align:center;position:relative;z-index:2}
-.hero-say h1{font-size:clamp(40px,6.6vw,86px);font-variation-settings:"wdth" 118;
-  text-transform:uppercase}
-.hero-say h1 em{font-style:normal;color:var(--lock);display:block}
-.hero-sub{color:var(--ash);margin:22px auto 0;max-width:34ch;font-size:16px}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
-.hero-note{margin-top:18px;font-family:var(--mono);font-size:11.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:#5e5e66}
+/* ── hero: one wheel, like the app ────────────────────────────────── */
+.hero{min-height:100svh;display:grid;place-items:center;padding:150px 0 90px}
+.hero-grid{display:grid;grid-template-columns:1fr 1.06fr;
+  align-items:center;gap:clamp(28px,5vw,72px);width:100%}
+.hero h1{font-size:clamp(40px,5.2vw,70px);font-variation-settings:"wdth" 112;
+  text-transform:uppercase;margin-top:16px}
+/* the second line steps down and changes case — hierarchy, not five equal
+   lines of shouting */
+.hero h1 em{font-style:normal;color:var(--lock);display:block;
+  font-size:.44em;text-transform:none;letter-spacing:-.01em;
+  font-variation-settings:"wdth" 100;font-weight:700;margin-top:.42em}
+.hero-sub{color:var(--ash);margin:24px 0 0;max-width:40ch;font-size:16.5px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:#9a9aa2}
 
-/* ── the wheel itself ─────────────────────────────────────────────── */
-.wheel{--ink:var(--chalk);--dim:#6a6a72;
-  position:relative;height:min(64vh,460px);overflow:hidden;cursor:grab;
-  border-radius:20px;user-select:none;touch-action:none;
-  -webkit-mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent);
-  mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent)}
+/* ── the wheel: a real drum, same curve as the app ────────────────── */
+.wheel-stage{position:relative;background:var(--card);
+  border:1px solid var(--line);border-radius:26px;
+  box-shadow:0 40px 90px -60px rgba(0,0,0,.55);padding:8px}
+.wheel{position:relative;height:min(58vh,430px);overflow:hidden;
+  cursor:grab;user-select:none;touch-action:none;border-radius:20px;
+  perspective:850px;perspective-origin:50% 50%;
+  -webkit-mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent);
+  mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent)}
 .wheel:active{cursor:grabbing}
-.wheel:focus-visible{outline:2px solid var(--lock);outline-offset:4px}
-.wheel--pane{--ink:var(--pane-ink);--dim:#b3b3ba;background:var(--pane);
-  border:1px solid #ebebee}
-.wheel--void{--ink:var(--chalk);--dim:#5c5c64;background:#0d0d10;
-  border:1px solid var(--edge)}
-.wheel-track{position:absolute;inset:0}
+.wheel:focus-visible{outline:2px solid var(--lock);outline-offset:3px}
+.wheel-track{position:absolute;inset:0;transform-style:preserve-3d;
+  transform:translateZ(-235px)}
 .wheel-opt{position:absolute;top:50%;left:0;right:0;
-  font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 100;
-  font-size:clamp(26px,3.4vw,44px);white-space:nowrap;
-  color:var(--dim);will-change:transform,opacity;
-  transform-origin:center;transition:color .18s}
+  padding-left:clamp(22px,4vw,52px);text-align:left;
+  font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 104;
+  font-size:clamp(30px,3.6vw,46px);white-space:nowrap;color:#a8a8b0;
+  backface-visibility:hidden;will-change:transform,opacity;
+  transition:color .18s}
 .wheel-opt.is-sel{color:var(--ink)}
-.wheel--right .wheel-opt{text-align:left;padding-left:clamp(14px,3vw,42px)}
-.wheel--left .wheel-opt{text-align:right;padding-right:clamp(14px,3vw,42px)}
-.wheel-label{position:absolute;left:0;right:0;bottom:14px;text-align:center;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--dim);pointer-events:none}
+/* the selected slot, marked the way the app marks it */
+.wheel-slot{position:absolute;left:0;right:0;top:50%;height:76px;
+  transform:translateY(-50%);pointer-events:none;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.wheel-foot{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px 8px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.18em;text-transform:uppercase;color:#a0a0a8}
+.wheel-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--ink);
+  background:var(--sand);border-radius:999px;padding:7px 14px;
+  font-weight:700;letter-spacing:.12em}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .wheel{height:190px}
-  .wheel--left{order:2}.wheel--right{display:none}
-  .wheel--left .wheel-opt,.wheel--right .wheel-opt{text-align:center;padding:0}
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .hero-say{order:-1}
+  .wheel{height:250px}
+  .wheel-opt{text-align:center;padding-left:0}
 }
 
-/* ── generic section furniture ────────────────────────────────────── */
-section{position:relative}
-.head{max-width:22ch}
+/* ── section furniture ────────────────────────────────────────────── */
+.head{max-width:24ch}
 .head h2{font-size:clamp(32px,4.6vw,62px);text-transform:uppercase;margin-top:14px}
-.head p{color:var(--ash);max-width:46ch;font-size:16px}
-.rule{height:1px;background:var(--edge);margin:0}
-
-/* ── reveal ───────────────────────────────────────────────────────── */
-.rise{opacity:0;transform:translateY(26px);
+.head p{color:var(--ash);max-width:48ch;font-size:16px}
+.rule{height:1px;background:var(--line)}
+/* only hide these once we know JS is running to reveal them again — otherwise
+   a script error would leave the whole page permanently invisible */
+.js .rise{opacity:0;transform:translateY(26px);
   transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
-.rise.in{opacity:1;transform:none}
+.js .rise.in{opacity:1;transform:none}
 
-/* ── timer: scroll scrubs a real countdown ────────────────────────── */
-.scrub{height:260vh;position:relative}
-.scrub-pin{position:sticky;top:0;height:100svh;display:grid;
-  place-items:center;overflow:hidden}
+/* ── the block: page goes dark, because that's what the app does ──── */
+.scrub{height:265vh;position:relative;background:var(--void);color:var(--chalk)}
+.scrub-pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;
+  overflow:hidden}
 .scrub-inner{width:100%;max-width:1180px;padding-inline:var(--gut);
   display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,72px);
   align-items:center}
+.scrub .eyebrow{color:var(--dim)}
 .clock{font-family:var(--mono);font-weight:700;
-  font-size:clamp(64px,12.5vw,168px);line-height:.9;letter-spacing:-.04em;
-  display:flex;align-items:baseline;gap:.06em}
-.clock small{font-size:.26em;letter-spacing:.2em;color:var(--ash);font-weight:400}
-.bar{height:3px;background:var(--edge);border-radius:99px;overflow:hidden;margin:30px 0 26px}
-.bar i{display:block;height:100%;width:0;background:var(--lock)}
+  font-size:clamp(62px,12vw,164px);line-height:.9;letter-spacing:-.045em;
+  margin-top:18px}
+.bar{height:3px;background:var(--edge);border-radius:99px;overflow:hidden;
+  margin:30px 0 26px}
+.bar i{display:block;height:100%;width:0;background:var(--lock-hi)}
 .state{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--lock);display:flex;align-items:center;gap:10px}
+  text-transform:uppercase;color:var(--lock-hi);display:flex;
+  align-items:center;gap:10px;margin:0}
 .state::before{content:"";width:8px;height:8px;border-radius:99px;
-  background:var(--lock);box-shadow:0 0 0 0 rgba(76,196,121,.6);
+  background:var(--lock-hi);box-shadow:0 0 0 0 rgba(76,196,121,.6);
   animation:pulse 2s infinite}
-.state.done{color:var(--ash)}
-.state.done::before{background:var(--ash);animation:none}
+.state.done{color:var(--dim)}
+.state.done::before{background:var(--dim);animation:none}
 @keyframes pulse{70%{box-shadow:0 0 0 12px rgba(76,196,121,0)}
   100%{box-shadow:0 0 0 0 rgba(76,196,121,0)}}
+.scrub .lede{color:var(--dim);font-size:15.5px;max-width:42ch;margin-top:22px}
 .blocklist{list-style:none;padding:0;margin:0;display:grid;gap:1px;
-  background:var(--edge);border:1px solid var(--edge);border-radius:14px;overflow:hidden}
-.blocklist li{background:var(--slab);padding:16px 20px;display:flex;
+  background:var(--edge);border:1px solid var(--edge);border-radius:14px;
+  overflow:hidden}
+.blocklist li{background:#141418;padding:16px 20px;display:flex;
   align-items:center;justify-content:space-between;gap:16px;font-size:15px}
 .blocklist .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ash);opacity:0;transform:translateX(8px);
+  text-transform:uppercase;color:var(--dim);opacity:0;transform:translateX(8px);
   transition:opacity .35s,transform .35s}
-.blocklist li.cut{color:var(--ash)}
-.blocklist li.cut .tag{opacity:1;transform:none;color:var(--lock)}
-.blocklist li.cut .nm{text-decoration:line-through;text-decoration-color:var(--lock);
-  text-decoration-thickness:2px}
-@media(max-width:900px){
-  .scrub{height:230vh}
-  .scrub-inner{grid-template-columns:1fr;gap:28px}
-}
+.blocklist li.cut{color:var(--dim)}
+.blocklist li.cut .tag{opacity:1;transform:none;color:var(--lock-hi)}
+.blocklist li.cut .nm{text-decoration:line-through;
+  text-decoration-color:var(--lock-hi);text-decoration-thickness:2px}
+.blocklist li.keep .tag{opacity:1;transform:none;color:var(--dim)}
+@media(max-width:900px){.scrub{height:235vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
 
 /* ── schedule ─────────────────────────────────────────────────────── */
 .sched{padding:clamp(90px,13vw,150px) 0}
-.week{margin-top:56px;border:1px solid var(--edge);border-radius:18px;
-  background:var(--slab);overflow:hidden}
+.week{margin-top:52px;border:1px solid var(--line);border-radius:18px;
+  background:var(--card);overflow:hidden;
+  box-shadow:0 30px 70px -55px rgba(0,0,0,.5)}
 .week-hours{display:grid;grid-template-columns:78px repeat(12,1fr);
-  border-bottom:1px solid var(--edge);font-family:var(--mono);font-size:10.5px;
-  color:var(--ash);letter-spacing:.08em}
+  border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10.5px;
+  color:var(--ash);letter-spacing:.08em;background:var(--sand)}
 .week-hours span{padding:11px 0;text-align:center}
 .week-hours span:first-child{text-align:left;padding-left:18px}
 .row{display:grid;grid-template-columns:78px 1fr;align-items:center;
-  border-bottom:1px solid var(--edge)}
+  border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row .day{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ash);padding-left:18px}
 .lane{position:relative;height:46px}
 .blk{position:absolute;top:9px;height:28px;border-radius:7px;
-  background:linear-gradient(90deg,rgba(76,196,121,.9),rgba(76,196,121,.55));
+  background:linear-gradient(90deg,#1f9d55,#3fb872);
   display:flex;align-items:center;padding-left:11px;overflow:hidden;
-  font-family:var(--mono);font-size:11px;color:#06130c;font-weight:700;
+  font-family:var(--mono);font-size:11px;color:#fff;font-weight:700;
   letter-spacing:.06em;white-space:nowrap;
   transform:scaleX(0);transform-origin:left;
   transition:transform .75s cubic-bezier(.2,.75,.25,1)}
-.blk.amber{background:linear-gradient(90deg,rgba(216,161,58,.9),rgba(216,161,58,.5));
-  color:#160f02}
+.blk.off{background:repeating-linear-gradient(45deg,#e8e6e1,#e8e6e1 5px,#f2f0ec 5px,#f2f0ec 10px);
+  color:#8d8d95}
 .week.in .blk{transform:scaleX(1)}
-.sched-shots{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
-@media(max-width:820px){
-  .week-hours{display:none}
-  .sched-shots{grid-template-columns:1fr}
-}
+.shots2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
+@media(max-width:820px){.week-hours{display:none}.shots2{grid-template-columns:1fr}}
 
 /* ── shots ────────────────────────────────────────────────────────── */
-.shot{border:1px solid var(--edge);border-radius:16px;overflow:hidden;
-  background:var(--slab);box-shadow:0 30px 70px -40px #000}
-.shot img{width:100%}
-.shot figcaption{padding:15px 20px;border-top:1px solid var(--edge);
+.shot{margin:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:var(--card);box-shadow:0 30px 70px -55px rgba(0,0,0,.5)}
+.shot img{width:100%;height:auto}
+.shot figcaption{padding:16px 20px;border-top:1px solid var(--line);
   font-size:14px;color:var(--ash)}
-.shot figcaption b{color:var(--chalk);font-weight:600;display:block;
-  font-family:var(--body);margin-bottom:2px}
+.shot figcaption b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
 
 /* ── features ─────────────────────────────────────────────────────── */
-.feat{padding:clamp(90px,13vw,150px) 0}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
-.card{border:1px solid var(--edge);border-radius:16px;background:var(--slab);
-  padding:28px;transition:border-color .25s,transform .25s}
-.card:hover{border-color:#3a3a44;transform:translateY(-3px)}
+.feat{padding:clamp(90px,13vw,150px) 0;background:var(--card);
+  border-block:1px solid var(--line)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+.card{border:1px solid var(--line);border-radius:16px;background:var(--paper);
+  padding:28px;transition:border-color .25s,transform .25s,box-shadow .25s}
+.card:hover{border-color:#d3d3da;transform:translateY(-3px);
+  box-shadow:0 24px 50px -40px rgba(0,0,0,.45)}
 .card h3{font-size:19px;font-variation-settings:"wdth" 100;margin-bottom:10px;
   letter-spacing:0;text-transform:none}
 .card p{color:var(--ash);font-size:15px;margin:0}
-.card .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
-  margin-bottom:18px;background:rgba(76,196,121,.12)}
-.card .ic svg{width:19px;height:19px;stroke:var(--lock)}
-.card:nth-child(2) .ic{background:rgba(91,143,240,.12)}
-.card:nth-child(2) .ic svg{stroke:#5b8ff0}
-.card:nth-child(3) .ic{background:rgba(216,161,58,.12)}
+.card .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+  margin-bottom:18px;background:rgba(31,157,85,.11)}
+.card .ic svg{width:19px;height:19px;stroke:var(--lock);fill:none}
+.card:nth-child(2) .ic{background:rgba(53,104,201,.11)}
+.card:nth-child(2) .ic svg{stroke:var(--blue)}
+.card:nth-child(3) .ic{background:rgba(184,121,10,.12)}
 .card:nth-child(3) .ic svg{stroke:var(--amber)}
-.card:nth-child(4) .ic{background:rgba(224,90,77,.12)}
-.card:nth-child(4) .ic svg{stroke:#e05a4d}
-.card:nth-child(5) .ic{background:rgba(245,245,247,.09)}
-.card:nth-child(5) .ic svg{stroke:var(--chalk)}
-.card:nth-child(6) .ic{background:rgba(76,196,121,.12)}
+.card:nth-child(4) .ic{background:rgba(207,59,46,.11)}
+.card:nth-child(4) .ic svg{stroke:var(--red)}
+.card:nth-child(5) .ic{background:rgba(24,24,26,.08)}
+.card:nth-child(5) .ic svg{stroke:var(--ink)}
 @media(max-width:900px){.feat-grid{grid-template-columns:1fr}}
 
-/* ── download ─────────────────────────────────────────────────────── */
+/* ── get it ───────────────────────────────────────────────────────── */
 .get{padding:clamp(90px,13vw,150px) 0;text-align:center}
-.get h2{font-size:clamp(36px,6vw,80px);text-transform:uppercase}
-.get p{color:var(--ash);max-width:44ch;margin:20px auto 0}
-.specs{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:44px;
+.get h2{font-size:clamp(36px,6vw,80px);text-transform:uppercase;margin-top:14px}
+.get p{color:var(--ash);max-width:46ch;margin:20px auto 0}
+.get .hero-cta{justify-content:center}
+.specs{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:44px;
   font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:#5e5e66}
-footer{border-top:1px solid var(--edge);padding:36px 0;
-  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  text-transform:uppercase;color:#9a9aa2}
+footer{border-top:1px solid var(--line);padding:34px 0}
+footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-size:13.5px;color:var(--ash)}
 footer a{color:var(--ash);text-decoration:none}
-footer a:hover{color:var(--chalk)}
+footer a:hover{color:var(--ink)}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
-    transition-duration:.01ms!important}
-  .rise{opacity:1;transform:none}
+  *,*::before,*::after{animation-duration:.01ms!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .js .rise{opacity:1;transform:none}
   .blk{transform:scaleX(1)}
 }
 </style>
 </head>
 <body>
 
-<nav class="wrap">
-  <a class="brand" href="#top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#f5f5f7" stroke-width="2">
+<nav class="nav">
+  <a class="nav-badge" href="#top" aria-label="All Block, back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="2.1">
       <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
-    </svg>ALL BLOCK
+    </svg>
   </a>
-  <div class="nav-links">
-    <a href="#block">The block</a>
-    <a href="#schedule">Schedule</a>
-    <a href="#inside">Inside</a>
-    <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">Download</a>
+  <div class="nav-pill">
+    <a href="#top" class="here" data-spy="top">Home</a>
+    <a href="#block" data-spy="block">The block</a>
+    <a href="#schedule" data-spy="schedule">Schedule</a>
+    <a href="#inside" data-spy="inside">Inside</a>
   </div>
+  <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest">Download</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero" id="top">
   <div class="wrap hero-grid">
 
-    <div class="wheel wheel--pane wheel--left" tabindex="0" role="slider"
-         aria-label="Focus duration, light theme" aria-valuemin="1" aria-valuemax="90"
-         aria-valuenow="10" aria-valuetext="10 minutes">
-      <div class="wheel-track"></div>
-      <span class="wheel-label">Light</span>
+    <div class="wheel-stage">
+      <div class="wheel" tabindex="0" role="slider" aria-label="Focus duration"
+           aria-valuemin="1" aria-valuemax="90" aria-valuenow="10"
+           aria-valuetext="10 minutes">
+        <div class="wheel-track"></div>
+        <div class="wheel-slot"></div>
+      </div>
+      <div class="wheel-foot">
+        <span>Duration</span>
+        <span class="go">
+          <svg width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0l9 5-9 5z"/></svg>
+          Start
+        </span>
+      </div>
     </div>
 
     <div class="hero-say">
       <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.0.0</b></p>
-      <h1>Pick a number.<em>Lose the internet.</em></h1>
-      <p class="hero-sub">Roll the wheel, hit start, and everything that isn't
-        the work disappears until the clock runs out.</p>
+      <h1>The off switch<em>for everything else</em></h1>
+      <p class="hero-sub">Roll the wheel, hit start, and your computer stops
+        offering you a way out until the clock hits zero.</p>
       <div class="hero-cta">
         <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block">Source</a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block">View the source</a>
       </div>
-      <p class="hero-note">Scroll a wheel — it's the real thing</p>
-    </div>
-
-    <div class="wheel wheel--void wheel--right" tabindex="0" role="slider"
-         aria-label="Focus duration, dark theme" aria-valuemin="1" aria-valuemax="90"
-         aria-valuenow="10" aria-valuetext="10 minutes">
-      <div class="wheel-track"></div>
-      <span class="wheel-label">Dark</span>
+      <p class="hero-note">Scroll the wheel — it's the real one</p>
     </div>
 
   </div>
 </header>
 
-<div class="rule"></div>
-
-<!-- ═══ THE BLOCK — scroll scrubs the countdown ═══ -->
+<!-- ═══ THE BLOCK ═══ -->
 <section class="scrub" id="block">
   <div class="scrub-pin">
     <div class="scrub-inner">
       <div>
         <p class="eyebrow">The block</p>
-        <div class="clock"><span id="cd">90:00</span></div>
+        <div class="clock" id="cd">90:00</div>
         <div class="bar"><i id="cdbar"></i></div>
         <p class="state" id="cdstate">Locked — keep scrolling</p>
-        <p style="color:var(--ash);font-size:15.5px;max-width:40ch;margin-top:22px">
-          No pause. No “just five more minutes”. The session runs to zero,
-          and it survives a reboot if you try to duck out the back.
-        </p>
+        <p class="lede">No pause button. No “just five more minutes”. The session
+          runs to zero, and it comes back still locked if you reboot to escape it.</p>
       </div>
       <ul class="blocklist" id="cutlist">
         <li><span class="nm">Browsers</span><span class="tag">Cut</span></li>
         <li><span class="nm">Games &amp; launchers</span><span class="tag">Cut</span></li>
         <li><span class="nm">Chat &amp; social apps</span><span class="tag">Cut</span></li>
-        <li><span class="nm">Task Manager escape</span><span class="tag">Cut</span></li>
-        <li><span class="nm">Your work</span><span class="tag" style="color:var(--ash)!important">Kept</span></li>
+        <li><span class="nm">The Task Manager escape</span><span class="tag">Cut</span></li>
+        <li class="keep"><span class="nm">Your work</span><span class="tag">Kept</span></li>
       </ul>
     </div>
   </div>
 </section>
-
-<div class="rule"></div>
 
 <!-- ═══ SCHEDULE ═══ -->
 <section class="sched" id="schedule">
@@ -332,8 +351,8 @@ footer a:hover{color:var(--chalk)}
     <div class="head rise">
       <p class="eyebrow">Schedule</p>
       <h2>Blocks that start themselves</h2>
-      <p>Set the week once. All Block turns up on time whether or not
-         you were planning to be good that day.</p>
+      <p>Set the week once. All Block turns up on time whether or not you were
+         planning to be good that day.</p>
     </div>
 
     <div class="week" id="week">
@@ -356,21 +375,25 @@ footer a:hover{color:var(--chalk)}
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.25s">09:00 · 1 hr 30</span>
         <span class="blk" style="left:50%;width:8.3%;transition-delay:.40s">14:30 · 1 hr</span></div></div>
       <div class="row"><span class="day">Sat</span><div class="lane">
-        <span class="blk amber" style="left:95.8%;width:4.2%;transition-delay:.45s">20:00</span></div></div>
+        <span class="blk off" style="left:91.6%;width:8.3%;transition-delay:.45s">20:00 · off</span></div></div>
       <div class="row"><span class="day">Sun</span><div class="lane">
-        <span class="blk amber" style="left:95.8%;width:4.2%;transition-delay:.50s">20:00</span></div></div>
+        <span class="blk off" style="left:91.6%;width:8.3%;transition-delay:.50s">20:00 · off</span></div></div>
     </div>
 
-    <div class="sched-shots">
-      <figure class="shot rise"><img src="img/schedules_dark.png" alt="The Schedules window listing three recurring blocks with on/off switches" loading="lazy" width="1452" height="880">
-        <figcaption><b>Three slots, one screen</b>Toggle any of them off without losing the setup.</figcaption></figure>
-      <figure class="shot rise"><img src="img/stats_dark.png" alt="The Session Stats window showing total focus time, session count, a seven day streak and recent sessions" loading="lazy" width="1452" height="880">
-        <figcaption><b>The receipts</b>Total focus time, session count, and the streak you'd rather not break.</figcaption></figure>
+    <div class="shots2">
+      <figure class="shot rise">
+        <img src="img/schedules_light.png" width="1452" height="880" loading="lazy"
+             alt="The Schedules window listing three recurring blocks with on and off switches">
+        <figcaption><b>Three slots, one screen</b>Switch any of them off without losing the setup.</figcaption>
+      </figure>
+      <figure class="shot rise">
+        <img src="img/stats_light.png" width="1452" height="880" loading="lazy"
+             alt="The Session Stats window showing total focus time, session count, a seven day streak and recent sessions">
+        <figcaption><b>The receipts</b>Focus time, sessions, and the streak you'd rather not break.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
-
-<div class="rule"></div>
 
 <!-- ═══ INSIDE ═══ -->
 <section class="feat" id="inside">
@@ -383,54 +406,60 @@ footer a:hover{color:var(--chalk)}
 
     <div class="feat-grid">
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <h3>Survives a restart</h3>
         <p>Reboot mid-block and it comes back still locked, with the clock where you left it.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
         <h3>Up to three schedules</h3>
-        <p>Pick the days, the time, and the length. It starts without being asked.</p>
+        <p>Pick the days, the time and the length. It starts without being asked.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div>
         <h3>Session history</h3>
-        <p>Focus time, sessions, and a running streak — kept on your machine, nowhere else.</p>
+        <p>Focus time, sessions and a running streak — kept on your machine, nowhere else.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
         <h3>Runs as admin</h3>
         <p>That's what lets it close what it needs to. Without it, some blocking is skipped.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
         <h3>Light and dark</h3>
         <p>Both are first-class, and the switch is one click in the header.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
         <h3>One file, no account</h3>
         <p>A single .exe. No installer, no sign-up, no telemetry, no subscription.</p>
       </div>
     </div>
 
-    <figure class="shot rise" style="margin-top:26px">
-      <img src="img/settings_dark.png" alt="The All Block settings window with resume on restart, session stats, schedules and desktop shortcut options" loading="lazy" width="1452" height="880">
-      <figcaption><b>All of it, in one panel</b>Settings is a single screen — because there isn't much to set.</figcaption>
-    </figure>
+    <div class="shots2" style="margin-top:26px">
+      <figure class="shot rise">
+        <img src="img/settings_light.png" width="1452" height="880" loading="lazy"
+             alt="The All Block settings window with resume on restart, session stats, schedules and desktop shortcut options">
+        <figcaption><b>All of it in one panel</b>Settings is a single screen, because there isn't much to set.</figcaption>
+      </figure>
+      <figure class="shot rise">
+        <img src="img/wheel_dark.png" width="1452" height="880" loading="lazy"
+             alt="The All Block main window in dark theme showing the duration wheel set to 10 minutes">
+        <figcaption><b>Dark, if you'd rather</b>One click in the header, and it remembers.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
-<div class="rule"></div>
-
 <!-- ═══ GET IT ═══ -->
-<section class="get">
+<section class="get" id="get">
   <div class="wrap">
-    <p class="eyebrow rise">Free &nbsp;·&nbsp; <b>MIT</b></p>
-    <h2 class="rise" style="margin-top:14px">Go on then</h2>
+    <p class="eyebrow rise">Free download &nbsp;·&nbsp; <b>Windows 10 &amp; 11</b></p>
+    <h2 class="rise">Go on then</h2>
     <p class="rise">Download it, roll the wheel, and find out how much of the day
-       you were actually giving away.</p>
-    <div class="hero-cta rise" style="margin-top:34px">
+       you were giving away.</p>
+    <div class="hero-cta rise">
       <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
         Download All Block
@@ -439,14 +468,15 @@ footer a:hover{color:var(--chalk)}
     </div>
     <div class="specs">
       <span>Windows 10 / 11</span><span>Single .exe</span>
-      <span>No install</span><span>Open source</span>
+      <span>No install</span><span>Free for personal use</span>
     </div>
   </div>
 </section>
 
-<footer><div class="wrap" style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;width:100%">
+<footer><div class="wrap in">
   <span>All Block — a focus timer that means it.</span>
-  <span><a href="https://github.com/Auzeo/all-block">github.com/Auzeo/all-block</a></span>
+  <span>© 2026 Auzeo · All rights reserved ·
+    <a href="https://github.com/Auzeo/all-block">github.com/Auzeo/all-block</a></span>
 </div></footer>
 
 <script>
@@ -455,82 +485,74 @@ footer a:hover{color:var(--chalk)}
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* ── the wheel ────────────────────────────────────────────────────────
-   A port of the app's OptionWheel: options sit on a virtual drum, so the
-   further an option is from the centre the more it rotates away, shrinks
-   and fades. Position eases toward a target rather than snapping, which
-   is what makes it feel like it has weight.                            */
+   A real drum rather than a stack of shrinking text: every option sits on
+   the surface of a cylinder, placed with rotateX(θ) translateZ(R). That is
+   what gives it the curve the app's wheel has — options roll away over the
+   top and bottom edges instead of just fading.                          */
 var PRESETS = [1,5,10,15,20,25,30,45,60,90];
-var STEP = 74, DEFAULT_IDX = 2;
+var DEG = 15, RAD = 235, DEFAULT_IDX = 2;
 
-function Wheel(el){
-  var track = el.querySelector(".wheel-track");
-  var pos = DEFAULT_IDX, target = DEFAULT_IDX, raf = null;
-  var opts = PRESETS.map(function(m,i){
-    var s = document.createElement("span");
-    s.className = "wheel-opt";
-    s.textContent = m + " min";
-    track.appendChild(s);
-    return s;
-  });
+var el    = document.querySelector(".wheel"),
+    track = el.querySelector(".wheel-track"),
+    pos = DEFAULT_IDX, target = DEFAULT_IDX, raf = null;
 
-  function draw(){
-    for (var i=0;i<opts.length;i++){
-      var d = i - pos;                        // distance from the centre slot
-      var a = Math.max(-1, Math.min(1, d/3.2));
-      var rot = a * 62;                        // degrees around the drum
-      var scale = Math.max(.45, 1 - Math.abs(d)*.17);
-      var op = Math.max(0, 1 - Math.abs(d)*.34);
-      opts[i].style.transform =
-        "translateY(-50%) translateY(" + (d*STEP) + "px) " +
-        "perspective(680px) rotateX(" + (-rot) + "deg) scale(" + scale + ")";
-      opts[i].style.opacity = op;
-      opts[i].classList.toggle("is-sel", Math.round(pos) === i);
-    }
-    var idx = Math.max(0, Math.min(PRESETS.length-1, Math.round(pos)));
-    el.setAttribute("aria-valuenow", PRESETS[idx]);
-    el.setAttribute("aria-valuetext", PRESETS[idx] + " minutes");
-    el.dataset.minutes = PRESETS[idx];
+var opts = PRESETS.map(function(m){
+  var s = document.createElement("span");
+  s.className = "wheel-opt";
+  s.textContent = m + " min";
+  track.appendChild(s);
+  return s;
+});
+
+function draw(){
+  for (var i = 0; i < opts.length; i++){
+    var d = i - pos, ang = d * DEG;
+    if (Math.abs(ang) > 92){ opts[i].style.opacity = 0; continue; }
+    var op = Math.pow(Math.max(0, Math.cos(ang * Math.PI / 180)), 1.5);
+    opts[i].style.transform =
+      "translateY(-50%) rotateX(" + (-ang) + "deg) translateZ(" + RAD + "px)";
+    opts[i].style.opacity = op;
+    opts[i].classList.toggle("is-sel", Math.round(pos) === i);
   }
-
-  function loop(){
-    pos += (target - pos) * .18;
-    if (Math.abs(target - pos) < .001){ pos = target; raf = null; draw(); return; }
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-  function run(){ if (reduce){ pos = target; draw(); return; }
-                  if (!raf) raf = requestAnimationFrame(loop); }
-  function go(v){ target = Math.max(0, Math.min(PRESETS.length-1, v)); run(); }
-
-  el.addEventListener("wheel", function(e){
-    e.preventDefault();
-    go(Math.round(target) + (e.deltaY > 0 ? 1 : -1));
-  }, {passive:false});
-
-  el.addEventListener("keydown", function(e){
-    if (e.key === "ArrowUp" || e.key === "ArrowLeft"){ e.preventDefault(); go(Math.round(target)-1); }
-    if (e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); go(Math.round(target)+1); }
-  });
-
-  var drag = null;
-  el.addEventListener("pointerdown", function(e){
-    drag = {y:e.clientY, start:target}; el.setPointerCapture(e.pointerId);
-  });
-  el.addEventListener("pointermove", function(e){
-    if (!drag) return;
-    target = drag.start - (e.clientY - drag.y)/STEP;
-    target = Math.max(0, Math.min(PRESETS.length-1, target));
-    run();
-  });
-  function drop(){ if (drag){ drag = null; go(Math.round(target)); } }
-  el.addEventListener("pointerup", drop);
-  el.addEventListener("pointercancel", drop);
-
-  draw();
-  return { minutes: function(){ return PRESETS[Math.round(pos)]; } };
+  var idx = Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)));
+  el.setAttribute("aria-valuenow", PRESETS[idx]);
+  el.setAttribute("aria-valuetext", PRESETS[idx] + " minutes");
 }
 
-var wheels = [].map.call(document.querySelectorAll(".wheel"), Wheel);
+function loop(){
+  pos += (target - pos) * .18;
+  if (Math.abs(target - pos) < .001){ pos = target; raf = null; draw(); return; }
+  draw();
+  raf = requestAnimationFrame(loop);
+}
+function run(){ if (reduce){ pos = target; draw(); return; }
+                if (!raf) raf = requestAnimationFrame(loop); }
+function go(v){ target = Math.max(0, Math.min(PRESETS.length - 1, v)); run(); }
+
+el.addEventListener("wheel", function(e){
+  e.preventDefault();
+  go(Math.round(target) + (e.deltaY > 0 ? 1 : -1));
+}, {passive:false});
+
+el.addEventListener("keydown", function(e){
+  if (e.key === "ArrowUp"   || e.key === "ArrowLeft" ){ e.preventDefault(); go(Math.round(target) - 1); }
+  if (e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); go(Math.round(target) + 1); }
+});
+
+var drag = null;
+el.addEventListener("pointerdown", function(e){
+  drag = {y:e.clientY, start:target}; el.setPointerCapture(e.pointerId);
+});
+el.addEventListener("pointermove", function(e){
+  if (!drag) return;
+  target = Math.max(0, Math.min(PRESETS.length - 1,
+           drag.start - (e.clientY - drag.y) / 58));
+  run();
+});
+function drop(){ if (drag){ drag = null; go(Math.round(target)); } }
+el.addEventListener("pointerup", drop);
+el.addEventListener("pointercancel", drop);
+draw();
 
 /* ── reveal on enter ─────────────────────────────────────────────── */
 var io = new IntersectionObserver(function(entries){
@@ -538,12 +560,26 @@ var io = new IntersectionObserver(function(entries){
     if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
   });
 }, {threshold:.16, rootMargin:"0px 0px -8% 0px"});
-document.querySelectorAll(".rise, #week").forEach(function(el){ io.observe(el); });
+document.querySelectorAll(".rise, #week").forEach(function(n){ io.observe(n); });
+
+/* ── nav follows the section you're in ───────────────────────────── */
+var links = {};
+document.querySelectorAll(".nav-pill a").forEach(function(a){ links[a.dataset.spy] = a; });
+var spy = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if (!en.isIntersecting) return;
+    for (var k in links) links[k].classList.remove("here");
+    if (links[en.target.id]) links[en.target.id].classList.add("here");
+  });
+}, {rootMargin:"-45% 0px -50% 0px"});
+["top","block","schedule","inside"].forEach(function(id){
+  var n = document.getElementById(id); if (n) spy.observe(n);
+});
 
 /* ── scroll scrubs the countdown ──────────────────────────────────
-   The section is 260vh tall with a sticky pin, so its scroll progress
-   maps cleanly onto 0→1 and drives the clock, the bar and the kill
-   list. Reading it in a rAF keeps layout reads off the scroll event. */
+   The section is 265vh with a sticky pin, so its progress maps onto 0→1
+   and drives the clock, the bar and the kill list. Read inside a rAF so
+   the scroll handler never forces layout.                             */
 var scrub = document.querySelector(".scrub"),
     cd = document.getElementById("cd"),
     cdbar = document.getElementById("cdbar"),
@@ -559,14 +595,14 @@ function paint(){
   if (Math.abs(p - lastP) < .0015) return;
   lastP = p;
 
-  var start = (wheels[0] && wheels[0].minutes()) || 90;
+  var start = PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)))];
   var left = Math.max(0, start * 60 * (1 - p));
   var m = Math.floor(left / 60), s = Math.floor(left % 60);
   cd.textContent = m + ":" + (s < 10 ? "0" + s : s);
   cdbar.style.width = (p * 100).toFixed(2) + "%";
 
   items.forEach(function(li, i){
-    if (i === items.length - 1) return;           // "Your work" is never cut
+    if (i === items.length - 1) return;          // "Your work" is never cut
     li.classList.toggle("cut", p > .12 + i * .16);
   });
 
