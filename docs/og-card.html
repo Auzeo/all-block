@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea; --lock:#1f9d55;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{width:1200px;height:628px;background:var(--paper);color:var(--ink);
+  font-family:var(--body);overflow:hidden}
+
+.card{width:1200px;height:628px;padding:66px 72px;
+  display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:center}
+
+/* ── left: the claim ─────────────────────────────────────────────── */
+.mark{display:flex;align-items:center;gap:13px}
+.dot{width:38px;height:38px;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center}
+.dot svg{width:20px;height:20px}
+.name{font-family:var(--display);font-weight:800;font-size:25px;
+  letter-spacing:.22em;font-variation-settings:"wdth" 112}
+
+h1{font-family:var(--display);font-weight:900;font-size:88px;line-height:.9;
+  letter-spacing:-.025em;font-variation-settings:"wdth" 112;
+  text-transform:uppercase;margin-top:38px}
+.sub{font-family:var(--display);font-weight:800;font-size:33px;
+  color:var(--lock);letter-spacing:-.01em;margin-top:16px;
+  font-variation-settings:"wdth" 108}
+.line{margin-top:26px;font-size:19.5px;line-height:1.5;color:var(--ash);
+  max-width:29ch}
+.url{margin-top:34px;font-family:var(--mono);font-size:14px;
+  letter-spacing:.16em;text-transform:uppercase;color:#9a9aa2}
+.url b{color:var(--ink);font-weight:700}
+
+/* ── right: the wheel, the one thing the app actually is ─────────── */
+.wheel{background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:30px 0 0;box-shadow:0 40px 90px -60px rgba(0,0,0,.5);
+  height:434px;display:flex;flex-direction:column;overflow:hidden}
+.opts{flex:1;position:relative;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;gap:2px}
+.opt{font-family:var(--display);font-weight:800;letter-spacing:-.02em;
+  font-variation-settings:"wdth" 110;line-height:1.34}
+/* the drum falls away above and below the pick, the way it does in the app */
+.o1{font-size:29px;color:#d6d6dc}
+.o2{font-size:35px;color:#bcbcc4}
+.o3{font-size:46px;color:var(--ink)}
+.o4{font-size:35px;color:#bcbcc4}
+.o5{font-size:29px;color:#d6d6dc}
+.rails{position:absolute;left:26px;right:26px;top:50%;height:70px;
+  margin-top:-35px;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line)}
+.foot{border-top:1px solid var(--line);padding:15px 24px;
+  display:flex;align-items:center;justify-content:space-between}
+.foot span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:#9a9aa2}
+.go{display:inline-flex;align-items:center;gap:7px;background:var(--ink);
+  color:var(--card);border-radius:999px;padding:9px 17px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="card">
+  <div>
+    <div class="mark">
+      <span class="dot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="2.1">
+          <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
+        </svg>
+      </span>
+      <span class="name">ALL BLOCK</span>
+    </div>
+
+    <h1>No is a<br>feature</h1>
+    <p class="sub">your computer finally has one</p>
+    <p class="line">A Windows focus timer that switches your mouse and
+       keyboard off until the clock hits zero.</p>
+    <p class="url">auzeo.github.io/<b>all-block</b></p>
+  </div>
+
+  <div class="wheel">
+    <div class="opts">
+      <div class="rails"></div>
+      <span class="opt o1">1 min</span>
+      <span class="opt o2">5 min</span>
+      <span class="opt o3">10 min</span>
+      <span class="opt o4">15 min</span>
+      <span class="opt o5">20 min</span>
+    </div>
+    <div class="foot">
+      <span>Duration</span>
+      <span class="go">
+        <svg width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0l9 5-9 5z"/></svg>
+        Start
+      </span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
