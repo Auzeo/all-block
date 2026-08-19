@@ -42,18 +42,12 @@ img{max-width:100%;height:auto;display:block}
   text-transform:uppercase;color:var(--ash);margin:0}
 .eyebrow b{color:var(--lock);font-weight:400}
 
-/* ── nav: badge · pill · action ───────────────────────────────────── */
+/* ── nav: one pill, badge and action included ─────────────────────── */
 .nav{position:fixed;top:16px;left:0;right:0;z-index:60;
-  display:flex;align-items:center;gap:10px;
-  max-width:1180px;margin-inline:auto;padding-inline:16px}
-.nav-badge{width:48px;height:48px;flex:none;border-radius:50%;
-  background:var(--ink);display:grid;place-items:center;text-decoration:none;
-  box-shadow:0 10px 30px -14px rgba(0,0,0,.5);transition:transform .25s}
-.nav-badge:hover{transform:rotate(-12deg)}
-.nav-badge svg{width:22px;height:22px}
+  display:flex;justify-content:center;padding-inline:16px}
 .nav-pill{display:flex;align-items:center;gap:2px;
   background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:6px;box-shadow:0 12px 34px -20px rgba(0,0,0,.34)}
+  padding:6px;box-shadow:0 12px 34px -18px rgba(0,0,0,.34)}
 .nav-pill a{position:relative;text-decoration:none;color:var(--ash);
   font-size:14.5px;font-weight:500;padding:9px 18px;border-radius:999px;
   transition:color .2s,background .2s;white-space:nowrap}
@@ -61,13 +55,20 @@ img{max-width:100%;height:auto;display:block}
 .nav-pill a.here{color:var(--ink);font-weight:700}
 .nav-pill a.here::after{content:"";position:absolute;left:50%;bottom:3px;
   width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink)}
-.nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:9px;
-  text-decoration:none;background:var(--ink);color:var(--card);
-  font-weight:700;font-size:14.5px;padding:14px 26px;border-radius:999px;
-  box-shadow:0 12px 34px -18px rgba(0,0,0,.5);
-  transition:background .22s,color .22s}
-.nav-cta:hover{background:var(--lock);color:#fff}
-@media(max-width:880px){.nav-pill{display:none}.nav-cta{margin-left:auto}}
+/* the badge sits inside the pill now, so it needs no shadow of its own */
+.nav-pill a.nav-badge{width:40px;height:40px;flex:none;border-radius:50%;padding:0;
+  background:var(--ink);display:grid;place-items:center;
+  margin-right:8px;transition:transform .25s}
+.nav-badge:hover{transform:rotate(-12deg);background:var(--ink)}
+.nav-badge svg{width:19px;height:19px}
+/* .nav-pill a would otherwise out-specify these two on colour */
+.nav-pill a.nav-cta{display:inline-flex;align-items:center;
+  background:var(--ink);color:var(--card);
+  font-weight:700;font-size:14.5px;padding:11px 24px;border-radius:999px;
+  margin-left:8px;transition:background .22s,color .22s}
+.nav-pill a.nav-cta:hover{background:var(--lock);color:#fff}
+/* below this the four section links would wrap; keep the badge and the action */
+@media(max-width:760px){.nav-pill a:not(.nav-badge):not(.nav-cta){display:none}}
 
 /* ── buttons ──────────────────────────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
@@ -270,18 +271,18 @@ footer a:hover{color:var(--ink)}
 <body>
 
 <nav class="nav">
-  <a class="nav-badge" href="#top" aria-label="All Block, back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="2.1">
-      <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
-    </svg>
-  </a>
   <div class="nav-pill">
+    <a class="nav-badge" href="#top" aria-label="All Block, back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="2.1">
+        <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
+      </svg>
+    </a>
     <a href="#top" class="here" data-spy="top">Home</a>
     <a href="#block" data-spy="block">The block</a>
     <a href="#schedule" data-spy="schedule">Schedule</a>
-    <a href="#inside" data-spy="inside">Inside</a>
+    <a href="#inside" data-spy="inside">Features</a>
+    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest">Download</a>
   </div>
-  <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest">Download</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -363,21 +364,21 @@ footer a:hover{color:var(--ink)}
       </div>
       <div class="row"><span class="day">Mon</span><div class="lane">
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.05s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:8.3%;transition-delay:.30s">14:30 · 1 hr</span></div></div>
+        <span class="blk" style="left:50%;width:11.6%;transition-delay:.30s">14:30 · 1 hr</span></div></div>
       <div class="row"><span class="day">Tue</span><div class="lane">
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.10s">09:00 · 1 hr 30</span></div></div>
       <div class="row"><span class="day">Wed</span><div class="lane">
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.15s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:8.3%;transition-delay:.35s">14:30 · 1 hr</span></div></div>
+        <span class="blk" style="left:50%;width:11.6%;transition-delay:.35s">14:30 · 1 hr</span></div></div>
       <div class="row"><span class="day">Thu</span><div class="lane">
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.20s">09:00 · 1 hr 30</span></div></div>
       <div class="row"><span class="day">Fri</span><div class="lane">
         <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.25s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:8.3%;transition-delay:.40s">14:30 · 1 hr</span></div></div>
+        <span class="blk" style="left:50%;width:11.6%;transition-delay:.40s">14:30 · 1 hr</span></div></div>
       <div class="row"><span class="day">Sat</span><div class="lane">
-        <span class="blk off" style="left:91.6%;width:8.3%;transition-delay:.45s">20:00 · off</span></div></div>
+        <span class="blk off" style="left:87.5%;width:12.5%;transition-delay:.45s">20:00 · off</span></div></div>
       <div class="row"><span class="day">Sun</span><div class="lane">
-        <span class="blk off" style="left:91.6%;width:8.3%;transition-delay:.50s">20:00 · off</span></div></div>
+        <span class="blk off" style="left:87.5%;width:12.5%;transition-delay:.50s">20:00 · off</span></div></div>
     </div>
 
     <div class="shots2">
@@ -399,9 +400,7 @@ footer a:hover{color:var(--ink)}
 <section class="feat" id="inside">
   <div class="wrap">
     <div class="head rise">
-      <p class="eyebrow">Inside</p>
-      <h2>Small app, short list</h2>
-      <p>One window, one job. Everything here earns its place.</p>
+      <h2>Features</h2>
     </div>
 
     <div class="feat-grid">
@@ -456,9 +455,9 @@ footer a:hover{color:var(--ink)}
 <section class="get" id="get">
   <div class="wrap">
     <p class="eyebrow rise">Free download &nbsp;·&nbsp; <b>Windows 10 &amp; 11</b></p>
-    <h2 class="rise">Go on then</h2>
-    <p class="rise">Download it, roll the wheel, and find out how much of the day
-       you were giving away.</p>
+    <h2 class="rise">Start today</h2>
+    <p class="rise">One download, one wheel, and the rest of the afternoon
+       back where it belongs.</p>
     <div class="hero-cta rise">
       <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
@@ -564,7 +563,9 @@ document.querySelectorAll(".rise, #week").forEach(function(n){ io.observe(n); })
 
 /* ── nav follows the section you're in ───────────────────────────── */
 var links = {};
-document.querySelectorAll(".nav-pill a").forEach(function(a){ links[a.dataset.spy] = a; });
+/* [data-spy] only — the badge and the download action share the pill but
+   are not section links, so they must never take the "here" state. */
+document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){ links[a.dataset.spy] = a; });
 var spy = new IntersectionObserver(function(entries){
   entries.forEach(function(en){
     if (!en.isIntersecting) return;
