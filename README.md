@@ -23,6 +23,8 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 
 All Block is completely free. It was inspired by Blockit, the Android app that does the same "lock yourself out" trick on phones — this is that idea, brought to Windows desktops.
 
+**A free alternative to** [Cold Turkey Blocker](https://getcoldturkey.com/), [Freedom](https://freedom.to/), [FocusMe](https://focusme.com/), [Forest](https://www.forestapp.cc/), [SelfControl](https://selfcontrolapp.com/), [Opal](https://www.opal.so/), and [StayFocusd](https://chromewebstore.google.com/detail/laankejkbhbdhmipfmgcngdelahlfoji) — for people who want a hard lockout instead of a blocklist you can just click past.
+
 ## Screenshots
 
 <table>
@@ -73,6 +75,35 @@ The one thing that's deliberately left untouched is <kbd>Ctrl</kbd>+<kbd>Alt</kb
 Download the latest `All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install, no dependencies.
 
 Right-click → **Run as Administrator** if you want website blocking and the strongest input lock — All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
+
+### Getting past the "Windows protected your PC" warning
+
+All Block isn't code-signed (a certificate costs money All Block doesn't charge you for), so the first time you run a freshly downloaded copy, Windows will show its standard warning for unsigned apps. This is normal, not a sign anything is wrong — here's how to get past it:
+
+<table>
+<tr>
+<td align="center" width="33%">
+<img src="screenshots/smartscreen-1-warning.png" alt="Windows protected your PC warning"><br>
+<sub>1. Click <b>More info</b></sub>
+</td>
+<td align="center" width="33%">
+<img src="screenshots/smartscreen-2-runanyway.png" alt="Expanded SmartScreen dialog with Run anyway button"><br>
+<sub>2. Click <b>Run anyway</b></sub>
+</td>
+<td align="center" width="33%">
+<img src="screenshots/smartscreen-3-uac.png" alt="User Account Control prompt"><br>
+<sub>3. Click <b>Yes</b> on the admin prompt</sub>
+</td>
+</tr>
+</table>
+
+<sub>(Illustrations of the real Windows 11 dialogs, recreated for clarity — the actual wording and layout on your PC will match.)</sub>
+
+1. **"Windows protected your PC"** appears — this is Microsoft Defender SmartScreen flagging that the app has no publisher certificate, not that it detected anything malicious. Click **More info**.
+2. The dialog expands to show the app name and "Unknown publisher." Click **Run anyway**.
+3. Windows then asks to confirm the admin permissions the app needs (see [Why All Block exists](#why-all-block-exists) for what that's used for) — click **Yes**.
+
+After the first run, Windows remembers your choice and won't ask again for that copy of the exe.
 
 ## Usage
 
