@@ -1190,52 +1190,10 @@ function paint(){
   cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
   cdstate.classList.toggle("done", done);
 }
-/* ── wheel pacing ─────────────────────────────────────────────────
-   A mouse wheel notch in Firefox throws the page about 150px in one jump, and
-   on a wide window — where a section is barely two screens tall — that reads
-   as the page bolting. The browser owns that number, so the only way to calm
-   it is to take the wheel and run the scroll ourselves: a shorter step, eased
-   over a few frames, which lands about a third slower and arrives instead of
-   snapping.
-
-   Deliberately narrow. Only notched wheels (deltaMode 1 lines, 2 pages) are
-   touched — trackpads and touchscreens send pixel deltas and already glide,
-   and hijacking those is what makes a page feel broken. Zoom, the duration
-   drum and the open demo all keep their own handling, and reduced-motion
-   skips the whole thing.
-
-   One trap worth naming: the page sets scroll-behavior:smooth so anchor links
-   glide, and a bare scrollTo() inherits that. Every frame would then hand the
-   browser a brand new smooth animation toward a moving target, and those stack
-   instead of easing — the page bolts. Each step here asks for behavior "auto"
-   explicitly, so the easing below is the only easing in play. */
-var wheelGoal = null, wheelRaf = null;
-
-function jump(y){ window.scrollTo({top: y, behavior: "auto"}); }
-
-function wheelStep(){
-  var y = window.scrollY, d = wheelGoal - y;
-  if (Math.abs(d) < 0.7){ jump(wheelGoal); wheelGoal = wheelRaf = null; return; }
-  jump(y + d * 0.16);
-  wheelRaf = requestAnimationFrame(wheelStep);
-}
-
-if (!reduce && !matchMedia("(pointer: coarse)").matches){
-  addEventListener("wheel", function(e){
-    if (e.deltaMode === 0 || e.ctrlKey) return;           // pixel deltas, and zoom
-    if (!demo.hidden) return;                             // the demo scrolls itself
-    if (e.target.closest && e.target.closest(".wheel")) return;
-    e.preventDefault();
-    var px = e.deltaY * (e.deltaMode === 2 ? window.innerHeight : 38) * 0.6,
-        max = document.documentElement.scrollHeight - window.innerHeight,
-        from = wheelGoal === null ? window.scrollY : wheelGoal;
-    // however hard the wheel is spun, never queue more than a screen and a
-    // half ahead — a fast flick should still land somewhere readable
-    px = Math.max(-1.5, Math.min(1.5, px / window.innerHeight)) * window.innerHeight;
-    wheelGoal = Math.max(0, Math.min(max, from + px));
-    if (!wheelRaf) wheelRaf = requestAnimationFrame(wheelStep);
-  }, {passive:false});
-}
+/* The wheel is the browser's. There was a pacing loop here that took it over
+   and eased the scroll itself; every version of it felt wrong, because a
+   hijacked wheel never matches the weight the rest of the machine has. Pages
+   that need to be read more slowly are made taller instead — see .scrub. */
 
 /* one listener, one frame: the countdown, the nav and the spy all read the
    same scroll position instead of each forcing their own layout pass */
