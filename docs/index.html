@@ -228,11 +228,15 @@ img{max-width:100%;height:auto;display:block}
 .js .rise.in{opacity:1;transform:none}
 
 /* ── the block: page goes dark, because that's what the app does ──── */
-/* 265vh gave the pin only 1.65 screens of travel, so the clock ran down at
-   about four seconds a pixel and the whole section blew past in one flick of
-   the wheel. 360vh spreads the same scrub over 2.6 screens — slow enough to
-   read the numbers, still short enough not to feel like a dead zone. */
-.scrub{height:360vh;position:relative;background:var(--void);color:var(--chalk)}
+/* Height here is a straight trade, and the two ends pull opposite ways.
+   Taller means the countdown ticks slower and reads better; it also means more
+   scroll during which the page is pinned and nothing moves at all. 360vh gave
+   2.6 screens of that, and the sections right after it — who, vs — kept getting
+   reported as "too fast". They weren't: the eye had just spent 2.6 screens
+   calibrating to a frozen page, so normal 1:1 scrolling felt like a lurch.
+   240vh halves the frozen stretch and keeps the clock legible. Don't push this
+   back up without re-reading that sentence. */
+.scrub{height:240vh;position:relative;background:var(--void);color:var(--chalk)}
 .scrub-pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;
   overflow:hidden}
 .scrub-inner{width:100%;max-width:1180px;padding-inline:var(--gut);
@@ -269,7 +273,7 @@ img{max-width:100%;height:auto;display:block}
 .blocklist li.cut .nm{text-decoration:line-through;
   text-decoration-color:var(--lock-hi);text-decoration-thickness:2px}
 .blocklist li.keep .tag{opacity:1;transform:none;color:var(--dim)}
-@media(max-width:900px){.scrub{height:300vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
+@media(max-width:900px){.scrub{height:210vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
 
 /* ── who it's for ─────────────────────────────────────────────────────
    Four cases, not four features. Each one is somebody's actual evening, so
