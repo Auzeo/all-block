@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="All Block">
+  <!-- The title-bar mark at icon scale, on the header glyph's own proportions:
+       ring radius .2045 of the disc, stroke .0545, and a butt-capped slash whose
+       ends land on the ring rather than poking through it — 5.6,5.6→18.4,18.4 in
+       the header's 24 viewBox, scaled up.
+
+       Renamed from favicon.svg on purpose: Firefox caches favicons hard and keys
+       them by URL, so the old disc-and-slash icon (no ring) survived every edit
+       made in place. A new path is the only reliable way to retire it. -->
+  <circle cx="32" cy="32" r="32" fill="#131316"/>
+  <g fill="none" stroke="#f5f5f7" stroke-width="3.49">
+    <circle cx="32" cy="32" r="13.09"/>
+    <path d="M22.74 22.74 41.26 41.26"/>
+  </g>
+</svg>
