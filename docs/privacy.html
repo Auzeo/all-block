@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy — All Block</title>
+<meta name="description" content="All Block has no analytics and no telemetry. Sessions, schedules and your lock password stay on your computer. The only data we hold is an email address, and only if you make an account.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://allblock.dpdns.org/privacy.html">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"></noscript>
+<style>
+/* Same palette and type as the home page — these pages are part of the site,
+   not a bolted-on legal annexe. Light only, like index.html. */
+:root{
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
+  --lock:#1f9d55; --lock-txt:#177a41;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding-inline:var(--gut)}
+a{color:var(--lock-txt)}
+a:hover{color:var(--ink)}
+
+/* ── top bar: a way back, nothing more ─────────────────────────────── */
+.bar{border-bottom:1px solid var(--line);background:var(--card)}
+.bar .wrap{display:flex;align-items:center;gap:14px;
+  padding-block:14px;max-width:1180px}
+.bar a.home{display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}
+.mark{width:28px;height:28px;flex:none;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center}
+.mark svg{width:14px;height:14px}
+.bar .spacer{flex:1}
+.bar .back{text-decoration:none;color:var(--ash);font-size:14px;font-weight:500}
+.bar .back:hover{color:var(--ink)}
+
+/* ── the document ──────────────────────────────────────────────────── */
+header.doc{padding:clamp(48px,8vw,88px) 0 8px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ash);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:800;line-height:.98;margin:0;
+  font-variation-settings:"wdth" 112;letter-spacing:-.02em;
+  font-size:clamp(34px,6vw,54px)}
+.lede{color:var(--ash);font-size:17.5px;margin:18px 0 0;max-width:60ch}
+.stamp{font-family:var(--mono);font-size:12.5px;color:var(--ash);
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+main{padding-bottom:clamp(60px,10vw,110px)}
+section{padding-top:38px}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(21px,3vw,26px);
+  line-height:1.15;font-variation-settings:"wdth" 112;letter-spacing:-.015em;
+  margin:0 0 12px}
+h3{font-family:var(--body);font-weight:700;font-size:16.5px;margin:22px 0 6px}
+p{margin:0 0 14px}
+ul{margin:0 0 14px;padding-left:20px}
+li{margin-bottom:8px}
+strong,b{font-weight:700}
+.callout{background:var(--sand);border:1px solid var(--line);border-radius:16px;
+  padding:22px 24px;margin:22px 0}
+.callout p:last-child{margin-bottom:0}
+.callout--warn{background:#fff;border-left:4px solid var(--lock)}
+table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:15.5px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);
+  vertical-align:top}
+th{font-weight:700;font-size:13px;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--ash)}
+.overflow{overflow-x:auto}
+
+/* ── footer, mirroring the home page's ─────────────────────────────── */
+footer{border-top:1px solid var(--line);background:var(--card);
+  padding:34px 0;font-size:13.5px;color:var(--ash)}
+footer .in{display:flex;flex-wrap:wrap;gap:10px 26px;
+  align-items:center;justify-content:space-between;max-width:1180px}
+footer a{color:var(--ash);text-decoration:none}
+footer a:hover{color:var(--ink);text-decoration:underline}
+.legal-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="home" href="/">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.2 17.8L17.8 6.2"/></svg></span>
+    All Block
+  </a>
+  <span class="spacer"></span>
+  <a class="back" href="/">&larr; Back to the site</a>
+</div></div>
+<main class="wrap">
+<header class="doc">
+  <p class="eyebrow">Legal</p>
+  <h1>Privacy policy</h1>
+  <p class="lede">All Block works without an account and sends nothing anywhere
+     until you ask it to. This page says exactly what that means.</p>
+  <p class="stamp">Last updated 20 August 2026</p>
+</header>
+
+<section>
+  <h2>The short version</h2>
+  <div class="callout">
+    <p>There is no analytics, no telemetry, no advertising and no tracking in
+       All Block. Your sessions, schedules, history and Accountability Lock
+       password never leave your computer. The only personal data we ever hold
+       is an email address — and only if you choose to make an account so your
+       Pro licence follows you between machines.</p>
+  </div>
+  <p>The data controller is <b>Auzeo</b>, a sole trader in the United Kingdom.
+     Contact: <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>.</p>
+</section>
+
+<section>
+  <h2>What stays on your computer</h2>
+  <p>All Block keeps its data in a folder in your user profile
+     (<code>~/.allblock</code>). That includes:</p>
+  <ul>
+    <li>your scheduled blocks and their settings;</li>
+    <li>your session history and stats;</li>
+    <li>the state of a running session, so it survives a restart;</li>
+    <li>your Accountability Lock password, stored only as a PBKDF2-SHA256 hash
+        with a random salt — never in plain text, and never uploaded.</li>
+  </ul>
+  <p>We can't read any of it. Deleting that folder deletes all of it.</p>
+</section>
+
+<section>
+  <h2>What we collect, and only if you opt in</h2>
+  <div class="overflow"><table>
+    <tr><th>Data</th><th>When</th><th>Why</th></tr>
+    <tr>
+      <td>Email address and password</td>
+      <td>Only if you create an account</td>
+      <td>To sign you in and attach your Pro licence to you. The password is
+          stored as a salted hash by our authentication provider; we never see it.</td>
+    </tr>
+    <tr>
+      <td>Account ID and Pro status</td>
+      <td>With an account</td>
+      <td>So the app knows whether to unlock Pro features.</td>
+    </tr>
+    <tr>
+      <td>Licence key and whether it has been paid and redeemed</td>
+      <td>If you buy Pro</td>
+      <td>To issue the licence, honour it once, and stop the same key being
+          redeemed twice.</td>
+    </tr>
+  </table></div>
+  <p>That is the complete list. No name, no address, no device identifier, no
+     usage statistics, no contents of your blocks.</p>
+</section>
+
+<section>
+  <h2>Payments</h2>
+  <p>Purchases are handled by <b>Paddle.com</b>, our reseller and Merchant of
+     Record. You give Paddle your payment and billing details directly; they
+     never pass through us and we never store them. Paddle is an independent
+     data controller for that transaction — see
+     <a href="https://www.paddle.com/legal/privacy" rel="noopener">paddle.com/legal/privacy</a>.
+     What comes back to us is a licence key marked paid.</p>
+</section>
+
+<section>
+  <h2>Who processes data for us</h2>
+  <ul>
+    <li><b>Supabase</b> — hosts the account database and the licence table.</li>
+    <li><b>Paddle</b> — payments, tax and receipts, as above.</li>
+    <li><b>GitHub</b> — hosts this website and the download. GitHub records
+        requests to it, including IP addresses, in its own server logs.</li>
+    <li><b>Google Fonts</b> — this website loads its typefaces from Google's CDN,
+        which means your browser's request (and therefore your IP address)
+        reaches Google. No cookies are set by it.</li>
+  </ul>
+  <p>We do not sell data, share it for advertising, or pass it to anyone else
+     except where the law requires it.</p>
+</section>
+
+<section>
+  <h2>Cookies</h2>
+  <p>This website sets no cookies and runs no analytics. The app sets none
+     either. Paddle's checkout, which opens in your browser, uses its own
+     cookies for the payment session.</p>
+</section>
+
+<section>
+  <h2>Legal basis and how long we keep things</h2>
+  <p>Under UK GDPR we rely on <b>performance of a contract</b> for account and
+     licence data — without it we cannot give you the Pro you paid for — and on
+     <b>legal obligation</b> for the transaction records Paddle keeps for tax.</p>
+  <p>Account data is kept until you delete the account. Licence records are kept
+     while the licence is valid, so we can honour and support it. Ask us to
+     delete your account and we remove the email address and profile; a licence
+     key may be retained in a form that is not linked to you, so the same key
+     cannot be redeemed again.</p>
+</section>
+
+<section>
+  <h2>Your rights</h2>
+  <p>You can ask us to give you a copy of your data, correct it, delete it,
+     restrict how we use it, or object to it — by emailing
+     <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>. We will
+     answer within 30 days, and will not charge you for it.</p>
+  <p>If you are unhappy with how we have handled your data you can complain to
+     the UK Information Commissioner's Office
+     (<a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>), or to your
+     local supervisory authority in the EU.</p>
+</section>
+
+<section>
+  <h2>Children</h2>
+  <p>All Block is not directed at children under 13, and accounts are not
+     intended for them. Parents do use the app on a child's machine — that is a
+     fine use, and it involves no account and no data leaving the computer.</p>
+</section>
+
+<section>
+  <h2>International transfers</h2>
+  <p>Our providers may process data outside the UK. Where that happens it is
+     covered by the UK International Data Transfer Addendum, EU Standard
+     Contractual Clauses, or an adequacy decision.</p>
+</section>
+
+<section>
+  <h2>Changes</h2>
+  <p>If this policy changes we will update the date at the top. If a change is
+     significant and you have an account, we will email you.</p>
+</section>
+</main>
+<footer><div class="wrap in">
+  <span>© 2026 Auzeo · All rights reserved</span>
+  <span class="legal-links">
+    <a href="/#pricing">Pricing</a>
+    <a href="/terms.html">Terms of service</a>
+    <a href="/privacy.html">Privacy policy</a>
+    <a href="/refunds.html">Refund policy</a>
+    <a href="mailto:MrAuzeo@protonmail.com">Contact</a>
+  </span>
+</div></footer>
+
+</body>
+</html>
