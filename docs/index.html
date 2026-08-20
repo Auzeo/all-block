@@ -316,10 +316,21 @@ img{max-width:100%;height:auto;display:block}
    side. The text goes in one span, and stays one run. */
 .holds li>span{min-width:0}
 .holds li em{font-style:normal;color:var(--ink);font-weight:700}
-.shot--one{max-width:760px;margin:54px auto 0;text-align:left}
-.hold-foot{margin:36px auto 0;max-width:50ch;font-size:14.5px;color:var(--ash);
+/* list and screenshot sit side by side: the checklist reads as one column,
+   the shot proves it. Below 940px there isn't room for both, so it stacks and
+   the list goes back to two columns of its own. */
+.hold-pair{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:clamp(26px,3.4vw,48px);align-items:center;
+  max-width:1120px;margin:56px auto 0}
+.hold-pair .holds{grid-template-columns:1fr;max-width:none;margin:0}
+.shot--one{max-width:none;margin:0;text-align:left}
+.hold-foot{margin:44px auto 0;max-width:50ch;font-size:14.5px;color:var(--ash);
   line-height:1.8}
-@media(max-width:660px){.holds{grid-template-columns:1fr}}
+@media(max-width:940px){
+  .hold-pair{grid-template-columns:1fr;gap:34px;max-width:760px;margin-top:48px}
+  .hold-pair .holds{grid-template-columns:1fr 1fr}
+}
+@media(max-width:660px){.holds,.hold-pair .holds{grid-template-columns:1fr}}
 
 /* ── schedule ─────────────────────────────────────────────────────── */
 .sched{padding:clamp(90px,13vw,150px) 0}
@@ -697,7 +708,9 @@ footer a:hover{color:var(--ink);text-decoration:underline}
          goes into Settings and deletes it. So set a password — and let a parent, a
          partner, a friend, or <b>your own steadier self twenty minutes ago</b> be
          the one who holds it.</p>
+    </div>
 
+    <div class="hold-pair rise">
       <ul class="holds">
         <li>Blocks can't be edited or deleted</li>
         <li>Blocks can't be switched off</li>
@@ -707,13 +720,15 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         <li><span>Turning it back <em>on</em> never needs the password</span></li>
       </ul>
 
-      <figure class="shot shot--one rise">
+      <figure class="shot shot--one">
         <img src="img/lock_light.png" width="1452" height="880" loading="lazy"
              alt="The Accountability Lock window in All Block: the lock is on, with a reminder reading ask Mum, a password field, and buttons to leave it on or unlock">
         <figcaption><b>This is the whole thing</b>One password, and the schedule
           stops answering to whoever is sitting at the machine.</figcaption>
       </figure>
+    </div>
 
+    <div class="hold-in">
       <p class="hold-foot">One thing it deliberately leaves alone: the monthly
          emergency unlock. A lock with no exit at all is how somebody ends up
          unable to answer a phone call — so the way out stays scarce and counted
@@ -840,7 +855,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 
       <div class="plan plan--pro rise">
         <p class="plan-tag">Pro</p>
-        <div class="plan-cost">£9.99<span> once</span></div>
+        <div class="plan-cost">£2.99<span> once</span></div>
         <p class="plan-note">One payment. Not a subscription, not a rental.</p>
         <ul class="plan-list">
           <li>Everything in Standard</li>
@@ -916,7 +931,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     </div>
     <div class="specs">
       <span>Windows 10 / 11</span><span>Single .exe</span>
-      <span>No install</span><span>Free — Pro is £9.99 once</span>
+      <span>No install</span><span>Free — Pro is £2.99 once</span>
     </div>
   </div>
 </section>
@@ -1215,10 +1230,47 @@ function paint(){
   cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
   cdstate.classList.toggle("done", done);
 }
-/* The wheel is the browser's. There was a pacing loop here that took it over
-   and eased the scroll itself; every version of it felt wrong, because a
-   hijacked wheel never matches the weight the rest of the machine has. Pages
-   that need to be read more slowly are made taller instead — see .scrub. */
+/* ── wheel pacing ──────────────────────────────────────────────
+   Making the reading sections taller was tried twice and the page still went
+   past too fast, so the distance was never the problem — the notch is. One
+   notch of a Windows mouse wheel is three lines of the browser's default type,
+   and this page sets 17px copy at 1.75 line-height, so a notch throws roughly
+   a paragraph out of the window at once.
+
+   So a notch is damped to a bit over half its travel and eased in, which lands
+   it near where a notch feels on ordinary body text. Two things are left
+   alone: trackpads, which already arrive as small pixel deltas and feel wrong
+   the moment anything touches them, and ctrl+wheel, which is zoom. The drum
+   claims its own wheel events first and marks them handled, so scrolling it
+   still behaves exactly as before. */
+var NOTCH = .58, EASE = .18;
+var glideTo = 0, gliding = false;
+
+function maxScroll(){
+  return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+}
+function glide(){
+  var cur = window.scrollY, d = glideTo - cur;
+  if (Math.abs(d) < .6){ gliding = false; window.scrollTo(0, glideTo); return; }
+  window.scrollTo(0, cur + d * EASE);
+  requestAnimationFrame(glide);
+}
+addEventListener("wheel", function(e){
+  if (reduce || e.ctrlKey || e.defaultPrevented) return;
+  /* deltaMode 0 is pixels — a trackpad, or a wheel the browser has already
+     smoothed. Anything line- or page-based, or a big single pixel jump, is a
+     real notch. */
+  var notch = e.deltaMode !== 0 || Math.abs(e.deltaY) >= 100;
+  if (!notch || !e.deltaY) return;
+  e.preventDefault();
+  var step = e.deltaMode !== 0 ? e.deltaY * 100 : e.deltaY;
+  if (!gliding) glideTo = window.scrollY;
+  glideTo = Math.max(0, Math.min(maxScroll(), glideTo + step * NOTCH));
+  if (!gliding){ gliding = true; requestAnimationFrame(glide); }
+}, {passive:false});
+/* any scroll the page did not glide (keys, anchors, the scrollbar) resets it */
+addEventListener("scroll", function(){ if (!gliding) glideTo = window.scrollY; },
+  {passive:true});
 
 /* Anchor links, with the one rule a tall page needs.
 
