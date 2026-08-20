@@ -475,8 +475,11 @@ footer a:hover{color:var(--ink)}
       </svg>
     </a>
     <a href="#top" class="here" data-spy="top">Home</a>
-    <a href="#who" data-spy="who">Who it's for</a>
+    <!-- in the order the page actually runs: the block is the section right
+         after the hero, "who it's for" follows it. Listed the other way round,
+         the highlight looked like it was jumping backwards. -->
     <a href="#block" data-spy="block">The block</a>
+    <a href="#who" data-spy="who">Who it's for</a>
     <a href="#lock" data-spy="lock">The lock</a>
     <a href="#inside" data-spy="inside">Features</a>
     <a href="#pricing" data-spy="pricing">Pricing</a>
@@ -1110,14 +1113,18 @@ document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){ links[a.
 
 /* This used to be an IntersectionObserver over a thin band. Observers hand you
    entries in no defined order and only when a boundary is crossed, so whichever
-   entry happened to fire last won the "here" state — which is how "The block"
-   could light up while "Who it's for" still filled the screen. Sections are
-   ordered on the page, so read them that way instead: the section you're in is
-   the last one whose top has passed the reading line, and that can only ever
-   be one answer. */
-var spyNodes = ["top","who","block","lock","inside","pricing"]
+   entry happened to fire last won the "here" state. Sections are ordered on the
+   page, so read them that way instead: the section you're in is the last one
+   whose top has passed the reading line, which can only ever be one answer.
+   Sorted by where the sections actually sit in the document rather than by the
+   order they're listed here — a hand-kept list is one more thing that can
+   disagree with the page, which was half of the bug this fixes. */
+var spyNodes = ["top","block","who","lock","inside","pricing"]
       .map(function(id){ return document.getElementById(id); })
-      .filter(Boolean),
+      .filter(Boolean)
+      .sort(function(a, b){
+        return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+      }),
     spyAt = null;
 
 function paintSpy(){
@@ -1180,6 +1187,42 @@ function paint(){
   cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
   cdstate.classList.toggle("done", done);
 }
+/* ── wheel pacing ─────────────────────────────────────────────────
+   A mouse wheel notch in Firefox throws the page about 150px in one jump, and
+   on a wide window — where a section is barely two screens tall — that reads
+   as the page bolting. The browser owns that number, so the only way to calm
+   it is to take the wheel and run the scroll ourselves: a shorter step, eased
+   over a few frames, which lands about a third slower and arrives instead of
+   snapping.
+
+   Deliberately narrow. Only notched wheels (deltaMode 1 lines, 2 pages) are
+   touched — trackpads and touchscreens send pixel deltas and already glide,
+   and hijacking those is what makes a page feel broken. Zoom, the duration
+   drum and the open demo all keep their own handling, and reduced-motion
+   skips the whole thing. */
+var wheelGoal = null, wheelRaf = null;
+
+function wheelStep(){
+  var y = window.scrollY, d = wheelGoal - y;
+  if (Math.abs(d) < 0.7){ window.scrollTo(0, wheelGoal); wheelGoal = wheelRaf = null; return; }
+  window.scrollTo(0, y + d * 0.17);
+  wheelRaf = requestAnimationFrame(wheelStep);
+}
+
+if (!reduce && !matchMedia("(pointer: coarse)").matches){
+  addEventListener("wheel", function(e){
+    if (e.deltaMode === 0 || e.ctrlKey) return;           // pixel deltas, and zoom
+    if (!demo.hidden) return;                             // the demo scrolls itself
+    if (e.target.closest && e.target.closest(".wheel")) return;
+    e.preventDefault();
+    var px = e.deltaY * (e.deltaMode === 2 ? window.innerHeight : 40) * 0.62,
+        max = document.documentElement.scrollHeight - window.innerHeight,
+        from = wheelGoal === null ? window.scrollY : wheelGoal;
+    wheelGoal = Math.max(0, Math.min(max, from + px));
+    if (!wheelRaf) wheelRaf = requestAnimationFrame(wheelStep);
+  }, {passive:false});
+}
+
 /* one listener, one frame: the countdown, the nav and the spy all read the
    same scroll position instead of each forcing their own layout pass */
 function frame(){ paint(); paintNav(); paintSpy(); }
