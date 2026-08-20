@@ -28,13 +28,18 @@
 <meta name="twitter:image" content="https://allblock.dpdns.org/img/og-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- the fonts were the one render-blocking request on the page: a round trip
+     to fonts.googleapis.com held first paint for ~0.7s. media="print" makes the
+     sheet non-blocking, and onload promotes it the moment it lands. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 <style>
 :root{
   /* pulled from the app's own light palette */
   --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
   --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
-  --lock:#1f9d55; --amber:#b8790a; --blue:#3568c9; --red:#cf3b2e;
+  --lock:#1f9d55; --lock-txt:#177a41; --amber:#b8790a; --blue:#3568c9; --red:#cf3b2e;
   /* the lock section inverts — that's the point of it */
   --void:#0b0b0d; --chalk:#f5f5f7; --edge:#26262c; --dim:#8a8a92;
   --lock-hi:#4cc479;
@@ -57,7 +62,7 @@ img{max-width:100%;height:auto;display:block}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:var(--gut)}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
   text-transform:uppercase;color:var(--ash);margin:0}
-.eyebrow b{color:var(--lock);font-weight:400}
+.eyebrow b{color:var(--lock-txt);font-weight:400}
 
 /* ── nav: one pill, badge and action included ─────────────────────── */
 .nav{position:fixed;top:16px;left:0;right:0;z-index:60;
@@ -115,7 +120,7 @@ img{max-width:100%;height:auto;display:block}
 .hero-sub b{color:var(--ink);font-weight:700}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 .hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:#9a9aa2}
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
 
 /* ── the wheel: a real drum, same curve as the app ────────────────── */
 .wheel-stage{position:relative;background:var(--card);
@@ -143,7 +148,7 @@ img{max-width:100%;height:auto;display:block}
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .wheel-foot{display:flex;align-items:center;justify-content:space-between;
   padding:12px 18px 8px;font-family:var(--mono);font-size:10.5px;
-  letter-spacing:.18em;text-transform:uppercase;color:#a0a0a8}
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
 .wheel-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--ink);
   background:var(--sand);border-radius:999px;padding:7px 14px;
   font-weight:700;letter-spacing:.12em;font-family:var(--mono);font-size:10.5px;
@@ -421,7 +426,7 @@ img{max-width:100%;height:auto;display:block}
 .get .hero-cta{justify-content:center}
 .specs{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:44px;
   font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:#9a9aa2}
+  text-transform:uppercase;color:var(--ash)}
 footer{border-top:1px solid var(--line);padding:34px 0}
 footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-size:13.5px;color:var(--ash)}
@@ -464,7 +469,9 @@ footer a:hover{color:var(--ink)}
       <div class="wheel" tabindex="0" role="slider" aria-label="Focus duration"
            aria-valuemin="10" aria-valuemax="10800" aria-valuenow="600"
            aria-valuetext="10 min">
-        <div class="wheel-track"></div>
+        <!-- the drum is a picture of a value role="slider" already exposes through
+             aria-valuetext, so the duplicate is hidden from the a11y tree -->
+        <div class="wheel-track" aria-hidden="true"></div>
         <div class="wheel-slot"></div>
       </div>
       <div class="wheel-foot">
