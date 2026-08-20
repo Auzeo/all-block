@@ -8,7 +8,7 @@
      truncates, and the old title was cut mid-phrase at "there's no…". The
      search-result headline lives in the description and og: tags. -->
 <title>All Block for Windows</title>
-<meta name="description" content="Every other blocker keeps a list you can edit your way out of. All Block switches your mouse and keyboard off system-wide until the time is up — and a password someone else holds can stop you changing it. For gaming, doomscrolling, sleep, study, and kids' screen time. Free for Windows.">
+<meta name="description" content="Other blockers keep a list you can edit your way out of. All Block switches your mouse and keyboard off system-wide until the time is up. Free for Windows.">
 <meta property="og:title" content="All Block">
 <meta property="og:description" content="A blocker you can't bypass: All Block switches your mouse and keyboard off until the timer ends.">
 <!-- .ico first, for the browsers that only ever ask for /favicon.ico; the SVG
@@ -275,21 +275,23 @@ img{max-width:100%;height:auto;display:block}
    Four cases, not four features. Each one is somebody's actual evening, so
    they're set as an argument with a rule down the side — the same device the
    .vs-pull quote uses — rather than as another grid of icon cards. */
-.who{padding:clamp(104px,15vw,178px) 0}
+/* the other half of that fix: 151 words per screen before, ~114 now */
+.who{padding:clamp(152px,18vw,236px) 0}
 .who .head p{max-width:54ch}
-.cases{display:grid;grid-template-columns:1fr 1fr;gap:clamp(34px,5vw,64px);
-  margin-top:64px}
-.case{padding-left:22px;border-left:3px solid var(--line);
+.cases{display:grid;grid-template-columns:1fr 1fr;
+  column-gap:clamp(52px,6.5vw,92px);row-gap:clamp(92px,10vw,158px);
+  margin-top:104px}
+.case{padding-left:26px;border-left:3px solid var(--line);
   transition:border-color .3s}
 .case:hover{border-left-color:var(--lock)}
 .case .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ash);margin:0 0 12px}
+  text-transform:uppercase;color:var(--ash);margin:0 0 20px}
 .case h3{font-size:clamp(21px,2.2vw,27px);font-variation-settings:"wdth" 100;
   letter-spacing:-.015em;line-height:1.12;text-wrap:balance}
-.case p{color:var(--ash);font-size:15.5px;margin:14px 0 0;max-width:44ch;
-  line-height:1.8}
+.case p{color:var(--ash);font-size:16.5px;margin:30px 0 0;max-width:34ch;
+  line-height:2.05}
 .case p em{font-style:normal;color:var(--ink);font-weight:600}
-@media(max-width:860px){.cases{grid-template-columns:1fr;gap:36px}}
+@media(max-width:860px){.cases{grid-template-columns:1fr;gap:48px}}
 
 /* ── the accountability lock ──────────────────────────────────────────
    The one feature somebody else operates, so it gets the sand ground and a
@@ -369,16 +371,22 @@ img{max-width:100%;height:auto;display:block}
   font-size:14px;color:var(--ash)}
 .shot figcaption b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
 
-/* ── vs: the argument, so it's set as an argument and not as cards ─── */
-.vs{padding:clamp(110px,15vw,190px) 0;border-top:1px solid var(--line)}
+/* ── vs: the argument, so it's set as an argument and not as cards ───
+   Measured at 153 words per screen of scroll, this was the densest section on
+   the page — against 72 for .schedule and 16 for the pinned .scrub. That swing
+   is what "the scroll is too fast" actually meant: the wheel moves the same
+   pixels everywhere, but here you had ten times the reading to do per screen.
+   The generous measure, leading and paragraph gaps below are load-bearing —
+   they hold it near 105. Don't tighten them back up without re-measuring. */
+.vs{padding:clamp(150px,19vw,240px) 0;border-top:1px solid var(--line)}
 .vs-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
   gap:clamp(32px,6vw,84px);align-items:start}
 .vs h2{font-size:clamp(29px,3.3vw,44px);text-transform:uppercase;margin-top:14px}
-.vs-say p{margin:0 0 30px;color:var(--ash);font-size:17px;max-width:56ch;
-  line-height:1.85}
+.vs-say p{margin:0 0 70px;color:var(--ash);font-size:18px;max-width:44ch;
+  line-height:2.05}
 .vs-say em{font-style:normal;color:var(--ink);font-weight:600}
 /* the scheduler line is the point of the section, so it gets the weight */
-.vs-pull{margin-top:34px!important;padding-left:22px;
+.vs-pull{margin-top:48px!important;padding-left:22px;
   border-left:3px solid var(--lock);
   color:var(--ink)!important;font-weight:600}
 @media(max-width:860px){.vs-grid{grid-template-columns:1fr}}
