@@ -1230,47 +1230,15 @@ function paint(){
   cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
   cdstate.classList.toggle("done", done);
 }
-/* ── wheel pacing ──────────────────────────────────────────────
-   Making the reading sections taller was tried twice and the page still went
-   past too fast, so the distance was never the problem — the notch is. One
-   notch of a Windows mouse wheel is three lines of the browser's default type,
-   and this page sets 17px copy at 1.75 line-height, so a notch throws roughly
-   a paragraph out of the window at once.
+/* The wheel is the browser's, and it stays that way.
 
-   So a notch is damped to a bit over half its travel and eased in, which lands
-   it near where a notch feels on ordinary body text. Two things are left
-   alone: trackpads, which already arrive as small pixel deltas and feel wrong
-   the moment anything touches them, and ctrl+wheel, which is zoom. The drum
-   claims its own wheel events first and marks them handled, so scrolling it
-   still behaves exactly as before. */
-var NOTCH = .58, EASE = .18;
-var glideTo = 0, gliding = false;
-
-function maxScroll(){
-  return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-}
-function glide(){
-  var cur = window.scrollY, d = glideTo - cur;
-  if (Math.abs(d) < .6){ gliding = false; window.scrollTo(0, glideTo); return; }
-  window.scrollTo(0, cur + d * EASE);
-  requestAnimationFrame(glide);
-}
-addEventListener("wheel", function(e){
-  if (reduce || e.ctrlKey || e.defaultPrevented) return;
-  /* deltaMode 0 is pixels — a trackpad, or a wheel the browser has already
-     smoothed. Anything line- or page-based, or a big single pixel jump, is a
-     real notch. */
-  var notch = e.deltaMode !== 0 || Math.abs(e.deltaY) >= 100;
-  if (!notch || !e.deltaY) return;
-  e.preventDefault();
-  var step = e.deltaMode !== 0 ? e.deltaY * 100 : e.deltaY;
-  if (!gliding) glideTo = window.scrollY;
-  glideTo = Math.max(0, Math.min(maxScroll(), glideTo + step * NOTCH));
-  if (!gliding){ gliding = true; requestAnimationFrame(glide); }
-}, {passive:false});
-/* any scroll the page did not glide (keys, anchors, the scrollbar) resets it */
-addEventListener("scroll", function(){ if (!gliding) glideTo = window.scrollY; },
-  {passive:true});
+   Three attempts now: a pacing loop, then taller sections, then damping the
+   notch and easing it. The damped version was the worst of them — it pinned
+   the page in places until you scrolled at it hard, because every glide fights
+   whatever else the frame is already doing. A hijacked wheel never matches the
+   weight the rest of the machine has, and the failure mode is far worse than
+   the complaint. If this page needs to read slower, it gets taller — see
+   .scrub — or the reader turns their own scroll speed down. */
 
 /* Anchor links, with the one rule a tall page needs.
 
