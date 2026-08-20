@@ -278,6 +278,23 @@ img{max-width:100%;height:auto;display:block}
 /* the other half of that fix: 151 words per screen before, ~114 now */
 .who{padding:clamp(152px,18vw,236px) 0}
 .who .head p{max-width:54ch}
+/* Cited research, deliberately not styled as a testimonial: no faces, no
+   quote-mark ornament, no logos. It sits above the four cases, well away from
+   any price or Download button, so nothing here reads as an endorsement. */
+.cited{margin:64px 0 0;padding:32px 0 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,4.5vw,64px);
+  align-items:start}
+.cited-note{grid-column:1/-1;margin:0;font-family:var(--mono);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.cite{margin:0}
+.cite blockquote{margin:0;font-size:17px;line-height:1.75;color:var(--ink);
+  font-weight:600;max-width:42ch}
+.cite > p{margin:0;font-size:17px;line-height:1.75;color:var(--ink);
+  font-weight:600;max-width:42ch}
+.cite figcaption{margin-top:14px;font-size:13px;line-height:1.6;color:var(--ash);
+  max-width:44ch}
+.cite figcaption a{color:var(--ash);text-underline-offset:3px}
+@media(max-width:860px){.cited{grid-template-columns:1fr;gap:34px}}
 .cases{display:grid;grid-template-columns:1fr 1fr;
   column-gap:clamp(52px,6.5vw,92px);row-gap:clamp(92px,10vw,158px);
   margin-top:104px}
@@ -634,6 +651,34 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       <p>Nobody installs a blocker because they're short of good intentions.
          They install one because the intention keeps losing to the moment.
          These are the moments people bring it here for.</p>
+    </div>
+
+    <!-- Cited, not endorsed. Both entries are about the problem; neither study
+         mentions this product and neither author knows it exists, which is the
+         line that keeps a citation a citation. The first is quoted verbatim from
+         the published abstract; the second is a finding stated in our own words
+         because we could not verify a verbatim sentence. -->
+    <div class="cited rise">
+      <p class="cited-note">From the research on self-control. Neither study is
+         about All Block.</p>
+      <figure class="cite">
+        <blockquote>&ldquo;Situational self-control strategies&mdash;which can nip a
+          tempting impulse in the bud&mdash;may be especially effective in
+          preventing undesirable action.&rdquo;</blockquote>
+        <figcaption>Duckworth, Gendler &amp; Gross, &ldquo;Situational Strategies
+          for Self-Control&rdquo;, <i>Perspectives on Psychological Science</i>,
+          2016. <a href="https://doi.org/10.1177/1745691615623247"
+          rel="noopener nofollow">Source</a></figcaption>
+      </figure>
+      <figure class="cite">
+        <p>Across 7,827 reports of everyday desire from 205 adults, desires for
+           media use produced more self-control failures than any other kind.</p>
+        <figcaption>Hofmann, Vohs &amp; Baumeister, &ldquo;What People Desire,
+          Feel Conflicted About, and Try to Resist in Everyday Life&rdquo;,
+          <i>Psychological Science</i>, 2012.
+          <a href="https://doi.org/10.1177/0956797612437426"
+          rel="noopener nofollow">Source</a></figcaption>
+      </figure>
     </div>
 
     <div class="cases">
