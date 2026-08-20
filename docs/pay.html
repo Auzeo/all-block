@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — All Block</title>
+<meta name="description" content="Secure checkout for All Block Pro, handled by Paddle.">
+<!-- a payment page has no business in a search index -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Same palette and type as the rest of the site — a buyer who followed a link
+   out of the app needs to recognise where they landed before they type a card
+   number into it. */
+:root{
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
+  --lock:#1f9d55; --lock-txt:#177a41;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding-inline:var(--gut)}
+a{color:var(--lock-txt)}
+a:hover{color:var(--ink)}
+
+.bar{border-bottom:1px solid var(--line);background:var(--card)}
+.bar .wrap{display:flex;align-items:center;gap:14px;
+  padding-block:14px;max-width:1180px}
+.bar a.home{display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}
+.mark{width:28px;height:28px;flex:none;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center}
+.mark svg{width:14px;height:14px}
+.bar .spacer{flex:1}
+.bar .back{text-decoration:none;color:var(--ash);font-size:14px;font-weight:500}
+.bar .back:hover{color:var(--ink)}
+
+main{padding:clamp(44px,8vw,84px) 0 clamp(60px,10vw,110px);text-align:center}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ash);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:800;line-height:1.02;margin:0;
+  font-variation-settings:"wdth" 112;letter-spacing:-.02em;
+  font-size:clamp(30px,5vw,44px);text-transform:uppercase}
+.lede{color:var(--ash);font-size:16.5px;margin:20px auto 0;max-width:44ch}
+
+/* the overlay covers this page, so what sits underneath is only ever a state
+   message: loading, done, or something went wrong */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:28px 26px;margin:34px auto 0;max-width:460px;text-align:left}
+.panel h2{font-family:var(--display);font-size:19px;margin:0 0 8px;
+  text-transform:uppercase;letter-spacing:-.01em}
+.panel p{margin:0;color:var(--ash);font-size:15px}
+.panel p + p{margin-top:12px}
+.ok h2{color:var(--lock-txt)}
+.btn{display:inline-block;margin-top:18px;background:var(--ink);color:var(--card);
+  text-decoration:none;font-weight:700;font-size:14.5px;
+  padding:11px 20px;border-radius:999px}
+.btn:hover{color:var(--card);opacity:.88}
+.spin{width:20px;height:20px;border:2.5px solid var(--line);
+  border-top-color:var(--ink);border-radius:50%;margin:0 auto;
+  animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+.foot{margin-top:30px;font-size:13.5px;color:var(--ash)}
+.hide{display:none}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="home" href="/">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.2 17.8L17.8 6.2"/></svg></span>
+    All Block
+  </a>
+  <span class="spacer"></span>
+  <a class="back" href="/">&larr; Back to the site</a>
+</div></div>
+
+<main class="wrap">
+  <p class="eyebrow">All Block Pro &nbsp;·&nbsp; £2.99 once</p>
+  <h1>Secure checkout</h1>
+  <p class="lede">Payment is handled by Paddle, the merchant of record for
+     All Block. Your card details never touch this site.</p>
+
+  <div class="panel" id="loading">
+    <div class="spin" aria-hidden="true"></div>
+    <p style="text-align:center;margin-top:14px">Opening the payment form…</p>
+  </div>
+
+  <div class="panel ok hide" id="done">
+    <h2>Payment complete</h2>
+    <p>Thank you. <b>Go back to All Block</b> — your licence key is already on
+       screen there, and Pro unlocks as soon as the payment clears, usually
+       within a few seconds.</p>
+    <p>A receipt is on its way to your email from Paddle.</p>
+    <a class="btn" href="/">Back to the site</a>
+  </div>
+
+  <div class="panel hide" id="oops">
+    <h2 id="oops-h">Nothing to pay for</h2>
+    <p id="oops-p">This page opens a checkout that All Block started for you.
+       Open the app, press <b>Pro</b>, and it will bring you back here with
+       the right basket.</p>
+    <a class="btn" href="/">Back to the site</a>
+  </div>
+
+  <p class="foot">Questions, or something went wrong?
+     <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a> ·
+     <a href="/refunds.html">Refund policy</a></p>
+</main>
+
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+/* Paddle appends ?_ptxn=txn_… to this page's URL when create-checkout hands a
+   checkout link back to the app. Paddle.js picks that up on Initialize and
+   opens the overlay itself — all this page has to do is be here, look like us,
+   and say something sensible in the three states underneath the overlay. */
+(function(){
+  var show = function(id){
+    ["loading","done","oops"].forEach(function(n){
+      document.getElementById(n).classList.toggle("hide", n !== id);
+    });
+  };
+
+  if (!/[?&]_ptxn=/.test(location.search)) { show("oops"); return; }
+
+  try {
+    Paddle.Initialize({
+      token: "live_26d172aba44bef43a52d9fb11b3",
+      checkout: { settings: { displayMode: "overlay", theme: "light",
+                              variant: "one-page", locale: "en" } },
+      eventCallback: function(e){
+        if (e.name === "checkout.completed") show("done");
+        /* a closed overlay is not an error — the buyer changed their mind, and
+           the transaction stays open if they come back to the same link */
+        if (e.name === "checkout.closed") {
+          document.getElementById("oops-h").textContent = "Checkout closed";
+          document.getElementById("oops-p").innerHTML =
+            "Nothing has been charged. Reload this page to pick it back up, or " +
+            "press <b>Pro</b> in All Block to start again.";
+          show("oops");
+        }
+        if (e.name === "checkout.error") {
+          document.getElementById("oops-h").textContent = "That didn't go through";
+          document.getElementById("oops-p").innerHTML =
+            "The payment form couldn't be completed. Nothing has been charged. " +
+            "Try again from All Block, or email us and we will sort it out.";
+          show("oops");
+        }
+      }
+    });
+  } catch (err) {
+    document.getElementById("oops-h").textContent = "Couldn't open the checkout";
+    document.getElementById("oops-p").textContent =
+      "Something blocked the payment form from loading. Try again, or email us.";
+    show("oops");
+  }
+})();
+</script>
+</body>
+</html>
