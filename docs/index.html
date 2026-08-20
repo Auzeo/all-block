@@ -138,7 +138,7 @@ img{max-width:100%;height:auto;display:block}
 .wheel-opt{position:absolute;top:50%;left:0;right:0;
   padding-left:clamp(22px,4vw,52px);text-align:left;
   font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 104;
-  font-size:clamp(30px,3.6vw,46px);white-space:nowrap;color:#a8a8b0;
+  font-size:clamp(30px,3.6vw,46px);white-space:nowrap;color:var(--ash);
   backface-visibility:hidden;will-change:transform,opacity;
   transition:color .18s}
 .wheel-opt.is-sel{color:var(--ink)}
@@ -918,7 +918,11 @@ function draw(){
   for (var i = 0; i < opts.length; i++){
     var d = i - pos, ang = d * DEG;
     if (Math.abs(ang) > 92){ opts[i].style.opacity = 0; continue; }
-    var op = Math.pow(Math.max(0, Math.cos(ang * Math.PI / 180)), 1.5);
+    // the ramp bottoms out at .8 rather than 0: below that the unselected
+    // slots drop under a 3:1 contrast ratio and stop being readable text.
+    // The drum still falls away — the wheel's mask does that, and it fades
+    // to transparent rather than to pale grey.
+    var op = 0.8 + 0.2 * Math.pow(Math.max(0, Math.cos(ang * Math.PI / 180)), 1.5);
     opts[i].style.transform =
       "translateY(-50%) rotateX(" + (-ang) + "deg) translateZ(" + RAD + "px)";
     opts[i].style.opacity = op;
