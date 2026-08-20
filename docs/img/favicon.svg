@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- the app mark, cropped to the disc: at 16px a ring inside a ring turns to
-       mush, so the disc itself is the circle and the slash is the whole glyph -->
-  <circle cx="32" cy="32" r="32" fill="#18181a"/>
-  <path d="M20.5 20.5 43.5 43.5" fill="none" stroke="#fafafa"
-        stroke-width="7" stroke-linecap="round"/>
+  <!-- the app's own mark, redrawn as vector with core.make_logo's proportions —
+       disc, ring at r=.245, stroke at .062, slash across the ring's diameter — so
+       the tab icon is the same drawing as the taskbar and tray icons -->
+  <circle cx="32" cy="32" r="32" fill="#131316"/>
+  <circle cx="32" cy="32" r="15.7" fill="none" stroke="#f5f5f7" stroke-width="3.97"/>
+  <path d="M20.9 20.9 43.1 43.1" fill="none" stroke="#f5f5f7"
+        stroke-width="3.97" stroke-linecap="round"/>
 </svg>
