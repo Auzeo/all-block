@@ -388,14 +388,17 @@ img{max-width:100%;height:auto;display:block}
    point of the section, and the last row answers it. Sticky, so the comparison
    stays put while the prose scrolls past it. */
 .vs-lede{position:sticky;top:104px}
-.rivals{list-style:none;margin:40px 0 0;padding:0;max-width:34ch}
-.rivals li{display:grid;grid-template-columns:1fr;gap:3px;padding:15px 0;
-  border-top:1px solid var(--line)}
-.rivals li b{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+.rivals{list-style:none;margin:44px 0 0;padding:0;max-width:31ch}
+/* icon, name, and the one thing it works from — three columns, no sentences */
+.rivals li{display:grid;grid-template-columns:20px 1fr auto;align-items:center;
+  gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.rivals .ricon{width:20px;height:20px;color:var(--ash)}
+.rivals li b{font-family:var(--mono);font-size:12px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink);font-weight:500}
-.rivals li span{font-size:14px;color:var(--ash);line-height:1.6}
-.rivals .rivals-us{border-top:1px solid var(--ink);margin-top:6px;
-  padding-left:16px;border-left:3px solid var(--lock)}
+.rivals li span{font-size:13px;color:var(--ash);white-space:nowrap}
+.rivals .rivals-us{border-top:1px solid var(--ink);margin-top:8px;
+  padding:18px 0 18px 16px;border-left:3px solid var(--lock)}
+.rivals .rivals-us .ricon{color:var(--lock-txt)}
 .rivals .rivals-us b{color:var(--lock-txt);font-weight:700}
 .rivals .rivals-us span{color:var(--ink);font-weight:600}
 @media(max-width:860px){.vs-lede{position:static}
@@ -769,16 +772,39 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <div class="vs-lede rise">
       <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
       <h2>They block a list. This blocks the machine.</h2>
+      <!-- three glyphs, reused: a list, a browser window, the two input
+           devices. The repeat down the column is the argument. -->
+      <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+        <symbol id="i-list" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round">
+          <path d="M7 5h9M7 10h9M7 15h9M3.5 5h.01M3.5 10h.01M3.5 15h.01"/>
+        </symbol>
+        <symbol id="i-win" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round">
+          <rect x="2.5" y="3.5" width="15" height="13" rx="2"/>
+          <path d="M2.5 7.5h15M5.5 5.5h.01M8 5.5h.01"/>
+        </symbol>
+        <!-- the product's own mark: legible at 20px where a mouse-and-keyboard
+             drawing just turns to mush -->
+        <symbol id="i-input" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.7" stroke-linecap="round">
+          <circle cx="10" cy="10" r="7.2"/>
+          <path d="M5.1 14.9 14.9 5.1"/>
+        </symbol>
+      </svg>
       <ul class="rivals">
-        <li><b>Cold Turkey</b><span>A blocklist of sites and apps, plus a timed
-            lockout screen</span></li>
-        <li><b>Freedom</b><span>A list of sites and apps, synced across your
-            devices</span></li>
-        <li><b>FocusMe</b><span>Blocklists, schedules and forced breaks</span></li>
-        <li><b>LeechBlock</b><span>Blocks sites inside one browser</span></li>
-        <li><b>StayFocusd</b><span>A daily time budget for sites, in Chrome</span></li>
-        <li class="rivals-us"><b>All Block</b><span>Switches the mouse and keyboard
-            off, whatever is open</span></li>
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>Cold Turkey</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>Freedom</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>FocusMe</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-win"/></svg>
+            <b>LeechBlock</b><span>One browser</span></li>
+        <li><svg class="ricon"><use href="#i-win"/></svg>
+            <b>StayFocusd</b><span>One browser</span></li>
+        <li class="rivals-us"><svg class="ricon"><use href="#i-input"/></svg>
+            <b>All Block</b><span>Mouse + keyboard</span></li>
       </ul>
     </div>
     <div class="vs-say rise">
