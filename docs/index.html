@@ -281,20 +281,25 @@ img{max-width:100%;height:auto;display:block}
 /* Cited research, deliberately not styled as a testimonial: no faces, no
    quote-mark ornament, no logos. It sits above the four cases, well away from
    any price or Download button, so nothing here reads as an endorsement. */
-.cited{margin:64px 0 0;padding:32px 0 0;border-top:1px solid var(--line);
-  display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,4.5vw,64px);
-  align-items:start}
-.cited-note{grid-column:1/-1;margin:0;font-family:var(--mono);font-size:11px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.who-top{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
+  gap:clamp(38px,5vw,78px);align-items:start}
+.who-top .head p{max-width:44ch}
+.cited{display:grid;gap:30px;align-content:start;padding-left:26px;
+  border-left:1px solid var(--line)}
+.cited-note{margin:0;font-family:var(--mono);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ash);line-height:1.7}
 .cite{margin:0}
-.cite blockquote{margin:0;font-size:17px;line-height:1.75;color:var(--ink);
-  font-weight:600;max-width:42ch}
-.cite > p{margin:0;font-size:17px;line-height:1.75;color:var(--ink);
-  font-weight:600;max-width:42ch}
+.cite blockquote{margin:0;font-size:16px;line-height:1.7;color:var(--ink);
+  font-weight:600;max-width:40ch}
+.cite > p{margin:0;font-size:16px;line-height:1.7;color:var(--ink);
+  font-weight:600;max-width:40ch}
 .cite figcaption{margin-top:14px;font-size:13px;line-height:1.6;color:var(--ash);
   max-width:44ch}
 .cite figcaption a{color:var(--ash);text-underline-offset:3px}
-@media(max-width:860px){.cited{grid-template-columns:1fr;gap:34px}}
+@media(max-width:940px){.who-top{grid-template-columns:1fr;gap:40px}
+  .cited{padding-left:0;border-left:0;padding-top:28px;
+    border-top:1px solid var(--line)}
+  .who-top .head p{max-width:54ch}}
 .cases{display:grid;grid-template-columns:1fr 1fr;
   column-gap:clamp(52px,6.5vw,92px);row-gap:clamp(92px,10vw,158px);
   margin-top:104px}
@@ -645,6 +650,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 <!-- ═══ WHO IT'S FOR ═══ -->
 <section class="who" id="who">
   <div class="wrap">
+    <div class="who-top">
     <div class="head rise">
       <p class="eyebrow">Who it's for</p>
       <h2>If willpower were enough you'd have stopped by now</h2>
@@ -679,6 +685,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           <a href="https://doi.org/10.1177/0956797612437426"
           rel="noopener nofollow">Source</a></figcaption>
       </figure>
+    </div>
     </div>
 
     <div class="cases">
@@ -722,6 +729,67 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </section>
 
 <!-- ═══ SCHEDULE ═══ -->
+<section class="vs" id="vs">
+  <div class="wrap vs-grid">
+    <div class="vs-lede rise">
+      <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
+      <h2>They block a list. This blocks the machine.</h2>
+      <!-- three glyphs, reused: a list, a browser window, the two input
+           devices. The repeat down the column is the argument. -->
+      <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+        <symbol id="i-list" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round">
+          <path d="M7 5h9M7 10h9M7 15h9M3.5 5h.01M3.5 10h.01M3.5 15h.01"/>
+        </symbol>
+        <symbol id="i-win" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round">
+          <rect x="2.5" y="3.5" width="15" height="13" rx="2"/>
+          <path d="M2.5 7.5h15M5.5 5.5h.01M8 5.5h.01"/>
+        </symbol>
+        <!-- the product's own mark: legible at 20px where a mouse-and-keyboard
+             drawing just turns to mush -->
+        <symbol id="i-input" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="1.7" stroke-linecap="round">
+          <circle cx="10" cy="10" r="7.2"/>
+          <path d="M5.1 14.9 14.9 5.1"/>
+        </symbol>
+      </svg>
+      <ul class="rivals">
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>Cold Turkey</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>Freedom</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-list"/></svg>
+            <b>FocusMe</b><span>A list</span></li>
+        <li><svg class="ricon"><use href="#i-win"/></svg>
+            <b>LeechBlock</b><span>One browser</span></li>
+        <li><svg class="ricon"><use href="#i-win"/></svg>
+            <b>StayFocusd</b><span>One browser</span></li>
+        <li class="rivals-us"><svg class="ricon"><use href="#i-input"/></svg>
+            <b>All Block</b><span>Mouse + keyboard</span></li>
+      </ul>
+    </div>
+    <div class="vs-say rise">
+      <p>Every other blocker works from a list of <em>things</em> — these sites,
+         those apps, a list you're expected to keep current. A list has edges, and
+         the itch is extraordinarily good at finding them: the app you forgot to
+         add, the second browser, the phone hotspot, the setting you can still
+         reach because your keyboard still works.</p>
+      <p>All Block keeps no list, because it isn't blocking things. It takes
+         <em>the mouse and the keyboard</em> away for the length of the session.
+         Not the browser — the computer. There is no app it forgot about and no
+         window you can click into instead, because clicking has stopped
+         happening.</p>
+      <p>And it closes the doors those apps leave open. It runs as admin, so
+         nothing else can shut it down. It survives a reboot and comes back still
+         locked. Task Manager, Alt+Tab and Ctrl+Alt+Del go with everything else.</p>
+      <p class="vs-pull">Then the schedule removes the last door — you. A block
+         that turns up on its own at 09:00 was never a decision you made, and the
+         itch lives entirely inside that decision. Put the Accountability Lock on
+         top and even <em>you</em> can't take it back.</p>
+    </div>
+  </div>
+</section>
 <section class="sched" id="schedule">
   <div class="wrap">
     <div class="head rise">
@@ -812,67 +880,6 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </section>
 
 <!-- ═══ VS — for people arriving from another blocker ═══ -->
-<section class="vs" id="vs">
-  <div class="wrap vs-grid">
-    <div class="vs-lede rise">
-      <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
-      <h2>They block a list. This blocks the machine.</h2>
-      <!-- three glyphs, reused: a list, a browser window, the two input
-           devices. The repeat down the column is the argument. -->
-      <svg width="0" height="0" aria-hidden="true" style="position:absolute">
-        <symbol id="i-list" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                stroke-width="1.6" stroke-linecap="round">
-          <path d="M7 5h9M7 10h9M7 15h9M3.5 5h.01M3.5 10h.01M3.5 15h.01"/>
-        </symbol>
-        <symbol id="i-win" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                stroke-width="1.6" stroke-linecap="round">
-          <rect x="2.5" y="3.5" width="15" height="13" rx="2"/>
-          <path d="M2.5 7.5h15M5.5 5.5h.01M8 5.5h.01"/>
-        </symbol>
-        <!-- the product's own mark: legible at 20px where a mouse-and-keyboard
-             drawing just turns to mush -->
-        <symbol id="i-input" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                stroke-width="1.7" stroke-linecap="round">
-          <circle cx="10" cy="10" r="7.2"/>
-          <path d="M5.1 14.9 14.9 5.1"/>
-        </symbol>
-      </svg>
-      <ul class="rivals">
-        <li><svg class="ricon"><use href="#i-list"/></svg>
-            <b>Cold Turkey</b><span>A list</span></li>
-        <li><svg class="ricon"><use href="#i-list"/></svg>
-            <b>Freedom</b><span>A list</span></li>
-        <li><svg class="ricon"><use href="#i-list"/></svg>
-            <b>FocusMe</b><span>A list</span></li>
-        <li><svg class="ricon"><use href="#i-win"/></svg>
-            <b>LeechBlock</b><span>One browser</span></li>
-        <li><svg class="ricon"><use href="#i-win"/></svg>
-            <b>StayFocusd</b><span>One browser</span></li>
-        <li class="rivals-us"><svg class="ricon"><use href="#i-input"/></svg>
-            <b>All Block</b><span>Mouse + keyboard</span></li>
-      </ul>
-    </div>
-    <div class="vs-say rise">
-      <p>Every other blocker works from a list of <em>things</em> — these sites,
-         those apps, a list you're expected to keep current. A list has edges, and
-         the itch is extraordinarily good at finding them: the app you forgot to
-         add, the second browser, the phone hotspot, the setting you can still
-         reach because your keyboard still works.</p>
-      <p>All Block keeps no list, because it isn't blocking things. It takes
-         <em>the mouse and the keyboard</em> away for the length of the session.
-         Not the browser — the computer. There is no app it forgot about and no
-         window you can click into instead, because clicking has stopped
-         happening.</p>
-      <p>And it closes the doors those apps leave open. It runs as admin, so
-         nothing else can shut it down. It survives a reboot and comes back still
-         locked. Task Manager, Alt+Tab and Ctrl+Alt+Del go with everything else.</p>
-      <p class="vs-pull">Then the schedule removes the last door — you. A block
-         that turns up on its own at 09:00 was never a decision you made, and the
-         itch lives entirely inside that decision. Put the Accountability Lock on
-         top and even <em>you</em> can't take it back.</p>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ INSIDE ═══ -->
 <section class="feat" id="inside">
