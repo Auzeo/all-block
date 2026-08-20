@@ -9,10 +9,14 @@
 <meta property="og:title" content="All Block">
 <meta property="og:description" content="A blocker you can't bypass: All Block switches your mouse and keyboard off until the timer ends.">
 <!-- .ico first, for the browsers that only ever ask for /favicon.ico; the SVG
-     wins wherever it's understood and stays sharp on a hidpi tab -->
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+     wins wherever it's understood and stays sharp on a hidpi tab.
+     The ?v= and the renamed SVG are cache-busters: Firefox keeps favicons in a
+     store of its own, keyed by URL and largely deaf to revalidation, so the
+     very first icon this site ever published (a slash, no ring) kept coming
+     back however many times the file behind it was rewritten. -->
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
 <link rel="canonical" href="https://allblock.dpdns.org/">
 <meta property="og:url" content="https://allblock.dpdns.org/">
 <meta property="og:type" content="website">
@@ -66,7 +70,15 @@ img{max-width:100%;height:auto;display:block}
 
 /* ── nav: one pill, badge and action included ─────────────────────── */
 .nav{position:fixed;top:16px;left:0;right:0;z-index:60;
-  display:flex;justify-content:center;padding-inline:16px}
+  display:flex;justify-content:center;padding-inline:16px;
+  /* Reading down, the pill gets out of the way; reading back up, it returns.
+     The two directions are deliberately not symmetric: leaving is quick so it
+     doesn't linger over the text, coming back is slower and eased so it
+     arrives rather than snaps. The transition on the base rule is the one
+     that plays coming back; the one on .tucked plays going away. */
+  transition:transform .52s cubic-bezier(.16,.84,.28,1),opacity .34s ease}
+.nav.tucked{transform:translateY(calc(-100% - 22px));opacity:0;
+  transition:transform .26s cubic-bezier(.4,0,1,1),opacity .18s linear}
 .nav-pill{display:flex;align-items:center;gap:2px;
   background:var(--card);border:1px solid var(--line);border-radius:999px;
   padding:4px;box-shadow:0 12px 34px -18px rgba(0,0,0,.34)}
@@ -211,7 +223,11 @@ img{max-width:100%;height:auto;display:block}
 .js .rise.in{opacity:1;transform:none}
 
 /* ── the block: page goes dark, because that's what the app does ──── */
-.scrub{height:265vh;position:relative;background:var(--void);color:var(--chalk)}
+/* 265vh gave the pin only 1.65 screens of travel, so the clock ran down at
+   about four seconds a pixel and the whole section blew past in one flick of
+   the wheel. 360vh spreads the same scrub over 2.6 screens — slow enough to
+   read the numbers, still short enough not to feel like a dead zone. */
+.scrub{height:360vh;position:relative;background:var(--void);color:var(--chalk)}
 .scrub-pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;
   overflow:hidden}
 .scrub-inner{width:100%;max-width:1180px;padding-inline:var(--gut);
@@ -248,7 +264,7 @@ img{max-width:100%;height:auto;display:block}
 .blocklist li.cut .nm{text-decoration:line-through;
   text-decoration-color:var(--lock-hi);text-decoration-thickness:2px}
 .blocklist li.keep .tag{opacity:1;transform:none;color:var(--dim)}
-@media(max-width:900px){.scrub{height:235vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
+@media(max-width:900px){.scrub{height:300vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
 
 /* ── who it's for ─────────────────────────────────────────────────────
    Four cases, not four features. Each one is somebody's actual evening, so
@@ -443,6 +459,9 @@ footer a:hover{color:var(--ink)}
     animation-iteration-count:1!important;transition-duration:.01ms!important}
   .js .rise{opacity:1;transform:none}
   .blk{transform:scaleX(1)}
+  /* a pill that jumps in and out with no motion to explain it is worse than
+     one that simply stays, so here it stays */
+  .nav.tucked{transform:none;opacity:1}
 }
 </style>
 </head>
@@ -488,7 +507,7 @@ footer a:hover{color:var(--ink)}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.10.0</b></p>
+      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.1.0</b></p>
       <h1>A blocker you can't bypass<em>the whole device, not a list of apps</em></h1>
       <p class="hero-sub">Other blockers block a list you can edit. All Block
         switches your <b>mouse and keyboard</b> off until the timer ends.</p>
@@ -951,10 +970,25 @@ function run(){ if (reduce){ pos = target; draw(); return; }
                 if (!raf) raf = requestAnimationFrame(loop); }
 function go(v){ target = Math.max(0, Math.min(PRESETS.length - 1, v)); run(); }
 
+/* The drum used to swallow every wheel event that crossed it. It's over half
+   the hero tall, so scrolling down the page there moved no page at all — it
+   raced through thirteen presets instead, which is the "scrolls extremely
+   fast" spot. Now it only takes the wheel once you've actually picked it up
+   (a click or a Tab focus), it hands the wheel back at either end of the
+   drum, and it steps at a readable pace rather than per notch. */
+var spun = 0;
 el.addEventListener("wheel", function(e){
+  if (document.activeElement !== el) return;      // not yours — let the page go
+  var dir = e.deltaY > 0 ? 1 : -1, at = Math.round(target);
+  if ((dir > 0 && at === PRESETS.length - 1) || (dir < 0 && at === 0)) return;
   e.preventDefault();
-  go(Math.round(target) + (e.deltaY > 0 ? 1 : -1));
+  var now = e.timeStamp || Date.now();
+  if (now - spun < 110) return;
+  spun = now;
+  go(at + dir);
 }, {passive:false});
+/* clicking the drum should pick it up, not just start a drag */
+el.addEventListener("pointerdown", function(){ el.focus({preventScroll:true}); });
 
 el.addEventListener("keydown", function(e){
   if (e.key === "ArrowUp"   || e.key === "ArrowLeft" ){ e.preventDefault(); go(Math.round(target) - 1); }
@@ -1073,16 +1107,45 @@ var links = {};
 /* [data-spy] only — the badge and the download action share the pill but
    are not section links, so they must never take the "here" state. */
 document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){ links[a.dataset.spy] = a; });
-var spy = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){
-    if (!en.isIntersecting) return;
-    for (var k in links) links[k].classList.remove("here");
-    if (links[en.target.id]) links[en.target.id].classList.add("here");
-  });
-}, {rootMargin:"-45% 0px -50% 0px"});
-["top","who","block","lock","inside","pricing"].forEach(function(id){
-  var n = document.getElementById(id); if (n) spy.observe(n);
-});
+
+/* This used to be an IntersectionObserver over a thin band. Observers hand you
+   entries in no defined order and only when a boundary is crossed, so whichever
+   entry happened to fire last won the "here" state — which is how "The block"
+   could light up while "Who it's for" still filled the screen. Sections are
+   ordered on the page, so read them that way instead: the section you're in is
+   the last one whose top has passed the reading line, and that can only ever
+   be one answer. */
+var spyNodes = ["top","who","block","lock","inside","pricing"]
+      .map(function(id){ return document.getElementById(id); })
+      .filter(Boolean),
+    spyAt = null;
+
+function paintSpy(){
+  var line = window.innerHeight * 0.42, cur = spyNodes[0];
+  for (var i = 0; i < spyNodes.length; i++){
+    if (spyNodes[i].getBoundingClientRect().top <= line) cur = spyNodes[i];
+  }
+  /* the last section is usually short enough that its top never reaches the
+     line before the page runs out of scroll — at the bottom, it's the one */
+  if (window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 4) cur = spyNodes[spyNodes.length - 1];
+  if (cur === spyAt) return;
+  spyAt = cur;
+  for (var k in links) links[k].classList.remove("here");
+  if (links[cur.id]) links[cur.id].classList.add("here");
+}
+
+/* ── the nav tucks away going down, returns coming up ─────────────── */
+var nav = document.querySelector(".nav"), navY = window.scrollY, navHid = false;
+function paintNav(){
+  var y = Math.max(0, window.scrollY), dy = y - navY;
+  if (Math.abs(dy) < 7) return;            // ignore trackpad jitter and rubber-band
+  navY = y;
+  var hide = dy > 0 && y > 150;            // never hide over the hero
+  if (hide === navHid) return;
+  navHid = hide;
+  nav.classList.toggle("tucked", hide);
+}
 
 /* ── scroll scrubs the countdown ──────────────────────────────────
    The section is 265vh with a sticky pin, so its progress maps onto 0→1
@@ -1117,11 +1180,14 @@ function paint(){
   cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
   cdstate.classList.toggle("done", done);
 }
+/* one listener, one frame: the countdown, the nav and the spy all read the
+   same scroll position instead of each forcing their own layout pass */
+function frame(){ paint(); paintNav(); paintSpy(); }
 addEventListener("scroll", function(){
-  if (!ticking){ ticking = true; requestAnimationFrame(paint); }
+  if (!ticking){ ticking = true; requestAnimationFrame(frame); }
 }, {passive:true});
-addEventListener("resize", paint);
-paint();
+addEventListener("resize", frame);
+frame();
 })();
 </script>
 </body>
