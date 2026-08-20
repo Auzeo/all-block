@@ -382,6 +382,24 @@ img{max-width:100%;height:auto;display:block}
 .vs-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
   gap:clamp(32px,6vw,84px);align-items:start}
 .vs h2{font-size:clamp(29px,3.3vw,44px);text-transform:uppercase;margin-top:14px}
+/* The left column was heading-and-then-nothing while the argument ran down the
+   right, so it names the tools people are actually arriving from. Each line says
+   what that tool works *from* — every one of them a list — which is the whole
+   point of the section, and the last row answers it. Sticky, so the comparison
+   stays put while the prose scrolls past it. */
+.vs-lede{position:sticky;top:104px}
+.rivals{list-style:none;margin:40px 0 0;padding:0;max-width:34ch}
+.rivals li{display:grid;grid-template-columns:1fr;gap:3px;padding:15px 0;
+  border-top:1px solid var(--line)}
+.rivals li b{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink);font-weight:500}
+.rivals li span{font-size:14px;color:var(--ash);line-height:1.6}
+.rivals .rivals-us{border-top:1px solid var(--ink);margin-top:6px;
+  padding-left:16px;border-left:3px solid var(--lock)}
+.rivals .rivals-us b{color:var(--lock-txt);font-weight:700}
+.rivals .rivals-us span{color:var(--ink);font-weight:600}
+@media(max-width:860px){.vs-lede{position:static}
+  .rivals{max-width:none;margin-top:32px}}
 .vs-say p{margin:0 0 70px;color:var(--ash);font-size:18px;max-width:44ch;
   line-height:2.05}
 .vs-say em{font-style:normal;color:var(--ink);font-weight:600}
@@ -748,9 +766,20 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 <!-- ═══ VS — for people arriving from another blocker ═══ -->
 <section class="vs" id="vs">
   <div class="wrap vs-grid">
-    <div class="rise">
+    <div class="vs-lede rise">
       <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
       <h2>They block a list. This blocks the machine.</h2>
+      <ul class="rivals">
+        <li><b>Cold Turkey</b><span>A blocklist of sites and apps, plus a timed
+            lockout screen</span></li>
+        <li><b>Freedom</b><span>A list of sites and apps, synced across your
+            devices</span></li>
+        <li><b>FocusMe</b><span>Blocklists, schedules and forced breaks</span></li>
+        <li><b>LeechBlock</b><span>Blocks sites inside one browser</span></li>
+        <li><b>StayFocusd</b><span>A daily time budget for sites, in Chrome</span></li>
+        <li class="rivals-us"><b>All Block</b><span>Switches the mouse and keyboard
+            off, whatever is open</span></li>
+      </ul>
     </div>
     <div class="vs-say rise">
       <p>Every other blocker works from a list of <em>things</em> — these sites,
