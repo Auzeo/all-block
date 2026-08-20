@@ -1,0 +1,86 @@
+<title>Email Confirmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fafafa; --card:#ffffff; --card2:#ece8de;
+    --ink:#18181a; --muted:#68646a; --faint:#9a9590;
+    --green:#1f9d55; --line:#e6e1d4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0b0b0d; --card:#151518; --card2:#1e1e22;
+      --ink:#f5f5f7; --muted:#a6a6ad; --faint:#75757e;
+      --green:#4cc479; --line:#2a2a30;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b0b0d; --card:#151518; --card2:#1e1e22;
+    --ink:#f5f5f7; --muted:#a6a6ad; --faint:#75757e;
+    --green:#4cc479; --line:#2a2a30;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+
+  .card{
+    width:100%; max-width:380px;
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:40px 34px 34px;
+    text-align:center;
+    box-shadow:0 20px 50px -25px rgba(0,0,0,.35);
+  }
+
+  .badge{
+    width:52px; height:52px; margin:0 auto 22px;
+    border-radius:15px; background:var(--green);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .badge svg{width:26px; height:26px}
+  [data-theme="dark"] .badge svg, .badge svg{stroke:#0b0b0d}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .badge svg{stroke:#0b0b0d}
+  }
+
+  h1{
+    margin:0 0 10px;
+    font-size:21px; font-weight:700; letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  p{
+    margin:0; color:var(--muted);
+    font-size:13.5px; font-weight:500; line-height:1.65;
+    max-width:30ch; margin-inline:auto;
+  }
+
+  .foot{
+    margin-top:28px; padding-top:20px; border-top:1px solid var(--line);
+    color:var(--faint); font-size:10px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .badge{ animation:pop .38s cubic-bezier(.2,.9,.3,1.2) both; }
+    .card{ animation:rise .32s ease both; }
+  }
+  @keyframes pop{ from{ transform:scale(.6); opacity:0 } to{ transform:scale(1); opacity:1 } }
+  @keyframes rise{ from{ transform:translateY(6px); opacity:0 } to{ transform:translateY(0); opacity:1 } }
+</style>
+
+<div class="card">
+  <div class="badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12.5l5 5L20 7"/>
+    </svg>
+  </div>
+  <h1>You're confirmed</h1>
+  <p>Your email is verified. Close this tab and head back to All Block to sign in.</p>
+  <div class="foot">All Block</div>
+</div>
