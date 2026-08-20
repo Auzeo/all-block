@@ -288,6 +288,10 @@ img{max-width:100%;height:auto;display:block}
 .holds li::before{content:"";width:15px;height:9px;flex:none;
   transform:rotate(-45deg) translateY(-2px);
   border-left:2px solid var(--lock);border-bottom:2px solid var(--lock)}
+/* the tick is a flex item, so any inline element left loose in the li becomes
+   one too — which pushed "on" into a column of its own with an 11px gap either
+   side. The text goes in one span, and stays one run. */
+.holds li>span{min-width:0}
 .holds li em{font-style:normal;color:var(--ink);font-weight:700}
 .hold-foot{margin:28px auto 0;max-width:50ch;font-size:14.5px;color:var(--ash)}
 @media(max-width:660px){.holds{grid-template-columns:1fr}}
@@ -662,7 +666,7 @@ footer a:hover{color:var(--ink)}
         <li>The panic key stops working</li>
         <li>All Block can't be closed or quit</li>
         <li>It re-arms itself at every restart</li>
-        <li>Turning it back <em>on</em> never needs the password</li>
+        <li><span>Turning it back <em>on</em> never needs the password</span></li>
       </ul>
 
       <p class="hold-foot">One thing it deliberately leaves alone: the monthly
@@ -879,7 +883,8 @@ footer a:hover{color:var(--ink)}
 <footer><div class="wrap in">
   <span>All Block — the blocker there's no way around.</span>
   <span>© 2026 Auzeo · All rights reserved ·
-    <a href="https://github.com/Auzeo/all-block">github.com/Auzeo/all-block</a></span>
+    <a href="https://github.com/Auzeo/all-block">github.com/Auzeo/all-block</a> ·
+    <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a></span>
 </div></footer>
 
 <script>
