@@ -97,13 +97,15 @@ img{max-width:100%;height:auto;display:block}
 .hero{min-height:100svh;display:grid;place-items:center;padding:150px 0 90px}
 .hero-grid{display:grid;grid-template-columns:1fr 1.06fr;
   align-items:center;gap:clamp(28px,5vw,72px);width:100%}
-.hero h1{font-size:clamp(40px,5.2vw,70px);font-variation-settings:"wdth" 112;
-  text-transform:uppercase;margin-top:16px}
+.hero h1{font-size:clamp(38px,4.7vw,62px);font-variation-settings:"wdth" 112;
+  text-transform:uppercase;margin-top:16px;line-height:1.08;
+  letter-spacing:-.005em;max-width:15ch}
 /* the second line steps down and changes case — hierarchy, not five equal
    lines of shouting */
 .hero h1 em{font-style:normal;color:var(--lock);display:block;
-  font-size:.44em;text-transform:none;letter-spacing:-.01em;
-  font-variation-settings:"wdth" 100;font-weight:700;margin-top:.42em}
+  font-size:.4em;text-transform:none;letter-spacing:-.01em;line-height:1.2;
+  font-variation-settings:"wdth" 100;font-weight:700;margin-top:.5em;
+  max-width:24ch}
 .hero-sub{color:var(--ash);margin:24px 0 0;max-width:40ch;font-size:16.5px}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 .hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;
@@ -180,13 +182,16 @@ img{max-width:100%;height:auto;display:block}
 }
 
 /* ── section furniture ────────────────────────────────────────────── */
-.head{max-width:24ch}
+/* A `ch` on .head is measured in 17px body text, so a 24ch container was about
+   200px wide — and the 62px headline inside it had no choice but to break after
+   every word. Measures belong on the elements that set the type size, where a
+   `ch` means what it says. */
+.head{max-width:none}
 /* .95 is right for a two-word headline and far too tight for a five-word one,
-   which is what left the pricing heading looking welded together. Balance the
-   wrap and give the lines somewhere to sit. */
-.head h2{font-size:clamp(32px,4.6vw,62px);text-transform:uppercase;margin-top:14px;
-  line-height:1.02;text-wrap:balance}
-.head p{color:var(--ash);max-width:48ch;font-size:16px}
+   which is what left these headings looking welded together. */
+.head h2{font-size:clamp(30px,4.2vw,56px);text-transform:uppercase;margin-top:16px;
+  line-height:1.1;letter-spacing:-.005em;text-wrap:balance;max-width:19ch}
+.head p{color:var(--ash);max-width:52ch;font-size:16px;margin-top:20px}
 .rule{height:1px;background:var(--line)}
 /* only hide these once we know JS is running to reveal them again — otherwise
    a script error would leave the whole page permanently invisible */
@@ -239,7 +244,6 @@ img{max-width:100%;height:auto;display:block}
    they're set as an argument with a rule down the side — the same device the
    .vs-pull quote uses — rather than as another grid of icon cards. */
 .who{padding:clamp(90px,13vw,150px) 0}
-.who .head{max-width:30ch}
 .who .head p{max-width:54ch}
 .cases{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,48px);
   margin-top:56px}
@@ -330,8 +334,7 @@ img{max-width:100%;height:auto;display:block}
 /* ── first run: three steps, numbered because they are a sequence ─── */
 .first{padding:clamp(90px,13vw,150px) 0}
 /* this one's intro is a paragraph, not a caption, so it gets room */
-.first .head{max-width:56ch}
-.first .head h2{max-width:13ch}
+.first .head h2{max-width:14ch}
 .first .head p{max-width:52ch}
 .steps{list-style:none;counter-reset:step;margin:48px 0 0;padding:0;
   display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
@@ -378,8 +381,8 @@ img{max-width:100%;height:auto;display:block}
 .price{padding:clamp(90px,13vw,150px) 0;border-top:1px solid var(--line)}
 /* centred, and the heading gets its own measure — inheriting the 24ch column
    meant a 62px display face wrapping inside a width set for 16px body text */
-.price .head{max-width:none;text-align:center}
-.price .head h2{max-width:15ch;margin-inline:auto}
+.price .head{text-align:center}
+.price .head h2{max-width:16ch;margin-inline:auto}
 .price .head p{max-width:54ch;margin-inline:auto}
 .price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;
   margin:52px auto 0;max-width:860px;align-items:stretch}
@@ -468,12 +471,12 @@ footer a:hover{color:var(--ink)}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.0.4</b></p>
-      <h1>There is no way around it<em>and that is the entire point</em></h1>
+      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.0.5</b></p>
+      <h1>A device blocker with no way around it<em>it locks the whole computer, not a list of apps</em></h1>
       <p class="hero-sub">Every other blocker keeps a list — and the itch always
-        finds what isn't on it. All Block doesn't block apps or websites. It
-        switches your mouse and keyboard off, system-wide, until the time is up.
-        No pause. No second browser. No rebooting your way out.</p>
+        finds whatever isn't on it. All Block doesn't block apps or websites.
+        It switches your mouse and keyboard off, system-wide, until the time is
+        up. No pause. No second browser. No rebooting your way out.</p>
       <div class="hero-cta">
         <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/All.Block.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
@@ -635,7 +638,7 @@ footer a:hover{color:var(--ink)}
 <section class="hold" id="lock">
   <div class="wrap">
     <div class="hold-in rise">
-      <p class="eyebrow">Accountability Lock &nbsp;·&nbsp; <b>Pro</b></p>
+      <p class="eyebrow">Accountability Lock &nbsp;·&nbsp; <b>Free</b></p>
       <h2>Hand the key to somebody else</h2>
       <p class="hold-lede">A schedule only holds until the person it's meant to stop
          goes into Settings and deletes it. So set a password — and let a parent, a
@@ -700,7 +703,7 @@ footer a:hover{color:var(--ink)}
         <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg></div>
         <h3>Accountability Lock</h3>
         <p>A password that stops the schedule being edited, switched off or closed —
-           by anyone who doesn't have it. Pro.</p>
+           by anyone who doesn't have it. Free, in every copy.</p>
       </div>
       <div class="card rise">
         <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
@@ -758,9 +761,9 @@ footer a:hover{color:var(--ink)}
     <div class="head rise">
       <p class="eyebrow">Pricing</p>
       <h2>Pay once, or not at all</h2>
-      <p>Manual sessions from ten seconds to three hours are free forever — that's
-         the promise the app is shared on. Pro lifts the caps around the schedule
-         and adds the Accountability Lock.</p>
+      <p>Manual sessions, the schedule and the Accountability Lock are all free
+         forever — that's the promise the app is shared on. Pro only lifts the
+         caps on how long and how many.</p>
     </div>
 
     <div class="price-grid">
@@ -772,6 +775,7 @@ footer a:hover{color:var(--ink)}
           <li>Manual sessions, <b>10 seconds to 3 hours</b></li>
           <li><b>Three</b> scheduled blocks</li>
           <li>Scheduled blocks up to <b>3 hours</b></li>
+          <li><b>Accountability Lock</b> — a password someone else holds</li>
           <li><b>One</b> emergency unlock a month</li>
           <li>Survives restarts, full session history</li>
         </ul>
@@ -789,7 +793,6 @@ footer a:hover{color:var(--ink)}
           <li>Sessions of <b>4, 6, 8 and 12 hours</b></li>
           <li><b>Unlimited</b> scheduled blocks</li>
           <li>Scheduled blocks up to <b>12 hours</b></li>
-          <li><b>Accountability Lock</b> — a password someone else holds</li>
           <li><b>Three</b> emergency unlocks a month</li>
           <li>Optional account keeps Pro across reinstalls</li>
         </ul>
@@ -811,9 +814,9 @@ footer a:hover{color:var(--ink)}
     <div class="head rise">
       <p class="eyebrow">First run</p>
       <h2>Windows will warn you</h2>
-      <p>All Block isn't code-signed — a certificate costs more than this app
-         makes, which is nothing. SmartScreen flags anything unsigned, so you
-         get this once. Here's the way through it.</p>
+      <p>All Block isn't code-signed yet, and SmartScreen warns about anything
+         unsigned no matter what's in it. So you'll see this once, on the first
+         launch. Here's the way through it.</p>
     </div>
 
     <ol class="steps">
