@@ -125,9 +125,10 @@ img{max-width:100%;height:auto;display:block}
   margin-left:6px;transition:background .22s,color .22s}
 .nav-pill a.nav-cta:hover{background:var(--lock);color:#fff}
 .theme-toggle{width:31px;height:31px;flex:none;border-radius:50%;padding:0;
-  border:0;background:transparent;color:var(--ash);cursor:pointer;
-  display:grid;place-items:center;margin-left:2px;transition:color .2s,background .2s}
-.theme-toggle:hover{color:var(--ink);background:var(--sand)}
+  border:1px solid var(--line);background:var(--sand);color:var(--ink);cursor:pointer;
+  display:grid;place-items:center;margin-left:4px;margin-right:2px;
+  transition:color .2s,background .2s,border-color .2s}
+.theme-toggle:hover{color:var(--ink);background:var(--card);border-color:var(--ash)}
 .theme-toggle svg{width:16px;height:16px;grid-area:1/1}
 .theme-toggle .i-moon{display:none}
 [data-theme="dark"] .theme-toggle .i-sun{display:none}
