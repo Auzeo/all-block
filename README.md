@@ -20,7 +20,7 @@ Website blockers and app blockers are easy to argue with. You hit a paywall, you
 
 It's a single-purpose tool built around one idea: the only distraction blocker that actually works is one you can't casually click your way out of. Start a session and you're left with whatever isn't on a screen — a book, a walk, an actual conversation — until the timer decides otherwise.
 
-**A free alternative to** [Cold Turkey Blocker](https://getcoldturkey.com/), [Freedom](https://freedom.to/), [FocusMe](https://focusme.com/), [Forest](https://www.forestapp.cc/), [SelfControl](https://selfcontrolapp.com/), [Opal](https://www.opal.so/), and [StayFocusd](https://chromewebstore.google.com/detail/laankejkbhbdhmipfmgcngdelahlfoji) — for people who want a hard lockout instead of a blocklist you can just click past.
+**A free alternative to** [Cold Turkey Blocker](https://getcoldturkey.com/), [Freedom](https://freedom.to/), [FocusMe](https://focusme.com/), [LeechBlock](https://www.proginosko.com/leechblock/), and [StayFocusd](https://chromewebstore.google.com/detail/laankejkbhbdhmipfmgcngdelahlfoji) — for people who want a hard lockout instead of a blocklist you can just click past.
 
 ## Screenshots
 
@@ -41,6 +41,12 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 <sub>One-time setup wizard</sub>
 </td>
 <td align="center" width="50%">
+<img src="screenshots/settings.png" alt="Settings panel"><br>
+<sub>Settings</sub>
+</td>
+</tr>
+<tr>
+<td align="center" colspan="2">
 <img src="screenshots/lock-screen.png" alt="Fullscreen lock overlay with countdown"><br>
 <sub>Fullscreen lock, mid-session</sub>
 </td>
