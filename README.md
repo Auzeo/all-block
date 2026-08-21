@@ -7,7 +7,7 @@
 **A blocker you can't bypass — the whole device, not a list of apps. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
 
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6?logo=windows&logoColor=white)](#)
-[![Version](https://img.shields.io/badge/version-7.3.0-1f6feb)](https://github.com/Auzeo/all-block/releases)
+[![Version](https://img.shields.io/badge/version-7.3.1-1f6feb)](https://github.com/Auzeo/all-block/releases)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](LICENSE)
 
 </div>
@@ -113,11 +113,15 @@ All Block genuinely disables your mouse and keyboard for the length of a session
 
 ## About
 
-All Block is built by one person, not a company — an Irish-Palestinian software engineer and graphic designer working solo, with no team and no investors behind it.
+**A note from the developer:**
 
-I built the first version for myself. The usual advice for staying off your phone or laptop assumes willpower is the thing missing — it isn't. A blocker you can switch off in two clicks isn't a blocker, it's a suggestion. So this one costs something to get out of, on purpose, and Windows itself keeps the appointment even when the app isn't open.
+I tried pretty much every blocker out there, and always found a way to sneak past them once I'd started — so I built one myself that wouldn't let me, or at least make it not worth my effort to bypass.
 
-Every screen, sound and line of it was designed and written by hand, by someone who's dealt with the same pull toward the same screens as everyone else. If it helps you get something done, that's the whole point — I'd rather make one useful thing than a hundred forgettable ones.
+Entire project was by one person, not a company or anything. Just a small-time Irish design and software engineer without a team or investors, so your support and feedback would mean so much.
+
+Got an idea or spotted a bug? [Email me](mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion) — I'd love to hear it!
+
+— Auzeo
 
 ## Support the project
 
