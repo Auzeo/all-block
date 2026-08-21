@@ -7,7 +7,7 @@
 **A blocker you can't bypass — the whole device, not a list of apps. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
 
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6?logo=windows&logoColor=white)](#)
-[![Version](https://img.shields.io/badge/version-7.2.9-1f6feb)](https://github.com/Auzeo/all-block/releases)
+[![Version](https://img.shields.io/badge/version-7.3.0-1f6feb)](https://github.com/Auzeo/all-block/releases)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](LICENSE)
 
 </div>
