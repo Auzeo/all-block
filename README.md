@@ -4,12 +4,11 @@
 
 # All Block
 
-**A ruthless FREE focus timer for Windows. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
+**A blocker you can't bypass — the whole device, not a list of apps. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
 
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#)
-[![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](#)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6?logo=windows&logoColor=white)](#)
+[![Version](https://img.shields.io/badge/version-7.2.9-1f6feb)](https://github.com/Auzeo/all-block/releases)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](LICENSE)
-[![Built with customtkinter](https://img.shields.io/badge/UI-customtkinter-1f6feb)](#)
 
 </div>
 
@@ -17,11 +16,9 @@
 
 ## Why All Block exists
 
-Website blockers and app blockers are easy to argue with. You hit a paywall, you disable the extension, you're back on the site in ten seconds. All Block skips the negotiation: once a session starts, your mouse and keyboard stop working system‑wide, full stop, until the timer hits zero. There's no "just one more tab" — there's no input at all.
+Website blockers and app blockers are easy to argue with. You hit a paywall, you disable the extension, you're back on the site in ten seconds. All Block skips the negotiation: once a session starts, your mouse and keyboard stop working system-wide, full stop, until the timer hits zero. There's no "just one more tab" — there's no input at all.
 
 It's a single-purpose tool built around one idea: the only distraction blocker that actually works is one you can't casually click your way out of. Start a session and you're left with whatever isn't on a screen — a book, a walk, an actual conversation — until the timer decides otherwise.
-
-All Block is completely free. It was inspired by Blockit, the Android app that does the same "lock yourself out" trick on phones — this is that idea, brought to Windows desktops.
 
 **A free alternative to** [Cold Turkey Blocker](https://getcoldturkey.com/), [Freedom](https://freedom.to/), [FocusMe](https://focusme.com/), [Forest](https://www.forestapp.cc/), [SelfControl](https://selfcontrolapp.com/), [Opal](https://www.opal.so/), and [StayFocusd](https://chromewebstore.google.com/detail/laankejkbhbdhmipfmgcngdelahlfoji) — for people who want a hard lockout instead of a blocklist you can just click past.
 
@@ -52,33 +49,35 @@ All Block is completely free. It was inspired by Blockit, the Android app that d
 
 ## Features
 
-- **Hard input lock** — low-level `WH_KEYBOARD_LL` / `WH_MOUSE_LL` Windows hooks swallow every mouse and keyboard event system-wide for the duration of a session, not just inside the app.
-- **Fullscreen countdown** — a distraction-free, always-on-top lock screen shows exactly how much time is left, and re-asserts itself instantly if anything (Alt-Tab, a touchpad gesture, a display change) tries to shove it aside.
-- **Flexible durations** — a smooth scroll-wheel picker from 10 seconds up to 3 hours, so you can use it for a quick test run or a full deep-work block.
-- **Resume on restart** — if a reboot or forced restart happens mid-session, All Block picks the countdown back up where it left off instead of silently letting you off the hook.
-- **Follows your Windows theme** — launches in light or dark mode to match your system setting automatically, with an animated circular wipe if you switch it manually.
-- **Runs completely offline** — no internet connection needed, ever. Every icon is hand-drawn on a canvas, every UI sound is synthesized in-process, and fonts are bundled — no network calls, no telemetry, nothing phoning home.
+- **Hard input lock** — low-level Windows hooks swallow every mouse and keyboard event system-wide for the duration of a session, not just inside the app.
+- **Fullscreen countdown** — a distraction-free, always-on-top lock screen shows exactly how much time is left, and re-asserts itself instantly if anything tries to shove it aside.
+- **Scheduled blocks** — set recurring blocks that start themselves, so the session doesn't depend on you remembering to press Start.
+- **Accountability Lock** — an optional password on schedule edits, so "just this once" takes more than one click to talk yourself into.
+- **Survives restarts** — if a reboot or forced restart happens mid-session, All Block picks the countdown back up where it left off instead of silently letting you off the hook.
+- **Session history** — tracks focus time and streaks so progress isn't just a feeling.
+- **Runs as administrator** — closes the "just kill it in Task Manager" escape hatch; Ctrl+Alt+Del is deliberately left alone, since Windows reserves that as a secure attention sequence no app can intercept.
+- **Follows your Windows theme** — light or dark, matching your system setting automatically.
 
-## How it works
+## Free vs. Pro
 
-All Block is a single-file Python desktop app built on `customtkinter`. When you start a session:
+|  | Free | Pro — £2.99 one-time |
+|---|---|---|
+| Manual sessions | 10 seconds – 3 hours | Same, plus 4/6/8/12-hour options |
+| Scheduled blocks | Up to 3 | Unlimited |
+| Max scheduled block length | 3 hours | 12 hours |
+| Emergency unlocks | 1 / month | 3 / month |
 
-1. A fullscreen, always-on-top `Toplevel` window fades in and takes over the display.
-2. `SetWindowsHookEx` installs low-level keyboard and mouse hooks that intercept and discard input before any other application (including Explorer) ever sees it. `BlockInput()` is layered on as a second line of defense.
-3. A tick loop redraws the countdown, re-asserts topmost/fullscreen if the OS tries to demote the window, and re-arms the input hook every frame so a stray Ctrl+Alt+Del bounce can't sneak past it.
-4. When the timer hits zero, the hooks are released and the lock window smoothly fades away.
-
-The one thing that's deliberately left untouched is <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd> — Windows reserves that as a secure attention sequence no app can intercept, so there's always a way out to Task Manager if something goes wrong.
+Manual sessions are always free — the cap only applies to *scheduled* blocks. Pro is a one-time purchase, not a subscription.
 
 ## Getting started
 
-Download the latest `All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install, no dependencies.
+Download the latest `All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install required.
 
-Right-click → **Run as Administrator** if you want website blocking and the strongest input lock — All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
+Right-click → **Run as Administrator** for website blocking and the strongest input lock — All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
 
 ### Getting past the "Windows protected your PC" warning
 
-All Block isn't code-signed (a certificate costs money All Block doesn't charge you for), so the first time you run a freshly downloaded copy, Windows will show its standard warning for unsigned apps. This is normal, not a sign anything is wrong — here's how to get past it:
+All Block isn't code-signed (a certificate costs money All Block doesn't charge you for), so the first time you run a freshly downloaded copy, Windows will show its standard warning for unsigned apps. This is normal, not a sign anything is wrong:
 
 <table>
 <tr>
@@ -101,16 +100,9 @@ All Block isn't code-signed (a certificate costs money All Block doesn't charge 
 
 1. **"Windows protected your PC"** appears — this is Microsoft Defender SmartScreen flagging that the app has no publisher certificate, not that it detected anything malicious. Click **More info**.
 2. The dialog expands to show the app name and "Unknown publisher." Click **Run anyway**.
-3. Windows then asks to confirm the admin permissions the app needs (see [Why All Block exists](#why-all-block-exists) for what that's used for) — click **Yes**.
+3. Windows then asks to confirm the admin permissions the app needs — click **Yes**.
 
 After the first run, Windows remembers your choice and won't ask again for that copy of the exe.
-
-## Usage
-
-1. Launch All Block.
-2. Scroll (or drag, or use the arrow keys) the wheel to pick a duration.
-3. Click **Start**.
-4. Your input is gone. Go do the thing you were avoiding.
 
 ## Safety notes
 
@@ -119,19 +111,20 @@ All Block genuinely disables your mouse and keyboard for the length of a session
 - Start a session only when you're actually ready to lose input for that long.
 - It's built and tested for solo, single-user desktops. It isn't designed as a parental-control or multi-user access-control tool.
 
-## Tech stack
+## About
 
-- **Python 3** + [`customtkinter`](https://github.com/TomSchimansky/CustomTkinter) for the UI
-- **Win32 API** (via `ctypes`) for low-level input hooks, DWM window styling, and fullscreen placement
-- **Pillow** for on-the-fly icon rendering, blurred/rotated wheel labels, and the theme-switch wipe animation
-- **PyInstaller** for packaging a standalone Windows executable
+All Block is built by one person, not a company — an Irish-Palestinian software engineer and graphic designer working solo, with no team and no investors behind it.
 
-## Credits
+I built the first version for myself. The usual advice for staying off your phone or laptop assumes willpower is the thing missing — it isn't. A blocker you can switch off in two clicks isn't a blocker, it's a suggestion. So this one costs something to get out of, on purpose, and Windows itself keeps the appointment even when the app isn't open.
 
-UI text is set in [Montserrat](https://github.com/JulietaUla/Montserrat) (SIL Open Font License).
+Every screen, sound and line of it was designed and written by hand, by someone who's dealt with the same pull toward the same screens as everyone else. If it helps you get something done, that's the whole point — I'd rather make one useful thing than a hundred forgettable ones.
 
-Inspired by Blockit, the Android app that locks your phone during a session — All Block brings the same idea to Windows.
+## Support the project
+
+All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £2.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
 
 ## License
 
 All Rights Reserved. See [LICENSE](LICENSE). © Auzeo
+
+Source code for this release is not published — see [LICENSE](LICENSE). The site in [`docs/`](docs) remains open so the download page and marketing site can be inspected or self-hosted.
