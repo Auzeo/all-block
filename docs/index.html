@@ -389,6 +389,16 @@ img{max-width:100%;height:auto;display:block}
 .shot--one{max-width:none;margin:0;text-align:left}
 .hold-foot{margin:44px auto 0;max-width:50ch;font-size:14.5px;color:var(--ash);
   line-height:1.8}
+.dev-note .hold-foot{margin-top:18px}
+.dev-note .hold-foot:first-of-type{margin-top:32px}
+.dev-note .hold-foot a{color:var(--blue);font-weight:600}
+.dev-note .hold-foot a:hover{text-decoration:underline}
+.dev-note-head{display:flex;align-items:center;justify-content:center;gap:10px}
+.dev-note-logo{width:34px;height:34px;border-radius:50%;object-fit:cover;
+  border:1px solid var(--line)}
+.dev-note-who{font-size:12.5px;letter-spacing:.04em;color:var(--ash);font-weight:600}
+.dev-note-sign{margin:22px auto 0;max-width:50ch;font-size:14.5px;
+  font-weight:700;color:var(--ink)}
 @media(max-width:940px){
   .hold-pair{grid-template-columns:1fr;gap:34px;max-width:760px;margin-top:48px}
   .hold-pair .holds{grid-template-columns:1fr 1fr}
@@ -1086,20 +1096,23 @@ footer a:hover{color:var(--ink);text-decoration:underline}
   <div class="wrap">
     <div class="hold-in rise">
       <p class="eyebrow">About</p>
-      <h2>Built by one person, not a company</h2>
-      <p class="hold-lede">An Irish-Palestinian software engineer and graphic designer,
-         working solo — no team, no investors behind it.</p>
+      <h2>Why this exists</h2>
     </div>
-    <div class="hold-in">
-      <p class="hold-foot">I built the first version for myself. The usual advice for
-         staying off your phone or laptop assumes willpower is the thing missing — it
-         isn't. A blocker you can switch off in two clicks isn't a blocker, it's a
-         suggestion. So this one costs something to get out of, on purpose, and Windows
-         itself keeps the appointment even when the app isn't open.</p>
-      <p class="hold-foot">Every screen, sound and line of it was designed and written
-         by hand, by someone who's dealt with the same pull toward the same screens as
-         everyone else. If it helps you get something done, that's the whole point —
-         I'd rather make one useful thing than a hundred forgettable ones.</p>
+    <div class="hold-in dev-note">
+      <div class="dev-note-head">
+        <img src="img/auzeo-logo.png" alt="Auzeo logo" class="dev-note-logo">
+        <span class="dev-note-who">A note from the developer</span>
+      </div>
+      <p class="hold-foot">I tried pretty much every blocker out there, and always
+         found a way to sneak past them once I'd started — so I built one myself
+         that wouldn't let me. Turns out it worked.</p>
+      <p class="hold-foot">Just one person behind it, not a company — a small-time
+         Irish software engineer and designer, no team, no investors, just me
+         tinkering away.</p>
+      <p class="hold-foot">Got an idea or spotted a bug?
+         <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion">Email me</a>
+         — I'd love to hear it.</p>
+      <p class="dev-note-sign">— Auzeo</p>
     </div>
   </div>
 </section>
