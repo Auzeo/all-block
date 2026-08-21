@@ -327,7 +327,7 @@ img{max-width:100%;height:auto;display:block}
 /* ── the accountability lock ──────────────────────────────────────────
    The one feature somebody else operates, so it gets the sand ground and a
    centred measure — a held note between two busy sections. */
-.hold{padding:clamp(104px,14vw,176px) 0;background:var(--sand);
+.hold{padding:clamp(104px,11vw + 11vh,400px) 0;background:var(--sand);
   border-block:1px solid var(--line)}
 .hold-in{max-width:760px;margin-inline:auto;text-align:center}
 .hold h2{font-size:clamp(30px,4vw,54px);text-transform:uppercase;margin-top:14px;
@@ -366,7 +366,7 @@ img{max-width:100%;height:auto;display:block}
 @media(max-width:660px){.holds,.hold-pair .holds{grid-template-columns:1fr}}
 
 /* ── schedule ─────────────────────────────────────────────────────── */
-.sched{padding:clamp(90px,13vw,150px) 0}
+.sched{padding:clamp(90px,11vw + 11vh,380px) 0}
 .week{margin-top:52px;border:1px solid var(--line);border-radius:18px;
   background:var(--card);overflow:hidden;
   box-shadow:0 30px 70px -55px rgba(0,0,0,.5)}
@@ -444,7 +444,7 @@ img{max-width:100%;height:auto;display:block}
 @media(max-width:860px){.vs-grid{grid-template-columns:1fr}}
 
 /* ── first run: three steps, numbered because they are a sequence ─── */
-.first{padding:clamp(90px,13vw,150px) 0}
+.first{padding:clamp(90px,11vw + 11vh,380px) 0}
 /* this one's intro is a paragraph, not a caption, so it gets room */
 .first .head h2{max-width:14ch}
 .first .head p{max-width:52ch}
@@ -465,7 +465,7 @@ img{max-width:100%;height:auto;display:block}
 @media(max-width:860px){.steps{grid-template-columns:1fr;gap:34px}}
 
 /* ── features ─────────────────────────────────────────────────────── */
-.feat{padding:clamp(90px,13vw,150px) 0;background:var(--card);
+.feat{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
   border-block:1px solid var(--line)}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:60px}
 .card{border:1px solid var(--line);border-radius:16px;background:var(--paper);
@@ -490,7 +490,7 @@ img{max-width:100%;height:auto;display:block}
 
 /* ── get it ───────────────────────────────────────────────────────── */
 /* ── pricing: two plans, the paid one carrying the lock green ─────── */
-.price{padding:clamp(90px,13vw,150px) 0;border-top:1px solid var(--line)}
+.price{padding:clamp(90px,11vw + 11vh,380px) 0;border-top:1px solid var(--line)}
 /* centred, and the heading gets its own measure — inheriting the 24ch column
    meant a 62px display face wrapping inside a width set for 16px body text */
 .price .head{text-align:center}
@@ -524,7 +524,7 @@ img{max-width:100%;height:auto;display:block}
 .price-foot a:hover{border-bottom-color:var(--lock-txt)}
 @media(max-width:820px){.price-grid{grid-template-columns:1fr;max-width:460px}}
 
-.get{padding:clamp(90px,13vw,150px) 0;text-align:center}
+.get{padding:clamp(90px,11vw + 11vh,380px) 0;text-align:center}
 .get h2{font-size:clamp(36px,6vw,80px);text-transform:uppercase;margin-top:14px}
 .get p{color:var(--ash);max-width:46ch;margin:20px auto 0}
 .get .hero-cta{justify-content:center}
