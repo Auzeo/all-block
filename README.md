@@ -4,7 +4,7 @@
 
 # The All Block
 
-**A blocker you can't bypass — the whole device, not a list of apps. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
+**A blocker you can't bypass, so the 1am spiral never starts. Schedule the cutoff once, and your keyboard and mouse are gone at bedtime until the timer ends.**
 
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011-0078D6?logo=windows&logoColor=white)](#)
 [![Version](https://img.shields.io/badge/version-7.3.1-1f6feb)](https://github.com/Auzeo/all-block/releases)
@@ -66,14 +66,14 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 
 ## Free vs. Pro
 
-|  | Free | Pro — £2.99 one-time |
+|  | Free | Pro — £4.99 one-time |
 |---|---|---|
 | Manual sessions | 10 seconds – 3 hours | Same, plus 4/6/8/12/24-hour options |
 | Scheduled blocks | Up to 3 | Unlimited |
 | Max scheduled block length | 3 hours | 24 hours |
 | Emergency unlocks | 1 / month | 3 / month |
 
-Manual sessions are always free — the cap only applies to *scheduled* blocks. Pro is a one-time purchase, not a subscription.
+Manual sessions are always free — the cap only applies to *scheduled* blocks. Pro is a one-time purchase, not a subscription. Need just one more emergency unlock without going full Pro? A single **Escape** costs **£0.99** and never expires.
 
 ## Getting started
 
@@ -125,13 +125,13 @@ I tried pretty much every blocker out there, and always found a way to sneak pas
 
 Entire project was by one person, not a company or anything. Just a small-time Irish design and software engineer without a team or investors, so your support and feedback would mean so much.
 
-Got an idea or spotted a bug? [Email me](mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion) — I'd love to hear it!
+Got an idea or spotted a bug? [Email me](mailto:MrAuzeo@protonmail.com?subject=The%20All%20Block%20suggestion) — I'd love to hear it!
 
 — Auzeo
 
 ## Support the project
 
-The All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £2.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
+The All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £4.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
 
 ## License
 
