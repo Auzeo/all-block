@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="All Block">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="The All Block">
   <!-- The title-bar mark at icon scale, on the header glyph's own proportions:
        ring radius .2045 of the disc, stroke .0545, and a butt-capped slash whose
        ends land on the ring rather than poking through it — 5.6,5.6→18.4,18.4 in
@@ -13,3 +13,4 @@
     <path d="M22.74 22.74 41.26 41.26"/>
   </g>
 </svg>
+

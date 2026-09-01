@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Set a new password — All Block</title>
-<meta name="description" content="Choose a new password for your All Block account.">
+<title>Set a new password — The All Block</title>
+<meta name="description" content="Choose a new password for your The All Block account.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://allblock.dpdns.org/reset.html">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
@@ -91,7 +91,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </head>
 <body>
 <main class="doc">
-  <p class="eyebrow"><a href="/">All Block</a></p>
+  <p class="eyebrow"><a href="/">The All Block</a></p>
   <h1>Set a new password</h1>
 
   <!-- GoTrue puts the recovery token in the URL *fragment*, which never
@@ -167,7 +167,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       if (!r.ok) throw new Error((r.body && (r.body.msg || r.body.error_description)) ||
                                  "That didn't work. The link may have expired.");
       $("form").hidden = true;
-      $("intro").innerHTML = "<b>Password changed.</b> Head back to All Block and sign in with it.";
+      $("intro").innerHTML = "<b>Password changed.</b> Head back to The All Block and sign in with it.";
     }).catch(function(err){
       $("go").disabled = false;
       say(err.message);
@@ -177,3 +177,4 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </script>
 </body>
 </html>
+
