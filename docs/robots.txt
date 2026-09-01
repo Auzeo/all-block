@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://allblock.dpdns.org/sitemap.xml
+Sitemap: https://theallblock.com/sitemap.xml
