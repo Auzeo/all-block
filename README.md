@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/logo.png" width="96" height="96" alt="All Block logo">
+<img src="assets/logo.png" width="96" height="96" alt="The All Block logo">
 
-# All Block
+# The All Block
 
 **A blocker you can't bypass — the whole device, not a list of apps. Pick a duration, hit Start, and your keyboard and mouse are gone until the clock runs out.**
 
@@ -14,9 +14,9 @@
 
 ---
 
-## Why All Block exists
+## Why The All Block exists
 
-Website blockers and app blockers are easy to argue with. You hit a paywall, you disable the extension, you're back on the site in ten seconds. All Block skips the negotiation: once a session starts, your mouse and keyboard stop working system-wide, full stop, until the timer hits zero. There's no "just one more tab" — there's no input at all.
+Website blockers and app blockers are easy to argue with. You hit a paywall, you disable the extension, you're back on the site in ten seconds. The All Block skips the negotiation: once a session starts, your mouse and keyboard stop working system-wide, full stop, until the timer hits zero. There's no "just one more tab" — there's no input at all.
 
 It's a single-purpose tool built around one idea: the only distraction blocker that actually works is one you can't casually click your way out of. Start a session and you're left with whatever isn't on a screen — a book, a walk, an actual conversation — until the timer decides otherwise.
 
@@ -59,7 +59,7 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 - **Fullscreen countdown** — a distraction-free, always-on-top lock screen shows exactly how much time is left, and re-asserts itself instantly if anything tries to shove it aside.
 - **Scheduled blocks** — set recurring blocks that start themselves, so the session doesn't depend on you remembering to press Start.
 - **Accountability Lock** — an optional password on schedule edits, so "just this once" takes more than one click to talk yourself into.
-- **Survives restarts** — if a reboot or forced restart happens mid-session, All Block picks the countdown back up where it left off instead of silently letting you off the hook.
+- **Survives restarts** — if a reboot or forced restart happens mid-session, The All Block picks the countdown back up where it left off instead of silently letting you off the hook.
 - **Session history** — tracks focus time and streaks so progress isn't just a feeling.
 - **Runs as administrator** — closes the "just kill it in Task Manager" escape hatch; Ctrl+Alt+Del is deliberately left alone, since Windows reserves that as a secure attention sequence no app can intercept.
 - **Follows your Windows theme** — light or dark, matching your system setting automatically.
@@ -68,22 +68,22 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 
 |  | Free | Pro — £2.99 one-time |
 |---|---|---|
-| Manual sessions | 10 seconds – 3 hours | Same, plus 4/6/8/12-hour options |
+| Manual sessions | 10 seconds – 3 hours | Same, plus 4/6/8/12/24-hour options |
 | Scheduled blocks | Up to 3 | Unlimited |
-| Max scheduled block length | 3 hours | 12 hours |
+| Max scheduled block length | 3 hours | 24 hours |
 | Emergency unlocks | 1 / month | 3 / month |
 
 Manual sessions are always free — the cap only applies to *scheduled* blocks. Pro is a one-time purchase, not a subscription.
 
 ## Getting started
 
-Download the latest `All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install required.
+Download the latest `The All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install required.
 
-Right-click → **Run as Administrator** for website blocking and the strongest input lock — All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
+Right-click → **Run as Administrator** for website blocking and the strongest input lock — The All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
 
 ### Getting past the "Windows protected your PC" warning
 
-All Block isn't code-signed (a certificate costs money All Block doesn't charge you for), so the first time you run a freshly downloaded copy, Windows will show its standard warning for unsigned apps. This is normal, not a sign anything is wrong:
+The All Block isn't code-signed (a certificate costs money The All Block doesn't charge you for), so the first time you run a freshly downloaded copy, Windows will show its standard warning for unsigned apps. This is normal, not a sign anything is wrong:
 
 <table>
 <tr>
@@ -112,7 +112,7 @@ After the first run, Windows remembers your choice and won't ask again for that 
 
 ## Safety notes
 
-All Block genuinely disables your mouse and keyboard for the length of a session — that's the entire point, so please use it deliberately:
+The All Block genuinely disables your mouse and keyboard for the length of a session — that's the entire point, so please use it deliberately:
 
 - Start a session only when you're actually ready to lose input for that long.
 - It's built and tested for solo, single-user desktops. It isn't designed as a parental-control or multi-user access-control tool.
@@ -131,7 +131,7 @@ Got an idea or spotted a bug? [Email me](mailto:MrAuzeo@protonmail.com?subject=A
 
 ## Support the project
 
-All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £2.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
+The All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £2.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
 
 ## License
 
