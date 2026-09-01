@@ -77,7 +77,7 @@ Manual sessions are always free — the cap only applies to *scheduled* blocks. 
 
 ## Getting started
 
-Download the latest `The All Block.exe` from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install required.
+Download the latest release from the [Releases](https://github.com/Auzeo/all-block/releases) page and run it — no install required. The exe's filename carries its version (e.g. `The All Block v7.6.8.exe`), so it's always clear which one is newest.
 
 Right-click → **Run as Administrator** for website blocking and the strongest input lock — The All Block still runs without it, just with a couple of protections skipped (the wizard will tell you exactly what's missing).
 
