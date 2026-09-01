@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://allblock.dpdns.org/</loc>
+    <loc>https://theallblock.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://allblock.dpdns.org/terms.html</loc>
+    <loc>https://theallblock.com/terms.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://allblock.dpdns.org/privacy.html</loc>
+    <loc>https://theallblock.com/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://allblock.dpdns.org/refunds.html</loc>
+    <loc>https://theallblock.com/refunds.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
