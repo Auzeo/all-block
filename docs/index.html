@@ -31,14 +31,14 @@ try{
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The All Block">
 <!-- absolute, because WhatsApp/Slack/Discord don't resolve relative og:image -->
-<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.7.2-2">
+<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.7.3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
 <meta property="og:image:alt" content="The All Block: the headline A blocker you can't bypass, so the 1am spiral never starts, beside a duration wheel set to 10 minutes.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The All Block">
 <meta name="twitter:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
-<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.7.2-2">
+<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.7.3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- the fonts were the one render-blocking request on the page: a round trip
@@ -507,6 +507,28 @@ img{max-width:100%;height:auto;display:block}
   display:grid;place-items:center}
 @media(max-width:860px){.steps{grid-template-columns:1fr;gap:34px}}
 
+/* ── faq: plain disclosure rows, questions people actually hit ────── */
+.faq{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
+  border-block:1px solid var(--line)}
+.faq .head h2{max-width:16ch}
+.faq-list{max-width:780px;margin:48px auto 0;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{list-style:none;cursor:pointer;position:relative;
+  padding:22px 46px 22px 0;font-size:17px;font-weight:600;color:var(--ink)}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:10px;top:50%;
+  transform:translateY(-50%);font-family:var(--mono);font-size:20px;
+  line-height:1;color:var(--ash);transition:transform .18s ease}
+.faq-item[open] summary::after{content:"\2212"}
+.faq-item summary:hover{color:var(--ash)}
+.faq-a{padding:0 0 24px;max-width:66ch;color:var(--ash);
+  font-size:15.5px;line-height:1.72}
+.faq-a p{margin:0 0 10px}.faq-a p:last-child{margin:0}
+.faq-a b{color:var(--ink);font-weight:600}
+.faq-a kbd{font-family:var(--mono);font-size:12.5px;white-space:nowrap;
+  background:var(--sand);border:1px solid var(--line);border-radius:6px;
+  padding:2px 6px;color:var(--ink)}
+
 /* ── features ─────────────────────────────────────────────────────── */
 .feat{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
   border-block:1px solid var(--line)}
@@ -615,6 +637,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <a href="#lock" data-spy="lock">The lock</a>
     <a href="#inside" data-spy="inside">Features</a>
     <a href="#pricing" data-spy="pricing">Pricing</a>
+    <a href="#faq" data-spy="faq">FAQ</a>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
       <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/>
@@ -623,7 +646,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
       </svg>
     </button>
-    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.2.exe">Download</a>
+    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.3.exe">Download</a>
   </div>
 </nav>
 
@@ -650,13 +673,13 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.7.2</b></p>
+      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.7.3</b></p>
       <h1>A blocker you can't bypass<em>Your Keyboard and mouse, locked until the timer ends</em></h1>
       <p class="hero-sub">Start the timer — at bedtime, mid-game,
         mid-scroll, whenever you need it. <b>No clicking, no alt-tabbing,
         no negotiating your way back in</b> before then.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.2.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.3.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
@@ -1027,7 +1050,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           <li><b>One</b> emergency unlock a month</li>
           <li>Survives restarts, full session history</li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.2.exe">
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.3.exe">
           Download The All Block
         </a>
       </div>
@@ -1044,7 +1067,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           <li><b>Three</b> emergency unlocks a month</li>
           <li>Optional account keeps Pro across reinstalls</li>
         </ul>
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.2.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.3.exe">
           Get it in the app
         </a>
       </div>
@@ -1057,6 +1080,85 @@ footer a:hover{color:var(--ink);text-decoration:underline}
        <a href="/refunds.html">refund policy</a>. Only need one more emergency
        unlock this month? A single <b>Escape</b> is <b>£0.99</b> and never
        expires — no need to go full Pro for it.</p>
+  </div>
+</section>
+
+<!-- ═══ FAQ — the questions that actually come in ═══ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="head rise">
+      <p class="eyebrow">FAQ</p>
+      <h2>If something goes sideways</h2>
+    </div>
+
+    <div class="faq-list rise">
+      <details class="faq-item">
+        <summary>A session started on its own, or in the middle of the night — why?</summary>
+        <div class="faq-a">
+          <p>That's a <b>scheduled block</b> firing. Scheduled blocks run at their set
+             time whether the app is open or not, and on a laptop they're allowed to
+             wake the machine so the block starts on time.</p>
+          <p>Open <b>The All Block → Schedule</b> to see, change or delete any block. A
+             session you start by hand never begins on its own.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>I'm stuck on the lock screen and nothing responds. How do I get out?</summary>
+        <div class="faq-a">
+          <p>Press <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd>, then open Task
+             Manager and end <b>The All Block</b>. Windows reserves that combination at
+             the system level, so the lock screen can never intercept it — it is always
+             your way back in.</p>
+          <p>To end the session the proper way instead, hold <kbd>Esc</kbd> for five
+             seconds to spend one of your monthly emergency unlocks.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How many emergency unlocks do I get?</summary>
+        <div class="faq-a">
+          <p>One a month on the free tier, three a month on Pro — they refill on the
+             1st. Need another in the same month, an extra <b>Escape is £0.99</b> and
+             never expires. Hold <kbd>Esc</kbd> for five seconds on the lock screen to
+             use one.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Does closing the app or restarting my PC end a session?</summary>
+        <div class="faq-a">
+          <p>No. The All Block re-arms the same session when it comes back, down to the
+             time that was left. <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> →
+             Task Manager is still there if you genuinely need out before the timer.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>My touchpad is acting weird after I restarted during a break.</summary>
+        <div class="faq-a">
+          <p>The All Block switches off some touchpad gestures while a session runs and
+             switches them back on afterward — a restart mid-session can interrupt that
+             hand-back, so clicks, scrolling or gestures feel off.</p>
+          <p>The app repairs it on its next launch. To fix it yourself right away, open
+             <b>Windows Settings → Bluetooth &amp; devices → Touchpad</b> and click
+             <b>“Reset touchpad settings and gestures to defaults.”</b> Everything
+             returns to normal straight away.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>The failsafe (Ctrl&nbsp;+&nbsp;P&nbsp;+&nbsp;L&nbsp;+&nbsp;M) isn't working.</summary>
+        <div class="faq-a">
+          <p>That combo is switched off whenever the <b>Accountability Lock</b> is on —
+             that's the point of the lock. With the lock off, hold
+             <kbd>Ctrl</kbd> <kbd>P</kbd> <kbd>L</kbd> <kbd>M</kbd> to cancel a session
+             outright.</p>
+          <p>With the lock on, the only early way out is a monthly emergency unlock:
+             hold <kbd>Esc</kbd> for five seconds.</p>
+        </div>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -1130,7 +1232,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <p class="rise">One file, one wheel, and a computer that finally knows how to
        say no. Free to download, nothing to cancel.</p>
     <div class="hero-cta rise">
-      <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.2.exe">
+      <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.3.exe">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
         Download The All Block
       </a>
@@ -1389,7 +1491,7 @@ document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){ links[a.
    Sorted by where the sections actually sit in the document rather than by the
    order they're listed here — a hand-kept list is one more thing that can
    disagree with the page, which was half of the bug this fixes. */
-var spyNodes = ["top","block","who","lock","inside","pricing"]
+var spyNodes = ["top","block","who","lock","inside","pricing","faq"]
       .map(function(id){ return document.getElementById(id); })
       .filter(Boolean)
       .sort(function(a, b){
