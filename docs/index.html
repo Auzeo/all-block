@@ -507,27 +507,42 @@ img{max-width:100%;height:auto;display:block}
   display:grid;place-items:center}
 @media(max-width:860px){.steps{grid-template-columns:1fr;gap:34px}}
 
-/* ── faq: plain disclosure rows, questions people actually hit ────── */
-.faq{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
+/* ── faq: compact accordion, the questions that actually come in ──── */
+.faq{padding:clamp(76px,9vw + 7vh,200px) 0;background:var(--sand);
   border-block:1px solid var(--line)}
-.faq .head h2{max-width:16ch}
-.faq-list{max-width:780px;margin:48px auto 0;border-top:1px solid var(--line)}
-.faq-item{border-bottom:1px solid var(--line)}
-.faq-item summary{list-style:none;cursor:pointer;position:relative;
-  padding:22px 46px 22px 0;font-size:17px;font-weight:600;color:var(--ink)}
+.faq .head{text-align:center;margin-bottom:40px}
+.faq .head h2{max-width:22ch;margin-inline:auto;
+  font-size:clamp(26px,3.4vw,40px);letter-spacing:-.01em}
+.faq-list{max-width:680px;margin:0 auto;display:grid;gap:10px}
+.faq-item{border:1px solid var(--line);border-radius:14px;background:var(--card);
+  overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease}
+.faq-item:hover{border-color:#d3d3da}
+:root[data-theme="dark"] .faq-item:hover{border-color:#3a3a42}
+.faq-item[open]{border-color:var(--lock);
+  box-shadow:0 18px 44px -34px rgba(31,157,85,.5)}
+.faq-item summary{list-style:none;cursor:pointer;display:flex;align-items:center;
+  gap:16px;padding:16px 19px;font-size:15px;font-weight:600;color:var(--ink);
+  font-variation-settings:"wdth" 100}
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary::after{content:"+";position:absolute;right:10px;top:50%;
-  transform:translateY(-50%);font-family:var(--mono);font-size:20px;
-  line-height:1;color:var(--ash);transition:transform .18s ease}
-.faq-item[open] summary::after{content:"\2212"}
-.faq-item summary:hover{color:var(--ash)}
-.faq-a{padding:0 0 24px;max-width:66ch;color:var(--ash);
-  font-size:15.5px;line-height:1.72}
-.faq-a p{margin:0 0 10px}.faq-a p:last-child{margin:0}
+/* a plus built from two bars so it can rotate into an ✕ — no glyph, no jump */
+.faq-item summary::after{content:"";flex:none;width:12px;height:12px;margin-left:auto;
+  background:linear-gradient(var(--ash),var(--ash)) center/100% 2px no-repeat,
+             linear-gradient(var(--ash),var(--ash)) center/2px 100% no-repeat;
+  transition:transform .22s ease}
+.faq-item[open] summary::after{transform:rotate(135deg);
+  background:linear-gradient(var(--lock),var(--lock)) center/100% 2px no-repeat,
+             linear-gradient(var(--lock),var(--lock)) center/2px 100% no-repeat}
+.faq-a{padding:0 19px 17px;color:var(--ash);font-size:14px;line-height:1.65;
+  animation:faqIn .22s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.faq-a p{margin:0 0 9px}.faq-a p:last-child{margin:0}
 .faq-a b{color:var(--ink);font-weight:600}
-.faq-a kbd{font-family:var(--mono);font-size:12.5px;white-space:nowrap;
-  background:var(--sand);border:1px solid var(--line);border-radius:6px;
-  padding:2px 6px;color:var(--ink)}
+.faq-a kbd{font-family:var(--mono);font-size:11px;white-space:nowrap;
+  background:var(--sand);border:1px solid var(--line);border-radius:5px;
+  padding:1.5px 5px;color:var(--ink)}
+:root[data-theme="dark"] .faq-a kbd{background:var(--paper)}
+@media(max-width:520px){.faq-item summary{padding:14px 15px}
+  .faq-a{padding:0 15px 15px}}
 
 /* ── features ─────────────────────────────────────────────────────── */
 .feat{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
@@ -1093,69 +1108,52 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 
     <div class="faq-list rise">
       <details class="faq-item">
-        <summary>A session started on its own, or in the middle of the night — why?</summary>
+        <summary>A session started on its own, or in the middle of the night?</summary>
         <div class="faq-a">
           <p>That's a <b>scheduled block</b> firing. Scheduled blocks run at their set
-             time whether the app is open or not, and on a laptop they're allowed to
-             wake the machine so the block starts on time.</p>
-          <p>Open <b>The All Block → Schedule</b> to see, change or delete any block. A
-             session you start by hand never begins on its own.</p>
+             time whether the app is open or not, and on a laptop they can wake the
+             machine to start on time. Open <b>The All Block → Schedule</b> to change or
+             remove one — a session you start by hand never begins on its own.</p>
         </div>
       </details>
 
       <details class="faq-item">
-        <summary>I'm stuck on the lock screen and nothing responds. How do I get out?</summary>
+        <summary>I'm stuck on the lock screen and nothing responds.</summary>
         <div class="faq-a">
-          <p>Press <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd>, then open Task
-             Manager and end <b>The All Block</b>. Windows reserves that combination at
-             the system level, so the lock screen can never intercept it — it is always
-             your way back in.</p>
-          <p>To end the session the proper way instead, hold <kbd>Esc</kbd> for five
-             seconds to spend one of your monthly emergency unlocks.</p>
+          <p>Press <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> and end
+             <b>The All Block</b> from Task Manager. Windows reserves that combination
+             system-wide, so the lock screen can never intercept it — it's always your
+             way back in. To end the session properly instead, hold <kbd>Esc</kbd> for
+             five seconds to spend a monthly emergency unlock.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>How many emergency unlocks do I get?</summary>
         <div class="faq-a">
-          <p>One a month on the free tier, three a month on Pro — they refill on the
-             1st. Need another in the same month, an extra <b>Escape is £0.99</b> and
-             never expires. Hold <kbd>Esc</kbd> for five seconds on the lock screen to
-             use one.</p>
+          <p>One a month free, three a month on Pro, refilling on the 1st. Need another
+             the same month, an extra <b>Escape is £0.99</b> and never expires. Hold
+             <kbd>Esc</kbd> for five seconds on the lock screen to use one.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>Does closing the app or restarting my PC end a session?</summary>
         <div class="faq-a">
-          <p>No. The All Block re-arms the same session when it comes back, down to the
-             time that was left. <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> →
-             Task Manager is still there if you genuinely need out before the timer.</p>
+          <p>No — it re-arms the same session on the way back, down to the time that was
+             left. <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> → Task Manager is
+             still there if you genuinely need out before the timer.</p>
         </div>
       </details>
 
       <details class="faq-item">
-        <summary>My touchpad is acting weird after I restarted during a break.</summary>
+        <summary>My touchpad feels off after restarting during a break.</summary>
         <div class="faq-a">
-          <p>The All Block switches off some touchpad gestures while a session runs and
-             switches them back on afterward — a restart mid-session can interrupt that
-             hand-back, so clicks, scrolling or gestures feel off.</p>
-          <p>The app repairs it on its next launch. To fix it yourself right away, open
-             <b>Windows Settings → Bluetooth &amp; devices → Touchpad</b> and click
-             <b>“Reset touchpad settings and gestures to defaults.”</b> Everything
-             returns to normal straight away.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>The failsafe (Ctrl&nbsp;+&nbsp;P&nbsp;+&nbsp;L&nbsp;+&nbsp;M) isn't working.</summary>
-        <div class="faq-a">
-          <p>That combo is switched off whenever the <b>Accountability Lock</b> is on —
-             that's the point of the lock. With the lock off, hold
-             <kbd>Ctrl</kbd> <kbd>P</kbd> <kbd>L</kbd> <kbd>M</kbd> to cancel a session
-             outright.</p>
-          <p>With the lock on, the only early way out is a monthly emergency unlock:
-             hold <kbd>Esc</kbd> for five seconds.</p>
+          <p>The All Block disables some touchpad gestures during a session and restores
+             them after; a restart mid-session can interrupt that hand-back. The app
+             repairs it on its next launch, or fix it now in
+             <b>Windows Settings → Bluetooth &amp; devices → Touchpad</b> →
+             <b>“Reset touchpad settings and gestures to defaults.”</b></p>
         </div>
       </details>
     </div>
