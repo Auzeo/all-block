@@ -1,0 +1,31 @@
+# Supabase pauses a free project after about a week with no API traffic, and a
+# paused project loses its DNS record entirely - which is what took sign-in and
+# checkout down on 2026-09-18. This pings the REST root twice a week so the
+# project never gets there.
+#
+# The key below is the anon key every client of this project already ships
+# with; access is enforced by row-level security, not by keeping it secret.
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: "0 6 * * 1,4"   # Mondays and Thursdays, 06:00 UTC
+  workflow_dispatch:         # and a button, for testing
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the REST root
+        run: |
+          URL="https://jkssypznppzqmdndmssz.supabase.co/rest/v1/"
+          KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imprc3N5cHpucHB6cW1kbmRtc3N6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMDcwNjYsImV4cCI6MjEwMjc4MzA2Nn0.ujK9-FfekXhQ_6F2nep47u4K5KU2_Pwyax3Xww-YMMw"
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+                 -H "apikey: $KEY" "$URL")
+          echo "REST root answered $code"
+          # anything that answers at all counts as traffic; only a dead or
+          # unreachable project should fail the run
+          case "$code" in
+            2*|3*|4*) exit 0 ;;
+            *) echo "::error::Supabase did not answer (HTTP $code)"; exit 1 ;;
+          esac
