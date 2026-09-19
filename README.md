@@ -66,7 +66,7 @@ It's a single-purpose tool built around one idea: the only distraction blocker t
 
 ## Free vs. Pro
 
-|  | Free | Pro — £4.99 one-time |
+|  | Free | Pro — £7.99 one-time (or £1.99 for seven days) |
 |---|---|---|
 | Manual sessions | 10 seconds – 3 hours | Same, plus 4/6/8/12/24-hour options |
 | Scheduled blocks | Up to 3 | Unlimited |
@@ -131,7 +131,7 @@ Got an idea or spotted a bug? [Email me](mailto:MrAuzeo@protonmail.com?subject=T
 
 ## Support the project
 
-The All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £4.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
+The All Block ships free updates and support for both the free and Pro tiers. If you'd like to support development directly, the £7.99 Pro upgrade is the way to do that — it also unlocks longer sessions and unlimited scheduled blocks.
 
 ## License
 

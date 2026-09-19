@@ -13,7 +13,7 @@ try{
      truncates, and the old title was cut mid-phrase at "there's no…". The
      search-result headline lives in the description and og: tags. -->
 <title>The All Block for Windows</title>
-<meta name="description" content="Schedule the cutoff once and The All Block switches your mouse and keyboard off system-wide — at bedtime, mid-scroll, mid-game — until the timer ends. Free for Windows.">
+<meta name="description" content="Set the timer and The All Block switches your mouse and keyboard off system-wide — at bedtime, mid-scroll, mid-game — until it ends. Free for Windows.">
 <meta property="og:title" content="The All Block">
 <meta property="og:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
 <!-- .ico first, for the browsers that only ever ask for /favicon.ico; the SVG
@@ -25,80 +25,117 @@ try{
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
 <link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
-<meta name="theme-color" content="#fafafa" id="metaThemeColor">
+<meta name="theme-color" content="#faf9f6" id="metaThemeColor">
 <link rel="canonical" href="https://theallblock.com/">
 <meta property="og:url" content="https://theallblock.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The All Block">
 <!-- absolute, because WhatsApp/Slack/Discord don't resolve relative og:image -->
-<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.7.4">
+<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.9.2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
 <meta property="og:image:alt" content="The All Block: the headline A blocker you can't bypass, so the 1am spiral never starts, beside a duration wheel set to 10 minutes.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The All Block">
 <meta name="twitter:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
-<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.7.4">
+<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.9.2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- the fonts were the one render-blocking request on the page: a round trip
-     to fonts.googleapis.com held first paint for ~0.7s. media="print" makes the
-     sheet non-blocking, and onload promotes it the moment it lands. -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all';this.onload=null">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+<link rel="preload" as="image" href="img/photos/forest-1024.jpg" imagesrcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w" imagesizes="(max-width:900px) 100vw, 50vw">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap"></noscript>
 <style>
+/* ═══════════════════════════════════════════════════════════════════
+   theallblock.com — the live page.
+   Photography: generated for this project, no licence or credit obligations.
+   ═══════════════════════════════════════════════════════════════════ */
 :root{
-  /* pulled from the app's own light palette */
-  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
-  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
-  --lock:#1f9d55; --lock-txt:#177a41; --amber:#b8790a; --blue:#3568c9; --red:#cf3b2e;
-  /* the lock section inverts — that's the point of it */
-  --void:#0b0b0d; --chalk:#f5f5f7; --edge:#26262c; --dim:#8a8a92;
-  --lock-hi:#4cc479;
-  /* brand-black chips (logo badge, primary buttons) stay this colour in
-     either theme — they don't invert along with body text */
-  --onyx:#18181a; --onyx-text:#fafafa;
+  --paper:#faf9f6; --card:#ffffff; --sand:#f3f1ec; --hush:#eef1f0;
+  --ink:#141416; --ash:#6a6a72; --faint:#93939b; --line:#e6e3dc;
+  --green:#15a34a; --green-txt:#14803d; --green-soft:#e8f5ec; --green-deep:#14532d;
+  --onyx:#141416; --onyx-txt:#faf9f6;
   --display:"Archivo",system-ui,sans-serif;
   --body:"Montserrat",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
-  --gut:clamp(20px,5vw,64px);
+  --hand:"Caveat",ui-rounded,cursive;
+  --gut:clamp(20px,5vw,60px);
+  --wrap:1140px;
+  --r:18px;
+  --shadow:0 24px 60px -40px rgba(20,20,22,.45);
+  --photo:none;
+  /* how much paper is washed over the hero photograph on narrow screens, where
+     it goes full bleed and the copy sits straight on it. Raised for the forest
+     source: it's far denser than the pale ridge it replaced, and --ash body
+     text was losing contrast against the treeline through the middle. */
+  --veil1:60%; --veil2:72%; --veil3:92%;
   color-scheme:light;
 }
-/* dark palette reuses the void/chalk/edge/dim set the lock demo already
-   proved out, rather than inventing a second dark scale */
 :root[data-theme="dark"]{
-  --paper:#0b0b0d; --card:#18181b; --sand:#141416;
-  --ink:#f5f5f7; --ash:#8a8a92; --line:#26262c;
-  --lock-txt:#4cc479; --amber:#d99a2b; --blue:#5b84e0; --red:#e5564a;
+  --paper:#0d0d0f; --card:#171719; --sand:#131315; --hush:#141618;
+  --ink:#f4f4f6; --ash:#95959d; --faint:#74747c; --line:#28282e;
+  --green:#4ade80; --green-txt:#5fd98d; --green-soft:#16241b; --green-deep:#bbf7d0;
+  --onyx:#f4f4f6; --onyx-txt:#141416;
+  --shadow:0 24px 60px -40px rgba(0,0,0,.9);
+  --photo:brightness(.9) saturate(.85);
+  --veil1:54%; --veil2:68%; --veil3:92%;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-*{transition:background-color .25s ease,border-color .25s ease,color .25s ease}
-/* anchor jumps ask for smooth themselves; the root is left alone so
-   nothing the browser does for the user goes through a stylesheet */
-body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:var(--body);font-size:17px;line-height:1.75;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
-}
-h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.95;margin:0;
-  font-variation-settings:"wdth" 100;letter-spacing:-.02em}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.05;
+  margin:0;letter-spacing:-.025em}
+p{margin:0 0 1em}
 a{color:inherit}
-img{max-width:100%;height:auto;display:block}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:var(--gut)}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--ash);margin:0}
-.eyebrow b{color:var(--lock-txt);font-weight:400}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+/* Every grid child opts out of `auto` min sizing. Without this a 1520px
+   screenshot forces its column wider than the page and the layout blows
+   out sideways — which is exactly what went wrong in the first pass. */
+.grid>*{min-width:0}
+/* Photographs that exist in a light and a dark cut — the app render sitting
+   inside the monitor has to match the theme the visitor is actually in. */
+.swap-light{display:block}
+.swap-dark{display:none}
+:root[data-theme="dark"] .swap-light{display:none}
+:root[data-theme="dark"] .swap-dark{display:block}
+/* Nothing that pairs with these may set `display` on the img — a rule like
+   `.somefig img` out-specifies the two swap rules above and both cuts render
+   at once, stacked. Size them with width/height only. */
 
-/* ── nav: one pill, badge and action included ─────────────────────── */
-.nav{position:fixed;top:16px;left:0;right:0;z-index:60;
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--green-txt);margin:0 0 14px;font-weight:700}
+.eyebrow.mute{color:var(--faint)}
+.hand{font-family:var(--hand);color:var(--green-txt);font-size:26px;
+  line-height:1.2;font-weight:600;margin:0}
+.lede{color:var(--ash);max-width:58ch}
+h2.big{font-size:clamp(30px,4.2vw,48px)}
+
+/* ── buttons ─────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  background:var(--onyx);color:var(--onyx-txt);border:1px solid var(--onyx);
+  padding:14px 26px;border-radius:999px;font-weight:700;font-size:15px;
+  transition:transform .18s ease,box-shadow .18s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px -14px rgba(0,0,0,.45)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn--ghost:hover{border-color:var(--ash);box-shadow:none}
+.btn--light{background:#fff;color:#141416;border-color:#fff}
+.btn--clear{background:rgba(255,255,255,.12);color:#fff;
+  border-color:rgba(255,255,255,.45);backdrop-filter:blur(6px)}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+
+/* ── nav ─────────────────────────────────────────────────────── */
+/* Lifted from the live site so the two pages share one nav: a compact
+   centred pill rather than a full-width bar, the mark as a badge instead of
+   a wordmark, and a dot under the current section instead of a filled chip. */
+.nav{position:fixed;top:16px;left:0;right:0;z-index:70;
   display:flex;justify-content:center;padding-inline:16px;
   /* Reading down, the pill gets out of the way; reading back up, it returns.
      The two directions are deliberately not symmetric: leaving is quick so it
      doesn't linger over the text, coming back is slower and eased so it
-     arrives rather than snaps. The transition on the base rule is the one
-     that plays coming back; the one on .tucked plays going away. */
+     arrives rather than snaps. */
   transition:transform .52s cubic-bezier(.16,.84,.28,1),opacity .34s ease}
 .nav.tucked{transform:translateY(calc(-100% - 22px));opacity:0;
   transition:transform .26s cubic-bezier(.4,0,1,1),opacity .18s linear}
@@ -112,573 +149,766 @@ img{max-width:100%;height:auto;display:block}
 .nav-pill a.here{color:var(--ink);font-weight:700}
 .nav-pill a.here::after{content:"";position:absolute;left:50%;bottom:3px;
   width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink)}
-/* the badge sits inside the pill now, so it needs no shadow of its own */
+/* the badge sits inside the pill, so it needs no shadow of its own */
 .nav-pill a.nav-badge{width:31px;height:31px;flex:none;border-radius:50%;padding:0;
   background:var(--onyx);display:grid;place-items:center;
   margin-right:6px;transition:transform .25s}
 .nav-badge:hover{transform:rotate(-12deg);background:var(--onyx)}
-.nav-badge svg{width:15px;height:15px}
+.nav-badge svg{width:15px;height:15px;stroke:var(--onyx-txt)}
 /* .nav-pill a would otherwise out-specify these two on colour */
 .nav-pill a.nav-cta{display:inline-flex;align-items:center;
-  background:var(--onyx);color:var(--onyx-text);
+  background:var(--onyx);color:var(--onyx-txt);
   font-weight:700;font-size:13.5px;padding:8px 19px;border-radius:999px;
   margin-left:6px;transition:background .22s,color .22s}
-.nav-pill a.nav-cta:hover{background:var(--lock);color:#fff}
+.nav-pill a.nav-cta:hover{background:var(--green);color:#fff}
 .theme-toggle{width:31px;height:31px;flex:none;border-radius:50%;padding:0;
   border:1px solid var(--line);background:var(--sand);color:var(--ink);cursor:pointer;
   display:grid;place-items:center;margin-left:4px;margin-right:2px;
   transition:color .2s,background .2s,border-color .2s}
-.theme-toggle:hover{color:var(--ink);background:var(--card);border-color:var(--ash)}
+.theme-toggle:hover{background:var(--card);border-color:var(--ash)}
 .theme-toggle svg{width:16px;height:16px;grid-area:1/1}
 .theme-toggle .i-moon{display:none}
-[data-theme="dark"] .theme-toggle .i-sun{display:none}
-[data-theme="dark"] .theme-toggle .i-moon{display:block}
-/* below this the section links would wrap; keep the badge and the action.
-   Raised from 760px when Pricing became a sixth link. */
-@media(max-width:860px){.nav-pill a:not(.nav-badge):not(.nav-cta){display:none}}
+:root[data-theme="dark"] .theme-toggle .i-sun{display:none}
+:root[data-theme="dark"] .theme-toggle .i-moon{display:block}
+/* below this the section links would wrap; keep the badge and the action */
+@media(max-width:1020px){.nav-pill a:not(.nav-badge):not(.nav-cta){display:none}}
 
-/* ── buttons ──────────────────────────────────────────────────────── */
-.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
-  font-family:var(--body);font-weight:700;font-size:15.5px;
-  padding:16px 30px;border-radius:999px;border:1px solid transparent;
-  background:var(--onyx);color:var(--onyx-text);cursor:pointer;
-  transition:background .22s,color .22s,border-color .22s}
-.btn:hover{background:var(--lock);color:#fff}
-.btn--ghost{background:transparent;color:var(--ink);border-color:#d8d8de}
-.btn--ghost:hover{background:var(--sand);color:var(--ink);border-color:#c3c3cc}
-:root[data-theme="dark"] .btn--ghost{border-color:#35353b}
-:root[data-theme="dark"] .btn--ghost:hover{border-color:#46464e}
+/* ── photo primitives ────────────────────────────────────────── */
+.ph{position:relative;overflow:hidden;border-radius:var(--r);background:var(--sand)}
+.ph>img{width:100%;height:100%;object-fit:cover;filter:var(--photo)}
+.ph--4x3{aspect-ratio:4/3}
+.ph--3x4{aspect-ratio:3/4}
+.ph .cap{position:absolute;left:24px;right:24px;bottom:20px;z-index:2;
+  color:#fff;font-family:var(--hand);font-size:25px;line-height:1.25;
+  text-shadow:0 2px 18px rgba(0,0,0,.55);margin:0}
+/* A real app render in a two-column slot. Unlike .ph it never crops — a
+   cropped screenshot misrepresents what the window actually looks like. */
+.appfig{margin:0}
+.appfig img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);
+  box-shadow:var(--shadow);background:var(--card)}
+.appfig figcaption{margin-top:14px;color:var(--ash);font-size:13.5px;line-height:1.55}
+.appfig figcaption b{color:var(--ink);font-weight:700}
+.ph .veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(transparent 45%,rgba(0,0,0,.5))}
 
-/* ── hero: one wheel, like the app ────────────────────────────────── */
-.hero{min-height:100svh;display:grid;place-items:center;padding:150px 0 90px}
-.hero-grid{display:grid;grid-template-columns:1fr 1.06fr;
-  align-items:center;gap:clamp(28px,5vw,72px);width:100%}
-.hero h1{font-size:clamp(38px,4.7vw,62px);font-variation-settings:"wdth" 100;
-  text-transform:uppercase;margin-top:16px;line-height:1.08;
-  letter-spacing:-.005em;max-width:15ch}
-/* the second line steps down and changes case — hierarchy, not five equal
-   lines of shouting */
-.hero h1 em{font-style:normal;color:var(--lock-txt);display:block;
+/* ── hero — same shape as the live site: big wheel left, copy right,
+      one full screen. The photograph sits behind it, faded into the
+      page so it reads as light, not as a dark panel. ─────────────── */
+.hero{position:relative;min-height:100svh;display:grid;place-items:center;
+  padding:150px 0 90px;overflow:hidden}
+/* The photograph is a half-panel, not a full backdrop: it holds the left side
+   behind the wheel card and stops at the middle, so the headline and the
+   sub-copy on the right sit on clean paper and stay at full contrast. */
+.hero-bg{position:absolute;inset:0 50% 0 0;z-index:0}
+/* the source is portrait (1024×1536) and the panel is only a little taller than
+   it is wide, so the crop is almost all vertical — held slightly high to keep
+   the layered misty ridges in the band, not the dense trees at the foot */
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;
+  filter:var(--photo)}
+/* Nothing reads over this half any more — the wheel card is opaque and the
+   copy is on the other side — so the wash is much lighter than it was as a
+   full backdrop. All three veils do is dissolve the panel's own edges: the
+   vertical seam on the right, and the top and bottom into --paper. */
+.hero-bg::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(to right, transparent 0%, transparent 46%,
+      color-mix(in srgb,var(--paper) 55%,transparent) 78%, var(--paper) 100%),
+    linear-gradient(to bottom,
+      color-mix(in srgb,var(--paper) 55%,transparent) 0%,
+      transparent 22%, transparent 58%, var(--paper) 100%)}
+/* On dark the same photo is the brightest thing on the page and the seam
+   against a near-black column is a hard line, so it takes a flat wash on top
+   of the edge fades — enough to sit back without going grey. */
+:root[data-theme="dark"] .hero-bg::after{
+  background:
+    linear-gradient(to right,
+      color-mix(in srgb,var(--paper) 34%,transparent) 0%,
+      color-mix(in srgb,var(--paper) 38%,transparent) 42%,
+      color-mix(in srgb,var(--paper) 76%,transparent) 78%, var(--paper) 100%),
+    linear-gradient(to bottom,
+      color-mix(in srgb,var(--paper) 62%,transparent) 0%,
+      transparent 24%, transparent 56%, var(--paper) 100%)}
+.hero-grid{position:relative;z-index:2;display:grid;
+  grid-template-columns:1fr 1.06fr;align-items:center;
+  gap:clamp(28px,5vw,72px);width:100%}
+/* over a photograph --faint disappears; the version line has to hold its own */
+.hero .eyebrow.mute{color:color-mix(in srgb,var(--ink) 72%,transparent)}
+/* same problem for the ghost button's hairline: --line is tuned against flat
+   paper and vanishes over the forest, on dark especially */
+.hero .btn--ghost{border-color:color-mix(in srgb,var(--ink) 28%,transparent)}
+.hero .btn--ghost:hover{border-color:color-mix(in srgb,var(--ink) 55%,transparent)}
+.hero h1{font-size:clamp(38px,4.7vw,62px);text-transform:uppercase;
+  margin-top:16px;line-height:1.08;letter-spacing:-.005em;max-width:15ch;
+  font-variation-settings:"wdth" 100}
+/* the second line steps down and changes case — hierarchy, not two
+   equal lines of shouting */
+.hero h1 em{font-style:normal;display:block;color:var(--green-txt);
   font-size:.34em;text-transform:none;letter-spacing:-.01em;line-height:1.25;
-  font-variation-settings:"wdth" 100;font-weight:700;margin-top:.5em;
-  max-width:34ch}
+  font-weight:700;margin-top:.5em;max-width:34ch}
 .hero-sub{color:var(--ash);margin:24px 0 0;max-width:44ch;font-size:16.5px}
 .hero-sub b{color:var(--ink);font-weight:700}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 .hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
 
-/* ── the wheel: a real drum, same curve as the app ────────────────── */
-.wheel-stage{position:relative;background:var(--card);
-  border:1px solid var(--line);border-radius:26px;
-  box-shadow:0 40px 90px -60px rgba(0,0,0,.55);padding:8px}
+/* the wheel — a real drum, same curve and geometry as the app */
+.wheel-card{position:relative;background:var(--card);
+  border:1px solid var(--line);border-radius:26px;padding:8px;
+  box-shadow:0 40px 90px -60px rgba(0,0,0,.55)}
 .wheel{position:relative;height:min(58vh,430px);overflow:hidden;
-  cursor:grab;user-select:none;touch-action:none;border-radius:20px;
+  border-radius:20px;cursor:grab;user-select:none;touch-action:none;
   perspective:850px;perspective-origin:50% 50%;
   -webkit-mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent);
   mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent)}
 .wheel:active{cursor:grabbing}
-.wheel:focus-visible{outline:2px solid var(--lock);outline-offset:3px}
+.wheel:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+/* the drum is pushed back by its own radius so the front face lands on the
+   perspective plane. Without this every option renders 235px nearer the
+   camera and the whole wheel reads as magnified and clipped. */
 .wheel-track{position:absolute;inset:0;transform-style:preserve-3d;
   transform:translateZ(-235px)}
 .wheel-opt{position:absolute;top:50%;left:0;right:0;
-  padding-left:clamp(22px,4vw,52px);text-align:left;
-  font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 100;
-  font-size:clamp(30px,3.6vw,46px);white-space:nowrap;color:var(--ash);
+  padding-left:clamp(22px,4vw,52px);text-align:left;white-space:nowrap;
+  font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,46px);
+  font-variation-settings:"wdth" 100;color:var(--ash);
   backface-visibility:hidden;will-change:transform,opacity;
   transition:color .18s}
 .wheel-opt.is-sel{color:var(--ink)}
-/* the selected slot, marked the way the app marks it */
 .wheel-slot{position:absolute;left:0;right:0;top:50%;height:76px;
   transform:translateY(-50%);pointer-events:none;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .wheel-foot{display:flex;align-items:center;justify-content:space-between;
   padding:12px 18px 8px;font-family:var(--mono);font-size:10.5px;
   letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
-.wheel-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--ink);
-  background:var(--sand);border-radius:999px;padding:7px 14px;
-  font-weight:700;letter-spacing:.12em;font-family:var(--mono);font-size:10.5px;
-  text-transform:uppercase;border:0;cursor:pointer;
+.go{display:inline-flex;align-items:center;gap:7px;background:var(--sand);
+  border:0;color:var(--ink);border-radius:999px;padding:7px 14px;
+  font-family:var(--mono);font-size:10.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
   transition:background .2s,color .2s}
-.wheel-foot .go:hover{background:var(--onyx);color:var(--onyx-text)}
-.wheel-foot .go:focus-visible{outline:2px solid var(--lock);outline-offset:2px}
-
-/* ── the demo: the app's lock screen, taking the whole page ───────── */
-.demo{position:fixed;inset:0;z-index:200;background:var(--void);color:var(--chalk);
-  display:grid;place-items:center;padding:var(--gut);text-align:center}
-.demo[hidden]{display:none}
-.js .demo{opacity:0;transition:opacity .32s ease}
-.js .demo.on{opacity:1}
-.demo-back{position:absolute;top:22px;left:22px;display:inline-flex;
-  align-items:center;gap:7px;background:transparent;color:var(--dim);
-  border:1px solid var(--edge);border-radius:999px;padding:9px 16px;
-  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;
-  transition:color .2s,border-color .2s}
-.demo-back:hover{color:var(--chalk);border-color:var(--dim)}
-.demo-back:focus-visible{outline:2px solid var(--lock-hi);outline-offset:3px}
-.demo-inner{max-width:560px}
-.demo-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--lock-hi);margin:0}
-.demo-clock{font-family:var(--mono);font-weight:700;line-height:1;
-  font-size:clamp(64px,15vw,150px);letter-spacing:-.02em;margin:18px 0 0;
-  font-variant-numeric:tabular-nums}
-.demo-bar{height:3px;background:var(--edge);border-radius:2px;margin:30px 0 26px;
-  overflow:hidden}
-.demo-bar i{display:block;height:100%;width:100%;background:var(--lock-hi);
-  transform-origin:left;transform:scaleX(1)}
-.demo-line{margin:0;font-size:19px;font-weight:600;color:var(--chalk)}
-.demo-sub{margin:10px 0 0;color:var(--dim);font-size:15.5px}
-.demo-foot{margin:34px 0 0;font-family:var(--mono);font-size:11px;
-  letter-spacing:.14em;text-transform:uppercase;color:#55555e}
-.demo.done .demo-eyebrow{color:var(--dim)}
+.go:hover{background:var(--onyx);color:var(--onyx-txt)}
 @media(max-width:900px){
+  .hero{min-height:0;padding:110px 0 70px}
   .hero-grid{grid-template-columns:1fr;gap:34px}
   .hero-say{order:-1}
+  /* one column, so a half-width panel would just be a stripe down the side —
+     it goes back to full bleed with the vertical veil doing the work */
+  .hero-bg{inset:0}
+  /* the dark rule below has to repeat the selector, not just the declaration:
+     :root[data-theme="dark"] .hero-bg::after out-specifies a bare
+     .hero-bg::after, so without it dark mobile kept the desktop half-panel's
+     left-to-right gradient across a full-bleed photo. */
+  .hero-bg::after,
+  :root[data-theme="dark"] .hero-bg::after{background:linear-gradient(to bottom,
+    color-mix(in srgb,var(--paper) var(--veil1),transparent) 0%,
+    color-mix(in srgb,var(--paper) var(--veil2),transparent) 40%,
+    color-mix(in srgb,var(--paper) var(--veil3),transparent) 80%,
+    var(--paper) 100%)}
   .wheel{height:250px}
-  .wheel-opt{text-align:center;padding-left:0}
+  .wheel-opt{text-align:center;padding-left:0;font-size:32px}
 }
 
-/* ── section furniture ────────────────────────────────────────────── */
-/* A `ch` on .head is measured in 17px body text, so a 24ch container was about
-   200px wide — and the 62px headline inside it had no choice but to break after
-   every word. Measures belong on the elements that set the type size, where a
-   `ch` means what it says. */
-.head{max-width:none}
-/* .95 is right for a two-word headline and far too tight for a five-word one,
-   which is what left these headings looking welded together. */
-.head h2{font-size:clamp(30px,4.2vw,56px);text-transform:uppercase;margin-top:16px;
-  line-height:1.1;letter-spacing:-.005em;text-wrap:balance;max-width:19ch}
-.head p{color:var(--ash);max-width:52ch;font-size:16px;margin-top:22px;
-  line-height:1.8}
-.rule{height:1px;background:var(--line)}
-/* only hide these once we know JS is running to reveal them again — otherwise
-   a script error would leave the whole page permanently invisible */
-.js .rise{opacity:0;transform:translateY(26px);
-  transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
-.js .rise.in{opacity:1;transform:none}
+/* ── trust strip ─────────────────────────────────────────────── */
+.trust{position:relative;z-index:2;display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust div{display:flex;align-items:center;gap:11px;padding:20px 20px 20px 0;
+  font-size:14px;font-weight:600;line-height:1.35}
+.trust div+div{border-left:1px solid var(--line);padding-left:20px}
+.trust svg{width:20px;height:20px;flex:none;color:var(--green-txt)}
+@media(max-width:820px){
+  .trust{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trust div:nth-child(odd){border-left:0;padding-left:0}
+  .trust div:nth-child(even){padding-left:20px}
+  .trust div:nth-child(n+3){border-top:1px solid var(--line)}}
 
-/* ── the block: page goes dark, because that's what the app does ──── */
-/* Height here is a straight trade, and the two ends pull opposite ways.
-   Taller means the countdown ticks slower and reads better; it also means more
-   scroll during which the page is pinned and nothing moves at all. 360vh gave
-   2.6 screens of that, and the sections right after it — who, vs — kept getting
-   reported as "too fast". They weren't: the eye had just spent 2.6 screens
-   calibrating to a frozen page, so normal 1:1 scrolling felt like a lurch.
-   240vh halves the frozen stretch and keeps the clock legible. Don't push this
-   back up without re-reading that sentence. */
-.scrub{height:200vh;position:relative;background:var(--void);color:var(--chalk)}
-.scrub-pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;
-  overflow:hidden}
-.scrub-inner{width:100%;max-width:1180px;padding-inline:var(--gut);
-  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,72px);
-  align-items:center}
-.scrub .eyebrow{color:var(--dim)}
-.clock{font-family:var(--mono);font-weight:700;
-  font-size:clamp(62px,12vw,164px);line-height:.9;letter-spacing:-.045em;
-  margin-top:18px}
-.bar{height:3px;background:var(--edge);border-radius:99px;overflow:hidden;
-  margin:30px 0 26px}
-.bar i{display:block;height:100%;width:0;background:var(--lock-hi)}
-.state{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--lock-hi);display:flex;
-  align-items:center;gap:10px;margin:0}
-.state::before{content:"";width:8px;height:8px;border-radius:99px;
-  background:var(--lock-hi);box-shadow:0 0 0 0 rgba(76,196,121,.6);
-  animation:pulse 2s infinite}
-.state.done{color:var(--dim)}
-.state.done::before{background:var(--dim);animation:none}
-@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(76,196,121,0)}
-  100%{box-shadow:0 0 0 0 rgba(76,196,121,0)}}
-.scrub .lede{color:var(--dim);font-size:15.5px;max-width:42ch;margin-top:22px}
-.blocklist{list-style:none;padding:0;margin:0;display:grid;gap:1px;
-  background:var(--edge);border:1px solid var(--edge);border-radius:14px;
-  overflow:hidden}
-.blocklist li{background:#141418;padding:16px 20px;display:flex;
-  align-items:center;justify-content:space-between;gap:16px;font-size:15px}
-.blocklist .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--dim);opacity:0;transform:translateX(8px);
-  transition:opacity .35s,transform .35s}
-.blocklist li.cut{color:var(--dim)}
-.blocklist li.cut .tag{opacity:1;transform:none;color:var(--lock-hi)}
-.blocklist li.cut .nm{text-decoration:line-through;
-  text-decoration-color:var(--lock-hi);text-decoration-thickness:2px}
-.blocklist li.keep .tag{opacity:1;transform:none;color:var(--dim)}
-@media(max-width:900px){.scrub{height:190vh}.scrub-inner{grid-template-columns:1fr;gap:30px}}
+/* ── sections ────────────────────────────────────────────────── */
+/* the pill is fixed, so an anchor jump upward would land under it */
+section[id],header[id]{scroll-margin-top:86px}
+.band{padding:clamp(60px,8vw,104px) 0;position:relative}
+.band--sand{background:var(--sand)}
+.band--hush{background:var(--hush)}
+.head{max-width:60ch;margin-bottom:clamp(30px,4vw,48px)}
+.head p{margin-top:16px;color:var(--ash)}
+/* two-up */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(28px,5vw,64px);align-items:center}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
 
-/* ── who it's for ─────────────────────────────────────────────────────
-   Four cases, not four features. Each one is somebody's actual evening, so
-   they're set as an argument with a rule down the side — the same device the
-   .vs-pull quote uses — rather than as another grid of icon cards. */
-/* the other half of that fix: 151 words per screen before, ~114 now */
-/* vh in the middle term on purpose: these were vw-only, so a section on a
-   tall screen kept its pixel height and simply spanned fewer screens —
-   measured 114 words/screen at 1280x800 and 191 at 2000x1083, which is the
-   whole reason this one read as "goes past super quick". Height now buys
-   height. Re-measure at BOTH sizes before touching. */
-.who{padding:clamp(152px,14vw + 14vh,460px) 0}
-.who .head p{max-width:54ch}
-/* Cited research, deliberately not styled as a testimonial: no faces, no
-   quote-mark ornament, no logos. It sits above the four cases, well away from
-   any price or Download button, so nothing here reads as an endorsement. */
-.who-top{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
-  gap:clamp(38px,5vw,78px);align-items:start}
-.who-top .head p{max-width:44ch}
-.cited{display:grid;gap:30px;align-content:start;padding-left:26px;
-  border-left:1px solid var(--line)}
-.cited-note{margin:0;font-family:var(--mono);font-size:11px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ash);line-height:1.7}
-.cite{margin:0}
-.cite blockquote{margin:0;font-size:16px;line-height:1.7;color:var(--ink);
-  font-weight:600;max-width:40ch}
-.cite > p{margin:0;font-size:16px;line-height:1.7;color:var(--ink);
-  font-weight:600;max-width:40ch}
-.cite figcaption{margin-top:14px;font-size:13px;line-height:1.6;color:var(--ash);
-  max-width:44ch}
-.cite figcaption a{color:var(--ash);text-underline-offset:3px}
-@media(max-width:940px){.who-top{grid-template-columns:1fr;gap:40px}
-  .cited{padding-left:0;border-left:0;padding-top:28px;
-    border-top:1px solid var(--line)}
-  .who-top .head p{max-width:54ch}}
-.cases{display:grid;grid-template-columns:1fr 1fr;
-  column-gap:clamp(52px,6.5vw,92px);row-gap:clamp(92px,9vw + 9vh,300px);
-  margin-top:clamp(104px,7vw + 7vh,240px)}
-.case{padding-left:26px;border-left:3px solid var(--line);
-  transition:border-color .3s}
-.case:hover{border-left-color:var(--lock)}
-.case .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ash);margin:0 0 20px}
-.case h3{font-size:clamp(21px,2.2vw,27px);font-variation-settings:"wdth" 100;
-  letter-spacing:-.015em;line-height:1.12;text-wrap:balance}
-.case p{color:var(--ash);font-size:16.5px;margin:30px 0 0;max-width:34ch;
-  line-height:2.05}
-.case p em{font-style:normal;color:var(--ink);font-weight:600}
-@media(max-width:860px){.cases{grid-template-columns:1fr;gap:48px}}
+/* ── carousel ────────────────────────────────────────────────── */
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:28px;flex-wrap:wrap;margin-bottom:clamp(26px,3.5vw,40px)}
+.rail{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 0 16px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.shot{flex:0 0 clamp(248px,26vw,300px);scroll-snap-align:start;margin:0;min-width:0}
+.shot img{width:100%;height:auto;aspect-ratio:1520/960;object-fit:cover;
+  border-radius:12px;border:1px solid var(--line);background:var(--card);
+  box-shadow:var(--shadow)}
+.shot figcaption{margin-top:13px}
+.shot b{display:block;font-family:var(--display);font-weight:800;font-size:15.5px;
+  letter-spacing:-.01em;margin-bottom:2px}
+.shot span{color:var(--ash);font-size:13.5px;line-height:1.5;display:block}
+.rail-nav{display:flex;gap:9px}
+.rail-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.rail-btn:hover{border-color:var(--ash)}
+.rail-btn svg{width:16px;height:16px}
 
-/* ── the accountability lock ──────────────────────────────────────────
-   The one feature somebody else operates, so it gets the sand ground and a
-   centred measure — a held note between two busy sections. */
-.hold{padding:clamp(104px,11vw + 11vh,400px) 0;background:var(--sand);
-  border-block:1px solid var(--line)}
-.hold-in{max-width:760px;margin-inline:auto;text-align:center}
-.hold h2{font-size:clamp(30px,4vw,54px);text-transform:uppercase;margin-top:14px;
-  line-height:1.02;text-wrap:balance;max-width:17ch;margin-inline:auto}
-.hold-lede{color:var(--ash);font-size:17px;margin:28px auto 0;max-width:52ch;
-  line-height:1.8}
-.hold-lede b{color:var(--ink);font-weight:700}
-.holds{list-style:none;padding:0;margin:48px auto 0;max-width:620px;
-  display:grid;grid-template-columns:1fr 1fr;gap:1px;
-  background:var(--line);border:1px solid var(--line);border-radius:14px;
-  overflow:hidden;text-align:left}
-.holds li{background:var(--card);padding:15px 18px;font-size:14.5px;
-  color:var(--ash);display:flex;align-items:center;gap:11px}
-.holds li::before{content:"";width:15px;height:9px;flex:none;
-  transform:rotate(-45deg) translateY(-2px);
-  border-left:2px solid var(--lock);border-bottom:2px solid var(--lock)}
-/* the tick is a flex item, so any inline element left loose in the li becomes
-   one too — which pushed "on" into a column of its own with an 11px gap either
-   side. The text goes in one span, and stays one run. */
-.holds li>span{min-width:0}
-.holds li em{font-style:normal;color:var(--ink);font-weight:700}
-/* list and screenshot sit side by side: the checklist reads as one column,
-   the shot proves it. Below 940px there isn't room for both, so it stacks and
-   the list goes back to two columns of its own. */
-.hold-pair{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-  gap:clamp(26px,3.4vw,48px);align-items:center;
-  max-width:1120px;margin:56px auto 0}
-.hold-pair .holds{grid-template-columns:1fr;max-width:none;margin:0}
-.shot--one{max-width:none;margin:0;text-align:left}
-.hold-foot{margin:44px auto 0;max-width:50ch;font-size:14.5px;color:var(--ash);
-  line-height:1.8}
-.dev-note .hold-foot{margin-top:18px}
-.dev-note .hold-foot:first-of-type{margin-top:32px}
-.dev-note .hold-foot a{color:var(--blue);font-weight:600}
-.dev-note .hold-foot a:hover{text-decoration:underline}
-.dev-note-head{display:flex;align-items:center;justify-content:center;gap:10px;
-  margin-top:40px}
-.dev-note-logo{width:34px;height:34px;border-radius:50%;object-fit:cover;
-  border:1px solid var(--line)}
-.dev-note-who{font-size:12.5px;letter-spacing:.04em;color:var(--ash);font-weight:600}
-.dev-note-sign{margin:22px auto 0;max-width:50ch;font-size:14.5px;
-  font-weight:700;color:var(--ink)}
-@media(max-width:940px){
-  .hold-pair{grid-template-columns:1fr;gap:34px;max-width:760px;margin-top:48px}
-  .hold-pair .holds{grid-template-columns:1fr 1fr}
-}
-@media(max-width:660px){.holds,.hold-pair .holds{grid-template-columns:1fr}}
+/* ── cards ───────────────────────────────────────────────────── */
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;
+  margin-top:clamp(28px,4vw,44px)}
+@media(max-width:980px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.cards{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:26px 22px}
+.card .ic{width:42px;height:42px;border-radius:12px;background:var(--green-soft);
+  display:grid;place-items:center;margin-bottom:16px;color:var(--green-txt)}
+.card .ic svg{width:20px;height:20px}
+.card h3{font-size:16px;margin-bottom:8px}
+.card p{margin:0;color:var(--ash);font-size:14px;line-height:1.62}
 
-/* ── schedule ─────────────────────────────────────────────────────── */
-.sched{padding:clamp(90px,11vw + 11vh,380px) 0}
-.week{margin-top:52px;border:1px solid var(--line);border-radius:18px;
-  background:var(--card);overflow:hidden;
-  box-shadow:0 30px 70px -55px rgba(0,0,0,.5)}
-.week-hours{display:grid;grid-template-columns:78px repeat(12,1fr);
-  border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10.5px;
-  color:var(--ash);letter-spacing:.08em;background:var(--sand)}
-.week-hours span{padding:11px 0;text-align:center}
-.week-hours span:first-child{text-align:left;padding-left:18px}
-.row{display:grid;grid-template-columns:78px 1fr;align-items:center;
-  border-bottom:1px solid var(--line)}
-.row:last-child{border-bottom:0}
-.row .day{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ash);padding-left:18px}
-.lane{position:relative;height:46px}
-.blk{position:absolute;top:9px;height:28px;border-radius:7px;
-  background:linear-gradient(90deg,#1f9d55,#3fb872);
-  display:flex;align-items:center;padding-left:11px;overflow:hidden;
-  font-family:var(--mono);font-size:11px;color:#fff;font-weight:700;
-  letter-spacing:.06em;white-space:nowrap;
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .75s cubic-bezier(.2,.75,.25,1)}
-.blk.off{background:repeating-linear-gradient(45deg,#e8e6e1,#e8e6e1 5px,#f2f0ec 5px,#f2f0ec 10px);
-  color:#8d8d95}
-:root[data-theme="dark"] .blk.off{background:repeating-linear-gradient(45deg,#1e1e22,#1e1e22 5px,#141416 5px,#141416 10px);
-  color:#6c6c74}
-.week.in .blk{transform:scaleX(1)}
-.shots2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
-@media(max-width:820px){.week-hours{display:none}.shots2{grid-template-columns:1fr}}
+/* ── who it's for ────────────────────────────────────────────────
+   Photo-topped cards with no frame around them: the picture is the card's
+   top edge, and the type sits straight on the band beneath. Four of them
+   read as one strip of moments rather than four boxes. */
+.cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(18px,2.4vw,30px);margin-top:clamp(28px,4vw,46px)}
+@media(max-width:980px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.cases{grid-template-columns:1fr}}
+/* Four stock interiors used to sit here. They were the only thing on the page
+   that hadn't been made for it — a desk, a book, a bed, none of them showing
+   the product, all of them recognisably bought. What each card is really about
+   is a span of a day, so the card shows one: the hours on a 24-hour track,
+   which is the same shape the schedule window draws and is drawn in the page's
+   own ink at any size. */
+.case-ph{position:relative;aspect-ratio:3/2;border-radius:14px;overflow:hidden;
+  background:var(--sand);border:1px solid var(--line);margin-bottom:18px;
+  container-type:inline-size;display:flex;flex-direction:column;
+  justify-content:space-between;padding:8% 8.5%;
+  transition:border-color .35s,background .35s}
+.case:hover .case-ph{border-color:color-mix(in srgb,var(--green) 45%,var(--line))}
+.ck-time{font-family:var(--mono);font-weight:700;color:var(--ink);line-height:1;
+  letter-spacing:-.03em;font-size:22px;font-size:9.6cqw;white-space:nowrap}
+.ck-sub{margin:0;color:var(--faint);font-size:11px;font-size:4cqw;
+  padding-top:2.4cqw;letter-spacing:.02em}
+.ck-track{position:relative;height:5.6cqw;margin-top:auto;
+  background:repeating-linear-gradient(90deg,
+    color-mix(in srgb,var(--ink) 18%,transparent) 0 1px,
+    transparent 1px calc(100%/24))}
+.ck-track i{position:absolute;top:0;bottom:0;min-width:2px;border-radius:1px;
+  background:var(--green);left:calc(var(--s)*100%);
+  width:calc((var(--e) - var(--s))*100%)}
+.ck-scale{display:flex;justify-content:space-between;margin:0;
+  font-family:var(--mono);color:var(--faint);font-size:9px;font-size:3.1cqw;
+  padding-top:1.8cqw}
+.case h3{font-size:17px;margin-bottom:9px;letter-spacing:-.015em}
+.case p{margin:0;color:var(--ash);font-size:14px;line-height:1.66}
+.cases-foot{margin:clamp(30px,4vw,44px) 0 0;color:var(--ash);font-size:14.5px;
+  max-width:62ch}
+.cases-foot b{color:var(--ink);font-weight:700}
+/* the four rise together as one block, not as a stagger of four */
+.cases .case:nth-child(2){transition-delay:.06s}
+.cases .case:nth-child(3){transition-delay:.12s}
+.cases .case:nth-child(4){transition-delay:.18s}
 
-/* ── shots ────────────────────────────────────────────────────────── */
-.shot{margin:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;
-  background:var(--card);box-shadow:0 30px 70px -55px rgba(0,0,0,.5)}
-.shot img{width:100%;height:auto}
-.shot figcaption{padding:16px 20px;border-top:1px solid var(--line);
-  font-size:14px;color:var(--ash)}
-.shot figcaption b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media(max-width:900px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.feats{grid-template-columns:1fr}}
 
-/* ── vs: the argument, so it's set as an argument and not as cards ───
-   Measured at 153 words per screen of scroll, this was the densest section on
-   the page — against 72 for .schedule and 16 for the pinned .scrub. That swing
-   is what "the scroll is too fast" actually meant: the wheel moves the same
-   pixels everywhere, but here you had ten times the reading to do per screen.
-   The generous measure, leading and paragraph gaps below are load-bearing —
-   they hold it near 105. Don't tighten them back up without re-measuring. */
-.vs{padding:clamp(150px,14vw + 14vh,460px) 0;border-top:1px solid var(--line)}
-.vs-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
-  gap:clamp(32px,6vw,84px);align-items:start}
-.vs h2{font-size:clamp(29px,3.3vw,44px);text-transform:uppercase;margin-top:14px}
-/* The left column was heading-and-then-nothing while the argument ran down the
-   right, so it names the tools people are actually arriving from. Each line says
-   what that tool works *from* — every one of them a list — which is the whole
-   point of the section, and the last row answers it. Sticky, so the comparison
-   stays put while the prose scrolls past it. */
-.vs-lede{position:sticky;top:104px}
-.rivals{list-style:none;margin:44px 0 0;padding:0;max-width:31ch}
-/* icon, name, and the one thing it works from — three columns, no sentences */
-.rivals li{display:grid;grid-template-columns:20px 1fr auto;align-items:center;
-  gap:14px;padding:16px 0;border-top:1px solid var(--line)}
-.rivals .ricon{width:20px;height:20px;color:var(--ash)}
-.rivals li b{font-family:var(--mono);font-size:12px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink);font-weight:500}
-.rivals li span{font-size:13px;color:var(--ash);white-space:nowrap}
-.rivals .rivals-us{border-top:1px solid var(--ink);margin-top:8px;
-  padding:18px 0 18px 16px;border-left:3px solid var(--lock)}
-.rivals .rivals-us .ricon{color:var(--lock-txt)}
-.rivals .rivals-us b{color:var(--lock-txt);font-weight:700}
-.rivals .rivals-us span{color:var(--ink);font-weight:600}
-@media(max-width:860px){.vs-lede{position:static}
-  .rivals{max-width:none;margin-top:32px}}
-.vs-say p{margin:0 0 clamp(70px,7vh,110px);color:var(--ash);font-size:18px;max-width:44ch;
-  line-height:2.05}
-.vs-say em{font-style:normal;color:var(--ink);font-weight:600}
-/* the scheduler line is the point of the section, so it gets the weight */
-.vs-pull{margin-top:48px!important;padding-left:22px;
-  border-left:3px solid var(--lock);
-  color:var(--ink)!important;font-weight:600}
-@media(max-width:860px){.vs-grid{grid-template-columns:1fr}}
+/* ── steps ───────────────────────────────────────────────────── */
+.steps{display:grid;gap:26px}
+.step{display:flex;gap:16px;align-items:flex-start}
+.step .n{width:38px;height:38px;border-radius:50%;background:var(--green);
+  color:#fff;display:grid;place-items:center;font-family:var(--display);
+  font-weight:800;font-size:16px;flex:none}
+:root[data-theme="dark"] .step .n{color:#07130c}
+.step h3{font-size:17.5px;margin-bottom:5px}
+.step p{margin:0;color:var(--ash);font-size:14.5px}
 
-/* ── first run: three steps, numbered because they are a sequence ─── */
-.first{padding:clamp(90px,11vw + 11vh,380px) 0}
-/* this one's intro is a paragraph, not a caption, so it gets room */
-.first .head h2{max-width:14ch}
-.first .head p{max-width:52ch}
-.steps{list-style:none;counter-reset:step;margin:48px 0 0;padding:0;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
-.step{counter-increment:step;margin:0}
-/* the three mockups aren't the same shape; one ratio keeps the captions level */
-.step img{width:100%;aspect-ratio:16/10;object-fit:cover;
-  border:1px solid var(--line);border-radius:14px;
-  box-shadow:0 26px 60px -50px rgba(0,0,0,.55)}
-.step-say{margin-top:16px;padding-left:38px;position:relative;
-  color:var(--ash);font-size:15px}
-.step-say b{display:block;color:var(--ink);font-weight:700;margin-bottom:2px}
-.step-say::before{content:counter(step);position:absolute;left:0;top:1px;
-  width:26px;height:26px;border-radius:50%;background:var(--onyx);color:var(--onyx-text);
-  font-family:var(--mono);font-size:12px;font-weight:700;
-  display:grid;place-items:center}
-@media(max-width:860px){.steps{grid-template-columns:1fr;gap:34px}}
+/* ── quote strip ─────────────────────────────────────────────── */
+.strip{position:relative;min-height:clamp(260px,34vw,380px);display:grid;
+  place-items:center;text-align:center;overflow:hidden;isolation:isolate}
+.strip>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:-2;filter:var(--photo)}
+.strip::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(rgba(12,14,12,.34),rgba(12,14,12,.58))}
+.strip .wrap{position:relative;z-index:1}
+.strip p.q{font-family:var(--display);font-weight:800;color:#fff;
+  font-size:clamp(24px,3.6vw,42px);line-height:1.12;letter-spacing:-.025em;
+  max-width:20ch;margin:0 auto}
+.strip p.by{margin:16px 0 0;color:rgba(255,255,255,.82);font-size:14.5px}
 
-/* ── faq: compact accordion, centred; the questions that come in ──── */
-.faq{padding:clamp(76px,9vw + 7vh,200px) 0;background:var(--sand);
-  border-block:1px solid var(--line);text-align:center}
-.faq .head{margin-bottom:40px}
-/* .head p pins the eyebrow to a left-aligned 52ch box — recentre it, the way
-   .price .head already does for its own eyebrow and copy */
-.faq .head .eyebrow{max-width:none;margin-inline:auto}
-.faq .head h2{max-width:22ch;margin-inline:auto;
-  font-size:clamp(26px,3.4vw,40px);letter-spacing:-.01em}
-.faq-list{max-width:660px;margin:0 auto;display:grid;gap:10px}
-.faq-item{border:1px solid var(--line);border-radius:14px;background:var(--card);
-  overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease}
-.faq-item:hover{border-color:#d3d3da}
-:root[data-theme="dark"] .faq-item:hover{border-color:#3a3a42}
-.faq-item[open]{border-color:var(--lock);
-  box-shadow:0 18px 44px -34px rgba(31,157,85,.5)}
-.faq-item summary{list-style:none;cursor:pointer;position:relative;
-  padding:16px 44px;font-size:15px;font-weight:600;color:var(--ink);
-  font-variation-settings:"wdth" 100}
-.faq-item summary::-webkit-details-marker{display:none}
-/* a plus built from two bars so it can rotate into an ✕ — no glyph, no jump */
-.faq-item summary::after{content:"";position:absolute;right:16px;top:50%;
-  width:12px;height:12px;margin-top:-6px;
-  background:linear-gradient(var(--ash),var(--ash)) center/100% 2px no-repeat,
-             linear-gradient(var(--ash),var(--ash)) center/2px 100% no-repeat;
-  transition:transform .22s ease}
-.faq-item[open] summary::after{transform:rotate(135deg);
-  background:linear-gradient(var(--lock),var(--lock)) center/100% 2px no-repeat,
-             linear-gradient(var(--lock),var(--lock)) center/2px 100% no-repeat}
-.faq-a{max-width:52ch;margin:0 auto;padding:0 24px 18px;
-  color:var(--ash);font-size:14px;line-height:1.65;animation:faqIn .22s ease}
-@keyframes faqIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.faq-a p{margin:0 0 9px}.faq-a p:last-child{margin:0}
-.faq-a b{color:var(--ink);font-weight:600}
-.faq-a kbd{font-family:var(--mono);font-size:11px;white-space:nowrap;
-  background:var(--sand);border:1px solid var(--line);border-radius:5px;
-  padding:1.5px 5px;color:var(--ink)}
-:root[data-theme="dark"] .faq-a kbd{background:var(--paper)}
-@media(max-width:520px){.faq-item summary{padding:14px 34px}
-  .faq-a{padding:0 16px 15px}}
+/* ── lock ────────────────────────────────────────────────────── */
+.holds{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:10px}
+/* the tick is positioned, not a flex item: as flex children, every <b> or <em>
+   inside a line became a box of its own and drifted off with a 12px gap */
+.holds li,.plan-list li{position:relative;padding-left:31px;line-height:1.5;
+  font-size:14.5px}
+.holds li::before,.plan-list li::before{content:"";width:19px;height:19px;
+  position:absolute;left:0;top:3px;
+  border-radius:50%;background:var(--green-soft)
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314803d' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
+:root[data-theme="dark"] .holds li::before,
+:root[data-theme="dark"] .plan-list li::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E")}
 
-/* ── features ─────────────────────────────────────────────────────── */
-.feat{padding:clamp(90px,11vw + 11vh,380px) 0;background:var(--card);
-  border-block:1px solid var(--line)}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:60px}
-.card{border:1px solid var(--line);border-radius:16px;background:var(--paper);
-  padding:28px;transition:border-color .25s,transform .25s,box-shadow .25s}
-.card:hover{border-color:#d3d3da;transform:translateY(-3px);
-  box-shadow:0 24px 50px -40px rgba(0,0,0,.45)}
-:root[data-theme="dark"] .card:hover{border-color:#3a3a42}
-.card h3{font-size:19px;font-variation-settings:"wdth" 100;margin-bottom:10px;
-  letter-spacing:0;text-transform:none}
-.card p{color:var(--ash);font-size:15px;margin:0}
-.card .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
-  margin-bottom:18px;background:rgba(31,157,85,.11)}
-.card .ic svg{width:19px;height:19px;stroke:var(--lock);fill:none}
-.card:nth-child(2) .ic{background:rgba(53,104,201,.11)}
-.card:nth-child(2) .ic svg{stroke:var(--blue)}
-.card:nth-child(3) .ic{background:rgba(184,121,10,.12)}
-.card:nth-child(3) .ic svg{stroke:var(--amber)}
-.card:nth-child(4) .ic{background:rgba(207,59,46,.11)}
-.card:nth-child(4) .ic svg{stroke:var(--red)}
-.card:nth-child(5) .ic{background:rgba(24,24,26,.08)}
-.card:nth-child(5) .ic svg{stroke:var(--ink)}
-:root[data-theme="dark"] .card:nth-child(5) .ic{background:rgba(245,245,247,.08)}
-@media(max-width:900px){.feat-grid{grid-template-columns:1fr}}
+/* ── platforms ───────────────────────────────────────────────── */
+.plat-os{display:flex;gap:28px;margin-top:26px;flex-wrap:wrap}
+.plat-os>div{display:flex;gap:11px;align-items:flex-start}
+.plat-os svg{width:22px;height:22px;flex:none;margin-top:2px}
+.plat-os b{display:block;font-size:14.5px;font-family:var(--display);font-weight:800}
+.plat-os em{font-style:normal;font-size:13px;color:var(--ash)}
 
-/* ── get it ───────────────────────────────────────────────────────── */
-/* ── pricing: two plans, the paid one carrying the lock green ─────── */
-.price{padding:clamp(90px,11vw + 11vh,380px) 0;border-top:1px solid var(--line)}
-/* centred, and the heading gets its own measure — inheriting the 24ch column
-   meant a 62px display face wrapping inside a width set for 16px body text */
-.price .head{text-align:center}
-.price .head h2{max-width:16ch;margin-inline:auto}
-.price .head p{max-width:54ch;margin-inline:auto}
-.price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;
-  margin:52px auto 0;max-width:860px;align-items:stretch}
-.plan{border:1px solid var(--line);border-radius:18px;background:var(--card);
-  padding:32px 30px 34px;display:flex;flex-direction:column}
-.plan--pro{border-color:var(--lock);background:var(--paper);
-  box-shadow:0 22px 60px -34px rgba(31,157,85,.55)}
-.plan-tag{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--ash);margin:0}
-.plan--pro .plan-tag{color:var(--lock)}
-.plan-cost{font-family:var(--display);font-weight:800;font-size:clamp(38px,4.4vw,52px);
-  line-height:1;margin:14px 0 6px;font-variation-settings:"wdth" 100;letter-spacing:-.025em}
-.plan-cost span{font-family:var(--body);font-size:15px;font-weight:500;
-  color:var(--ash);letter-spacing:0}
-.plan-note{color:var(--ash);font-size:14.5px;margin:0 0 24px}
-.plan-list{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:12px}
-.plan-list li{position:relative;padding-left:27px;font-size:15px;color:var(--ash)}
-.plan-list li::before{content:"";position:absolute;left:1px;top:6px;
-  width:13px;height:7px;transform:rotate(-45deg);
-  border-left:2px solid var(--lock);border-bottom:2px solid var(--lock)}
-.plan-list li b{color:var(--ink);font-weight:600}
+/* ── device rig ──────────────────────────────────────────────── */
+/* What used to sit here was a rendered photograph of a monitor on a desk with
+   the app pasted into the screen. This is the real capture inside a drawn
+   window frame instead — nothing in it is a composite. The phone beside it is
+   an empty outline on purpose: the Android build isn't out, so there is no
+   screen of it that could honestly be shown.                                */
+/* No drawn title bar around the capture — the app's own chrome is already in
+   the pixels, and a second frame on top of it just reads as clutter. */
+.devrig{position:relative;margin:0;padding:0 clamp(18px,2.8vw,34px) clamp(44px,6vw,72px) 0}
+.devwin{border:1px solid var(--line);border-radius:15px;overflow:hidden;
+  background:var(--card);box-shadow:var(--shadow)}
+/* no `display` — see the swap-light/swap-dark note at the top of this sheet */
+.devwin img{width:100%;height:auto;vertical-align:top}
+/* the 5px ring is the band's own colour, so the phone reads as cut out of the
+   page rather than pasted on the screenshot — in dark mode the card and the
+   capture are close enough in value that a hairline border alone vanishes. */
+.devphone{position:absolute;right:0;bottom:0;width:clamp(74px,14%,92px);
+  aspect-ratio:9/18;border-radius:15px;background:var(--card);
+  border:1px solid var(--line);box-shadow:0 0 0 5px var(--hush),var(--shadow);
+  display:grid;place-content:center;justify-items:center;gap:9px;padding:9px}
+.devphone svg{width:25px;height:25px;color:var(--faint)}
+.devphone span{font-family:var(--mono);font-size:8.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--faint)}
+@media(max-width:900px){.devrig{max-width:620px;margin:0 auto}}
+
+/* ── pricing ─────────────────────────────────────────────────── */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media(max-width:1000px){.plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(22px,2.4vw,30px);display:flex;flex-direction:column}
+.plan--pro{border-color:var(--green)}
+/* the week pass is the cheapest way in, so it gets a card and not a footnote */
+.plan--week{border-color:color-mix(in srgb, var(--green) 45%, transparent);
+  background:color-mix(in srgb, var(--green) 5%, var(--card))}
+.plan-top{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  flex-wrap:wrap}
+.plan-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);margin:0}
+.pop{background:var(--green-soft);color:var(--green-deep);font-size:11px;
+  font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.pop--try{background:transparent;box-shadow:inset 0 0 0 1px var(--green)}
+.plan-cost{font-family:var(--display);font-weight:800;font-size:clamp(34px,2.9vw,42px);
+  line-height:1;margin:14px 0 6px;letter-spacing:-.03em}
+.plan-cost span{font-size:15px;font-weight:600;color:var(--ash);letter-spacing:0}
+.plan-note{color:var(--ash);font-size:13.5px;margin:0 0 22px}
+.plan-list{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px}
 .plan .btn{margin-top:auto;justify-content:center}
-.price-foot{text-align:center;color:var(--ash);font-size:14.5px;
-  margin:34px auto 0;max-width:52ch}
-.price-foot a{color:var(--lock-txt);text-decoration:none;
-  border-bottom:1px solid rgba(23,122,65,.35)}
-.price-foot a:hover{border-bottom-color:var(--lock-txt)}
-@media(max-width:820px){.price-grid{grid-template-columns:1fr;max-width:460px}}
+.price-foot{margin:22px 0 0;color:var(--ash);font-size:13.5px;max-width:78ch}
+.price-foot b{color:var(--ink)}
+.price-foot a{color:var(--green-txt)}
 
-.get{padding:clamp(90px,11vw + 11vh,380px) 0;text-align:center}
-.get h2{font-size:clamp(36px,6vw,80px);text-transform:uppercase;margin-top:14px}
-.get p{color:var(--ash);max-width:46ch;margin:20px auto 0}
-.get .hero-cta{justify-content:center}
-.specs{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:44px;
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ash)}
-footer{border-top:1px solid var(--line);padding:34px 0}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  font-size:13.5px;color:var(--ash)}
-footer a{color:var(--ash);text-decoration:none}
-footer a:hover{color:var(--ink);text-decoration:underline}
-/* the policy row: Paddle wants these linked from the site, and buyers want
-   them findable — one line, wrapping to two on a phone */
-.legal-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+/* ── faq ─────────────────────────────────────────────────────── */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(28px,5vw,60px);align-items:start}
+@media(max-width:900px){.faq-grid{grid-template-columns:1fr}}
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  margin-bottom:9px;overflow:hidden}
+.faq-item[open]{border-color:var(--green)}
+.faq-item summary{cursor:pointer;list-style:none;padding:15px 46px 15px 20px;
+  font-weight:600;font-size:14.5px;position:relative}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"";position:absolute;right:19px;top:50%;
+  width:9px;height:9px;margin-top:-6px;border-right:2px solid var(--faint);
+  border-bottom:2px solid var(--faint);transform:rotate(45deg);transition:transform .2s}
+.faq-item[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+.faq-a{padding:0 20px 17px;color:var(--ash);font-size:14px}
+.faq-a p{margin:0}
+.faq-a b{color:var(--ink)}
+kbd{font-family:var(--mono);font-size:11px;background:var(--sand);
+  border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--ink)}
 
+/* ── final ───────────────────────────────────────────────────── */
+.final{position:relative;padding:clamp(80px,11vw,150px) 0;text-align:center;
+  overflow:hidden;isolation:isolate}
+.final>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:-2;filter:brightness(.72)}
+.final::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(rgba(10,12,16,.42),rgba(10,12,16,.7))}
+.final h2{font-size:clamp(32px,5vw,58px);max-width:16ch;margin:0 auto;color:#fff}
+.final .eyebrow{color:#9ff0bb}
+.final p.sub{margin:18px auto 0;color:rgba(255,255,255,.85);max-width:50ch}
+.final .cta-row{justify-content:center}
+.final-specs{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  margin-top:30px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.72)}
+
+/* ── compare ─────────────────────────────────────────────────── */
+/* The argument is the shape of the list, not the prose: five rivals carrying
+   the same two glyphs, then one row that carries a different one. */
+.vs-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(30px,5vw,64px);align-items:start}
+@media(max-width:900px){.vs-grid{grid-template-columns:1fr}}
+.rivals{list-style:none;margin:clamp(26px,3.4vw,34px) 0 0;padding:0;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden}
+.rivals li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;
+  align-items:center;gap:13px;padding:13px 18px;border-top:1px solid var(--line)}
+.rivals li:first-child{border-top:0}
+.rivals b{font-size:14.5px;font-weight:600;letter-spacing:-.005em}
+.rivals span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.ricon{width:20px;height:20px;flex:none;color:var(--faint)}
+/* the one row that isn't a list */
+.rivals-us{background:var(--green-soft)}
+.rivals-us b{font-weight:800}
+.rivals-us span,.rivals-us .ricon{color:var(--green-txt)}
+.vs-say p{color:var(--ash);font-size:15.5px;line-height:1.8}
+.vs-say em{font-style:normal;color:var(--ink);font-weight:700}
+.vs-pull{border-left:2px solid var(--green);padding-left:20px;
+  margin:28px 0 0;color:var(--ink)!important}
+
+/* ── first run ───────────────────────────────────────────────── */
+/* Own class names, not `.steps`/`.step`: those belong to the numbered list in
+   #how, they are declared further up, and this block would win on order and
+   flatten them into three narrow columns. It did exactly that once. */
+.runsteps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.6vw,28px)}
+@media(max-width:900px){.runsteps{grid-template-columns:1fr}}
+.runstep{counter-increment:s;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.runstep img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;
+  border-bottom:1px solid var(--line);background:var(--sand);filter:var(--photo)}
+.runstep-say{padding:19px 21px 23px;color:var(--ash);font-size:14px;line-height:1.66}
+.runstep-say b{display:block;color:var(--ink);font-family:var(--display);
+  font-weight:800;font-size:16px;letter-spacing:-.015em;margin-bottom:7px}
+.runstep-say b::before{content:counter(s);display:inline-grid;place-items:center;
+  width:21px;height:21px;margin-right:9px;border-radius:50%;
+  background:var(--green-soft);color:var(--green-txt);font-family:var(--mono);
+  font-size:11px;font-weight:700;vertical-align:1px}
+.runsteps .runstep:nth-child(2){transition-delay:.07s}
+.runsteps .runstep:nth-child(3){transition-delay:.14s}
+
+/* ── about ───────────────────────────────────────────────────── */
+.about-head{text-align:center;max-width:46ch;margin:0 auto clamp(28px,4vw,42px)}
+.note{max-width:730px;margin:0 auto;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(28px,4.2vw,44px)}
+.note-head{display:flex;align-items:center;gap:14px;margin-bottom:24px;
+  padding-bottom:21px;border-bottom:1px solid var(--line)}
+.note-logo{width:44px;height:44px;flex:none;border-radius:12px;padding:5px;
+  object-fit:contain;background:var(--sand);border:1px solid var(--line)}
+.note-who{font-family:var(--display);font-weight:800;font-size:15px;
+  letter-spacing:-.015em}
+.note p{color:var(--ash);font-size:15px;line-height:1.78;margin:0 0 16px}
+.note a{color:var(--green-txt)}
+.note p.note-sign{font-family:var(--hand);font-size:27px;line-height:1;
+  color:var(--green-txt);margin:26px 0 0}
+
+/* ── footer ──────────────────────────────────────────────────── */
+/* The mark is an inline <svg> with no width/height attributes, so it has to be
+   sized here or it falls back to the replaced-element default of 300×150 and
+   punches a hole through the first column — which is what the first cut of
+   this footer did. The wrapping <span> carries the badge so the sizing can't
+   be lost again if the svg is ever swapped out.                             */
+footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
+.foot{display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));
+  gap:clamp(26px,4vw,44px)}
+@media(max-width:900px){.foot{grid-template-columns:1fr 1fr;row-gap:36px}}
+@media(max-width:560px){.foot{grid-template-columns:1fr}}
+.brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  color:var(--ink);font-family:var(--display);font-weight:800;font-size:19.5px;
+  letter-spacing:-.025em;line-height:1}
+.brand-mark{width:34px;height:34px;flex:none;border-radius:50%;
+  background:var(--onyx);display:grid;place-items:center;
+  transition:transform .3s cubic-bezier(.16,.84,.28,1)}
+.brand:hover .brand-mark{transform:rotate(-12deg)}
+.brand-mark svg{width:17px;height:17px;stroke:var(--onyx-txt);fill:none;
+  stroke-width:2.1}
+.foot-tag{color:var(--ash);font-size:14.5px;line-height:1.6;margin:17px 0 0;
+  max-width:27ch}
+.foot-meta{margin:13px 0 0;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.foot-social{display:flex;gap:9px;margin-top:21px}
+.foot-social a{width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);color:var(--ash);
+  display:grid;place-items:center;transition:color .18s,border-color .18s}
+.foot-social a:hover{color:var(--ink);border-color:var(--ash)}
+.foot-social svg{width:16px;height:16px}
+.foot-col h4{font-family:var(--display);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 13px}
+.foot-col a{display:block;width:fit-content;color:var(--ash);
+  text-decoration:none;font-size:14.5px;padding:5px 0;transition:color .18s}
+.foot-col a:hover{color:var(--ink)}
+.foot-base{margin-top:clamp(38px,5vw,56px);padding-top:22px;
+  border-top:1px solid var(--line);display:flex;align-items:center;
+  justify-content:space-between;gap:14px 26px;flex-wrap:wrap;
+  color:var(--faint);font-size:12.5px}
+.foot-top{display:inline-flex;align-items:center;gap:7px;color:var(--faint);
+  text-decoration:none;transition:color .18s}
+.foot-top:hover{color:var(--ink)}
+.foot-top svg{width:13px;height:13px}
+
+/* ── demo overlay ────────────────────────────────────────────── */
+.demo{position:fixed;inset:0;z-index:200;background:#0b0b0d;color:#f5f5f7;
+  display:grid;place-items:center;opacity:0;transition:opacity .3s ease}
+/* `display:grid` above beats the UA's [hidden]{display:none}, which left an
+   invisible full-page shield at z-index 200 swallowing every click on the
+   site — nav, theme toggle, Download, all of it. It has to win here. */
+.demo[hidden]{display:none}
+/* A dark room with the monitor switched off — which is the actual point of the
+   app. Kept at a third opacity so the countdown stays the only bright thing. */
+.demo::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:url(img/photos/lock-ambient-800.jpg) center/cover no-repeat;
+  opacity:.32}
+.demo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,transparent 0%,#0b0b0d 78%)}
+.demo>*{position:relative;z-index:1}
+.demo.on{opacity:1}
+.demo-back{position:absolute;top:22px;left:22px;display:inline-flex;gap:7px;
+  align-items:center;background:transparent;border:1px solid #2c2c34;color:#f5f5f7;
+  border-radius:999px;padding:9px 17px;font-family:var(--body);font-size:13.5px;
+  font-weight:600;cursor:pointer}
+.demo-inner{text-align:center;padding:0 24px;max-width:600px}
+.demo-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  color:#e5564a;margin:0 0 18px}
+.demo.done .demo-eyebrow{color:#4ade80}
+.demo-clock{font-family:var(--mono);font-weight:700;line-height:1;
+  font-size:clamp(56px,13vw,112px);letter-spacing:-.03em}
+.demo-bar{height:3px;background:#26262c;border-radius:2px;margin:26px 0 30px;overflow:hidden}
+.demo-bar i{display:block;height:100%;background:#4ade80;transform-origin:left}
+.demo-line{font-size:17px;font-weight:600;margin:0 0 10px}
+.demo-sub{color:#8a8a92;font-size:14.5px;margin:0}
+.demo-foot{margin:32px 0 0;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:#6c6c74}
+
+/* ── live app figures ─────────────────────────────
+   Three of the figures on this page were PNGs of things that move, and a still
+   of a countdown is the one thing a countdown cannot be. They are rebuilt here
+   in the page's own tokens: they tick, they follow the theme toggle, they stay
+   sharp at any width, and they cost a few hundred bytes where a screen
+   recording cost megabytes. Every size is in `cqw`, so each part scales with
+   the figure's own column rather than the viewport -- the px value in front of
+   it is the fallback for a browser without container queries. Each one runs
+   only while it is on screen, and holds still under reduced motion. */
+.live{position:relative;overflow:hidden;border-radius:14px;
+  border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);
+  container-type:inline-size;user-select:none}
+.live p{margin:0}
+
+/* the lock screen: the entire interface during a block */
+.live--lock{aspect-ratio:1024/640;display:grid;place-items:center;text-align:center}
+.live--lock::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 44%,transparent 36%,
+    color-mix(in srgb,var(--ink) 11%,transparent) 100%)}
+.lk{position:relative;z-index:1;width:100%;padding:0 6%}
+.lk-eye{font-family:var(--mono);text-transform:uppercase;letter-spacing:.26em;
+  color:var(--ash);font-size:9px;font-size:1.8cqw}
+.lk-clock{font-family:var(--mono);font-weight:700;color:var(--ink);line-height:1;
+  letter-spacing:-.055em;font-variant-numeric:tabular-nums;
+  font-size:60px;font-size:13cqw;margin-top:2.4cqw!important}
+.lk-sess{color:var(--ash);font-size:11px;font-size:2.1cqw;margin-top:2cqw!important}
+.lk-bar{position:relative;width:54%;height:2.4cqw;margin:4.2cqw auto 0;
+  color:color-mix(in srgb,var(--ink) 22%,transparent);
+  background:repeating-linear-gradient(90deg,currentColor 0 1.5px,transparent 1.5px 4.5px)}
+.lk-bar i{position:absolute;inset:0 auto 0 0;width:37%;color:var(--ink);
+  background:repeating-linear-gradient(90deg,currentColor 0 1.5px,transparent 1.5px 4.5px);
+  transition:width .95s linear}
+.lk-bar i::after{content:"";position:absolute;right:0;top:-20%;bottom:-20%;
+  width:1.5px;background:currentColor}
+.lk-foot{color:var(--faint);font-size:9px;font-size:1.7cqw;margin-top:6cqw!important}
+.lk-foot b{font-weight:700;color:var(--ash)}
+.lk-foot+.lk-foot{margin-top:1.4cqw!important;opacity:.7}
+
+/* window chrome, shared by the two figures that show the app itself */
+.win{display:flex;align-items:center;gap:2.2cqw;padding:2.5cqw 3.2cqw;
+  border-bottom:1px solid var(--line)}
+.win-mark{width:3.6cqw;height:3.6cqw;border-radius:50%;flex:none;position:relative;
+  border:1px solid var(--ash)}
+.win-mark::after{content:"";position:absolute;inset:18% 48%;background:var(--ash);
+  transform:rotate(45deg)}
+.win-name{font-family:var(--display);font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink);font-size:10px;font-size:1.95cqw}
+.win-v{font-family:var(--mono);color:var(--faint);font-size:1.5cqw}
+.win-sp{flex:1}
+.win-chip{border:1px solid var(--line);border-radius:999px;padding:.8cqw 2.2cqw;
+  color:var(--ash);font-size:1.45cqw;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:600}
+.win-chip.on{border-color:var(--green);color:var(--green-txt)}
+
+/* the schedule window, with the next block counting itself down */
+.sched{padding:4.4cqw 5cqw}
+.sched-h{font-family:var(--display);font-weight:800;color:var(--ink);
+  font-size:16px;font-size:3.1cqw;margin-bottom:3.2cqw}
+.srow{display:flex;align-items:center;gap:2.6cqw;padding:2.6cqw 3cqw;
+  margin-bottom:2.2cqw;border:1px solid var(--line);border-radius:2.2cqw;
+  background:var(--sand)}
+.srow b{display:block;color:var(--ink);font-weight:700;font-size:12px;font-size:2.35cqw}
+.srow em{display:block;font-style:normal;color:var(--faint);font-size:1.75cqw;
+  margin-top:.6cqw}
+.snext{margin-left:auto;padding-right:1.6cqw;font-family:var(--mono);font-size:1.75cqw;color:var(--faint);
+  font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.snext i{font-style:normal;color:var(--green-txt);font-weight:700;font-size:2.1cqw;
+  display:block}
+.sw{flex:none;width:7.2cqw;height:3.9cqw;border-radius:999px;background:var(--green);
+  position:relative}
+.sw::after{content:"";position:absolute;top:13%;bottom:13%;aspect-ratio:1;right:7%;
+  border-radius:50%;background:#fff}
+.snote{color:var(--faint);font-size:1.7cqw;margin:3cqw 0!important}
+.sadd{border:1px dashed var(--line);border-radius:2.2cqw;text-align:center;
+  padding:3cqw;color:var(--ash);font-size:1.85cqw;letter-spacing:.15em;
+  text-transform:uppercase;font-weight:600}
+
+/* the New block window, being filled in. The three suggestions carry their own
+   colour so the row reads before it is read, exactly as they do in the app. */
+.nb{padding:3.6cqw 4.2cqw}
+.nb-lab{font-family:var(--mono);font-size:1.4cqw;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:1.6cqw!important}
+.nb-sugs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw}
+.nb-sug{display:block;padding:2.1cqw 2.2cqw;border-radius:2cqw;
+  border:1px solid transparent;background:color-mix(in srgb,var(--tone) 7%,var(--sand));
+  transition:background-color .35s ease,border-color .35s ease}
+.nb-sug b{display:block;font-weight:700;font-size:1.95cqw;color:var(--tone)}
+.nb-sug em{display:block;font-style:normal;font-weight:600;color:var(--ink);
+  font-size:1.75cqw;margin-top:.5cqw;font-variant-numeric:tabular-nums}
+.nb-sug u{display:block;text-decoration:none;color:var(--faint);font-size:1.45cqw;
+  margin-top:.6cqw;line-height:1.35}
+.s-sleep{--tone:#5b6bd6}
+.s-work{--tone:#1f9d63}
+.s-detox{--tone:#d6483b}
+.nb-sug.on{background:color-mix(in srgb,var(--tone) 16%,var(--sand));
+  border-color:var(--tone)}
+.nb-or{display:flex;align-items:center;gap:2cqw;margin:2.6cqw 0 2.4cqw!important;
+  font-family:var(--mono);font-size:1.4cqw;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint)}
+.nb-or::before,.nb-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.nb-days{display:flex;gap:1.2cqw;margin-bottom:2.8cqw}
+.nb-days span{flex:1;text-align:center;padding:1.5cqw 0;border-radius:1.4cqw;
+  border:1px solid var(--line);color:var(--faint);font-size:1.6cqw;font-weight:600;
+  transition:background-color .35s ease,color .35s ease,border-color .35s ease}
+.nb-days span.on{background:var(--onyx);color:var(--onyx-txt);border-color:transparent}
+.nb-times{display:grid;grid-template-columns:1fr 1fr;gap:2.4cqw}
+.nb-row{display:flex;gap:1.4cqw}
+.nb-in{flex:1;height:5.4cqw;display:flex;align-items:center;padding:0 2cqw;
+  border-radius:1.4cqw;background:var(--sand);color:var(--ink);font-weight:600;
+  font-size:1.9cqw;font-variant-numeric:tabular-nums}
+.nb-mer{flex:none;display:flex;gap:.5cqw;padding:.5cqw;border-radius:1.4cqw;
+  background:var(--sand)}
+.nb-mer i{font-style:normal;display:grid;place-items:center;width:5.4cqw;height:4.4cqw;
+  border-radius:1.1cqw;font-size:1.5cqw;font-weight:700;letter-spacing:.06em;
+  color:var(--faint);transition:background-color .35s ease,color .35s ease}
+.nb-mer i.on{background:var(--onyx);color:var(--onyx-txt)}
+.nb-span{margin-top:2.6cqw!important;padding:1.9cqw 2.2cqw;border-radius:1.6cqw;
+  background:var(--sand);color:var(--ash);font-size:1.6cqw;line-height:1.5}
+.nb-save{margin-top:2.4cqw!important;text-align:center;padding:2.4cqw;
+  border-radius:1.8cqw;background:var(--onyx);color:var(--onyx-txt);
+  font-weight:700;font-size:1.8cqw;letter-spacing:.12em;text-transform:uppercase}
+
+/* the Accountability Lock prompt, refusing a password on a loop */
+.live--dlg{aspect-ratio:1520/960}
+.dlg-bg{position:absolute;inset:0;display:grid;align-content:center;padding-left:9%;
+  font-family:var(--display);font-weight:800;color:var(--ink);opacity:.12;
+  line-height:1.5;font-size:4.6cqw;white-space:nowrap}
+.dlg-bg b{font-size:1.45em;font-weight:800}
+.dlg-wrap{position:absolute;inset:0;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--paper) 52%,transparent)}
+.dlg{width:57%;background:var(--card);border:1px solid var(--line);
+  border-radius:2.4cqw;padding:3.4cqw}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2.2cqw}
+.dlg-head b{font-family:var(--display);font-weight:800;color:var(--ink);
+  font-size:13px;font-size:2.55cqw}
+.dlg-head span{color:var(--faint);font-size:2.6cqw;line-height:1}
+.dlg p{color:var(--ash);font-size:1.75cqw;line-height:1.62}
+.dlg p b{color:var(--ink);font-weight:700}
+.dlg-hint{color:var(--faint)!important;font-size:1.6cqw!important;
+  font-style:italic;margin-top:2.4cqw!important}
+.dlg-lab{display:block;font-family:var(--mono);font-size:1.45cqw;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint);margin-top:2cqw!important}
+.dlg-field{margin-top:1.2cqw;height:5.6cqw;border-radius:1.4cqw;background:var(--sand);
+  border:1.5px solid var(--green);display:flex;align-items:center;padding:0 2.2cqw;
+  transition:border-color .2s}
+.dlg-dots{display:flex;gap:1.1cqw}
+.dlg-dots span{width:1.25cqw;height:1.25cqw;border-radius:50%;background:var(--ink)}
+.dlg-row{display:flex;gap:1.6cqw;justify-content:flex-end;margin-top:2.8cqw}
+.dlg-row span{font-family:var(--body);font-weight:600;font-size:1.65cqw;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line);
+  color:var(--ash);border-radius:1.3cqw;padding:1.4cqw 2.8cqw;transition:transform .12s}
+.dlg-row .pri{background:var(--onyx);color:var(--onyx-txt);border-color:transparent}
+.dlg-err{color:#e5564a!important;font-size:1.6cqw!important;margin-top:1.8cqw!important;
+  opacity:0;transition:opacity .2s}
+.live--dlg.press .pri{transform:scale(.96)}
+.live--dlg.bad .dlg-err{opacity:1}
+.live--dlg.bad .dlg-field{border-color:#e5564a;animation:shake .38s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-1.2%)}
+  45%{transform:translateX(1.2%)} 70%{transform:translateX(-.7%)}
+}
+@media(prefers-reduced-motion:reduce){
+  .lk-bar i{transition:none}
+  .live--dlg.bad .dlg-field{animation:none}
+}
+
+/* ── motion ──────────────────────────────────────────────────── */
+.rise{opacity:0;transform:translateY(16px);
+  transition:opacity .6s ease,transform .6s ease}
+.rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;
-    animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .js .rise{opacity:1;transform:none}
-  .blk{transform:scaleX(1)}
-  /* a pill that jumps in and out with no motion to explain it is worse than
-     one that simply stays, so here it stays */
+  .rise{opacity:1;transform:none;transition:none}
+  .btn:hover{transform:none}
   .nav.tucked{transform:none;opacity:1}
 }
 </style>
 </head>
 <body>
 
+
+<!-- ═══ NAV ═══ -->
 <nav class="nav">
   <div class="nav-pill">
     <a class="nav-badge" href="#top" aria-label="The All Block, back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="2.1">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1">
         <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
       </svg>
     </a>
     <a href="#top" class="here" data-spy="top">Home</a>
-    <!-- in the order the page actually runs: the block is the section right
-         after the hero, "who it's for" follows it. Listed the other way round,
-         the highlight looked like it was jumping backwards. -->
-    <a href="#block" data-spy="block">The block</a>
-    <a href="#who" data-spy="who">Who it's for</a>
-    <a href="#lock" data-spy="lock">The lock</a>
-    <a href="#inside" data-spy="inside">Features</a>
+    <a href="#app" data-spy="app how inside devices">The app</a>
+    <a href="#why" data-spy="why who vs">Why</a>
+    <a href="#lock" data-spy="lock">The Lock</a>
     <a href="#pricing" data-spy="pricing">Pricing</a>
-    <a href="#faq" data-spy="faq">FAQ</a>
+    <a href="#faq" data-spy="faq firstrun">Help</a>
+    <a href="#about" data-spy="about get">About</a>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
-      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5V5M12 19v2.5M4.2 4.2L6 6M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/>
       </svg>
       <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
       </svg>
     </button>
-    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.4.exe">Download</a>
+    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download</a>
   </div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero" id="top">
-  <div class="wrap hero-grid">
+  <div class="hero-bg" aria-hidden="true">
+    <img src="img/photos/forest-1024.jpg"
+         srcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w"
+         sizes="(max-width:900px) 100vw, 50vw"
+         width="1024" height="1536" alt="" fetchpriority="high">
+  </div>
 
-    <div class="wheel-stage">
+  <div class="wrap hero-grid grid">
+
+    <div class="wheel-card">
       <div class="wheel" tabindex="0" role="slider" aria-label="Focus duration"
-           aria-valuemin="10" aria-valuemax="10800" aria-valuenow="600"
-           aria-valuetext="10 min">
-        <!-- the drum is a picture of a value role="slider" already exposes through
-             aria-valuetext, so the duplicate is hidden from the a11y tree -->
+           aria-valuemin="10" aria-valuemax="10800" aria-valuenow="600" aria-valuetext="10 min">
+        <!-- the drum is a picture of a value role="slider" already exposes
+             through aria-valuetext, so it's hidden from the a11y tree -->
         <div class="wheel-track" aria-hidden="true"></div>
         <div class="wheel-slot"></div>
       </div>
@@ -692,27 +922,38 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow">Windows &nbsp;·&nbsp; <b>v7.7.4</b></p>
-      <h1>A blocker you can't bypass<em>Your Keyboard and mouse, locked until the timer ends</em></h1>
+      <p class="eyebrow mute">Windows &nbsp;·&nbsp; <b>v7.9.2</b></p>
+      <h1>A blocker you can't bypass<em>Your keyboard and mouse, locked until the timer ends</em></h1>
       <p class="hero-sub">Start the timer — at bedtime, mid-game,
         mid-scroll, whenever you need it. <b>No clicking, no alt-tabbing,
         no negotiating your way back in</b> before then.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.4.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block">View on GitHub</a>
+        <a class="btn btn--ghost" href="#app">See it in action</a>
       </div>
-      <p class="hero-note">Scroll the wheel — it's the real one</p>
+      <p class="hero-note">Click the wheel, then scroll — it's the real one</p>
     </div>
 
   </div>
+
 </header>
 
-<!-- ═══ DEMO LOCK — what the app puts on screen for the whole session ═══ -->
-<div class="demo" id="demo" hidden aria-hidden="true" role="dialog"
-     aria-modal="true" aria-label="The All Block session demo">
+<!-- ═══ TRUST STRIP ═══ -->
+<section class="wrap">
+  <div class="trust grid">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg><span>Blocks the whole machine</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18"/><path d="M5 12.5a11 11 0 015-2.8M14.5 10a11 11 0 014.5 2.5"/><path d="M8.5 16a6 6 0 013-1.4"/><path d="M12 19.5h.01"/></svg><span>Works fully offline</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.9-7.5 9.3C7.5 19.9 4.5 16.4 4.5 12V6z"/></svg><span>Survives a restart</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M7 6.5h.01M9.5 6.5h.01"/></svg><span>Your data stays local</span></div>
+  </div>
+</section>
+
+<!-- ═══ DEMO OVERLAY ═══ -->
+<div class="demo" id="demo" hidden aria-hidden="true" role="dialog" aria-modal="true"
+     aria-label="The All Block session demo">
   <button class="demo-back" id="demoBack" type="button">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
     Back
@@ -722,126 +963,287 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <div class="demo-clock" id="demoClock">10:00</div>
     <div class="demo-bar"><i id="demoBar"></i></div>
     <p class="demo-line">Your mouse and keyboard are switched off system-wide.</p>
-    <p class="demo-sub" id="demoSub">Clicking, typing, Alt+Tab, Ctrl+Alt+Del — nothing
-      reaches Windows until the clock hits zero.</p>
+    <p class="demo-sub" id="demoSub">Clicking, typing and Alt+Tab stop reaching Windows
+      until the clock hits zero.</p>
     <p class="demo-foot">Demo only — that's why there's a Back button. A real session has none.</p>
   </div>
 </div>
 
-<!-- ═══ THE BLOCK ═══ -->
-<section class="scrub" id="block">
-  <div class="scrub-pin">
-    <div class="scrub-inner">
+<!-- ═══ THE APP ═══ -->
+<section class="band" id="app">
+  <div class="wrap">
+    <div class="head-row rise">
       <div>
-        <p class="eyebrow">The block</p>
-        <div class="clock" id="cd">90:00</div>
-        <div class="bar"><i id="cdbar"></i></div>
-        <p class="state" id="cdstate">Locked — keep scrolling</p>
-        <p class="lede">Your mouse and keyboard stop working — system-wide, not
-          just in this app. No pause button, no “just five more minutes”, and it
-          comes back still locked if you reboot to escape it.</p>
+        <p class="eyebrow">The app</p>
+        <h2 class="big">See it in action.</h2>
+        <p class="lede" style="margin:14px 0 0">Five screens, one job. Every shot below
+          is the shipping build, not a mockup.</p>
       </div>
-      <ul class="blocklist" id="cutlist">
-        <li><span class="nm">Mouse</span><span class="tag">Dead</span></li>
-        <li><span class="nm">Keyboard</span><span class="tag">Dead</span></li>
-        <li><span class="nm">Alt+Tab, Win, Ctrl+Alt+Del</span><span class="tag">Dead</span></li>
-        <li><span class="nm">The Task Manager escape</span><span class="tag">Dead</span></li>
-        <li class="keep"><span class="nm">The clock</span><span class="tag">Kept</span></li>
-      </ul>
+      <div class="rail-nav">
+        <button class="rail-btn" id="railPrev" type="button" aria-label="Previous screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="rail-btn" id="railNext" type="button" aria-label="More screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="rail rise" id="rail">
+      <figure class="shot">
+        <img class="swap-light" src="img/wheel_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block main window showing the duration wheel set to 10 minutes">
+        <img class="swap-dark" src="img/wheel_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block main window in dark theme, the duration wheel set to 10 minutes">
+        <figcaption><b>The wheel</b><span>Pick a duration and lock in.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="img/schedules_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Schedule window listing recurring blocks with on and off switches">
+        <img class="swap-dark" src="img/schedules_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Schedule window in dark theme, listing recurring blocks with on and off switches">
+        <figcaption><b>Schedules</b><span>Set the week once, it fires itself.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="img/stats_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The session stats window showing total focus time, session count and a streak">
+        <img class="swap-dark" src="img/stats_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The session stats window in dark theme, showing total focus time, session count and a streak">
+        <figcaption><b>Session history</b><span>Focus time, sessions, streak.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="img/lock_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Accountability Lock window with a password field and a reminder note">
+        <img class="swap-dark" src="img/lock_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Accountability Lock window in dark theme, with a password field and a reminder note">
+        <figcaption><b>Accountability Lock</b><span>Hand the key to someone else.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="img/settings_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block settings window with resume, stats, schedule and theme options">
+        <img class="swap-dark" src="img/settings_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block settings window in dark theme, with resume, stats, schedule and theme options">
+        <figcaption><b>Settings</b><span>One screen — there isn't much to set.</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<!-- ═══ WHO IT'S FOR ═══ -->
-<section class="who" id="who">
+<!-- ═══ WHY ═══ -->
+<section class="band band--sand" id="why">
   <div class="wrap">
-    <div class="who-top">
-    <div class="head rise">
-      <p class="eyebrow">Who it's for</p>
-      <h2>If willpower were enough you'd have stopped by now</h2>
-      <p>Nobody installs a blocker because they're short of good intentions.
-         They install one because the intention keeps losing to the moment.
-         These are the moments people bring it here for.</p>
+    <div class="two grid">
+      <div class="rise">
+        <p class="eyebrow">The problem</p>
+        <h2 class="big">Willpower runs out.<br>The timer doesn't.</h2>
+        <p class="lede" style="margin-top:18px">Games, feeds, one more episode — the pull
+          is always there, and it's strongest exactly when you've decided to stop. Site
+          blockers ask you not to click. This one takes the click away.</p>
+        <p class="hand" style="margin-top:26px;transform:rotate(-2deg)">Decide once.
+          Not forty times a night.</p>
+      </div>
+      <figure class="appfig rise">
+        <div class="live live--lock" id="liveLock" role="img"
+             aria-label="The All Block lock screen: the words DEVICE BLOCKED above a countdown
+                         running down from 17:42, a 25 minute session label, and a line saying
+                         one emergency escape is left this month">
+          <div class="lk">
+            <p class="lk-eye">Device blocked</p>
+            <p class="lk-clock" id="lkClock">17:42</p>
+            <p class="lk-sess">25 min session</p>
+            <div class="lk-bar"><i id="lkBar"></i></div>
+            <p class="lk-foot">Hold <b>Esc</b> to end this session early &nbsp;·&nbsp; 1 left this month</p>
+            <p class="lk-foot">Stuck on your lock screen? Press Ctrl&nbsp;Alt&nbsp;Delete to get back in.</p>
+          </div>
+        </div>
+        <figcaption><b>This is the entire interface during a block.</b> A countdown, and
+          how many emergency escapes are left this month. There is nothing to click,
+          because clicking has stopped working.</figcaption>
+      </figure>
     </div>
 
-    <!-- Cited, not endorsed. Both entries are about the problem; neither study
-         mentions this product and neither author knows it exists, which is the
-         line that keeps a citation a citation. The first is quoted verbatim from
-         the published abstract; the second is a finding stated in our own words
-         because we could not verify a verbatim sentence. -->
-    <div class="cited rise">
-      <p class="cited-note">From the research on self-control. Neither study is
-         about The All Block.</p>
-      <figure class="cite">
-        <blockquote>&ldquo;Situational self-control strategies&mdash;which can nip a
-          tempting impulse in the bud&mdash;may be especially effective in
-          preventing undesirable action.&rdquo;</blockquote>
-        <figcaption>Duckworth, Gendler &amp; Gross, &ldquo;Situational Strategies
-          for Self-Control&rdquo;, <i>Perspectives on Psychological Science</i>,
-          2016. <a href="https://doi.org/10.1177/1745691615623247"
-          rel="noopener nofollow">Source</a></figcaption>
+  </div>
+</section>
+
+<!-- ═══ HOW ═══ -->
+<section class="band" id="how">
+  <div class="wrap">
+    <div class="two grid">
+      <figure class="appfig rise">
+        <div class="live live--new" id="liveNew" role="img"
+             aria-label="The New block window in The All Block. Three suggested
+                         schedules across the top - Sleep, Deep work and Super Detox -
+                         and one of them is picked in turn, filling in the days, the
+                         start time and the end time below it.">
+          <div class="nb">
+            <p class="nb-lab">Start from a suggestion</p>
+            <div class="nb-sugs" id="nbSugs">
+              <span class="nb-sug s-sleep"><b>Sleep</b><em>10:00 PM &rarr; 6:00 AM</em>
+                <u>Every night, off the machine</u></span>
+              <span class="nb-sug s-work on"><b>Deep work</b><em>9:00 AM &rarr; 12:00 PM</em>
+                <u>Weekday mornings, uninterrupted</u></span>
+              <span class="nb-sug s-detox"><b>Super Detox</b><em>8:00 AM &rarr; 7:00 AM</em>
+                <u>All weekend, one hour a day free</u></span>
+            </div>
+            <p class="nb-or"><span>or set it up yourself</span></p>
+            <p class="nb-lab">Days</p>
+            <div class="nb-days" id="nbDays">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span>
+              <span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+            <div class="nb-times">
+              <div><p class="nb-lab">Start at</p>
+                <div class="nb-row"><span class="nb-in" id="nbFrom">9:00</span>
+                  <span class="nb-mer"><i id="nbFromAm">AM</i><i id="nbFromPm">PM</i></span></div></div>
+              <div><p class="nb-lab">Until</p>
+                <div class="nb-row"><span class="nb-in" id="nbTo">12:00</span>
+                  <span class="nb-mer"><i id="nbToAm">AM</i><i id="nbToPm">PM</i></span></div></div>
+            </div>
+            <p class="nb-span" id="nbSpan">Weekdays · blocked from 9:00 AM until 12:00 PM — 3 hours.</p>
+            <p class="nb-save">Save block</p>
+          </div>
+        </div>
+        <figcaption><b>Or skip step one entirely.</b> Pick a suggestion or set the hours
+          yourself — either way they fire on their own. Three blocks on Free,
+          unlimited on Pro.</figcaption>
       </figure>
-      <figure class="cite">
-        <p>Across 7,827 reports of everyday desire from 205 adults, desires for
-           media use produced more self-control failures than any other kind.</p>
-        <figcaption>Hofmann, Vohs &amp; Baumeister, &ldquo;What People Desire,
-          Feel Conflicted About, and Try to Resist in Everyday Life&rdquo;,
-          <i>Psychological Science</i>, 2012.
-          <a href="https://doi.org/10.1177/0956797612437426"
-          rel="noopener nofollow">Source</a></figcaption>
-      </figure>
+      <div>
+        <div class="head rise" style="margin-bottom:34px">
+          <p class="eyebrow">How it works</p>
+          <h2 class="big">Three steps, then nothing left to decide.</h2>
+        </div>
+        <div class="steps">
+          <div class="step rise"><span class="n">1</span><div>
+            <h3>Set the session</h3>
+            <p>Spin the wheel anywhere from 10 seconds to 3 hours — or put it in the
+              schedule and never pick again.</p>
+          </div></div>
+          <div class="step rise"><span class="n">2</span><div>
+            <h3>Lock in</h3>
+            <p>The mouse and keyboard stop answering, system-wide. Alt+Tab and the
+              Task&nbsp;Manager shuffle go with them.</p>
+          </div></div>
+          <div class="step rise"><span class="n">3</span><div>
+            <h3>Get it back</h3>
+            <p>The clock runs out and everything returns at once. The session lands in
+              your history either way.</p>
+          </div></div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- ═══ WHO IT'S FOR ═══
+     No photographs. The four cards carry the hours instead: the same 24-hour
+     track under each one, green where the machine is shut. Three are schedules
+     and the third is started by hand, which is the distinction the copy is
+     making anyway.                                                          -->
+<section class="band band--sand" id="who">
+  <div class="wrap">
+    <div class="head rise">
+      <p class="eyebrow">Who it's for</p>
+      <h2 class="big">Built for the moments<br>that matter.</h2>
+      <p class="lede" style="margin-top:18px">Nobody installs a blocker because they're
+        short of good intentions. They install one because the intention keeps losing to
+        the moment. These are the moments people bring it here for.</p>
     </div>
 
     <div class="cases">
-      <div class="case rise">
-        <p class="tag">Sleep</p>
-        <h3>The 1am spiral, closed at 23:00</h3>
-        <p>The hours you lose aren't the ones you decided to stay up for — they're
-           the ones that just kept going. A block that arrives on its own at 23:00
-           <em>ends the night before it gets away from you</em>, whether or not
-           you'd have chosen to stop. Fix the schedule once and your sleep stops
-           being negotiable.</p>
-      </div>
+      <article class="case rise">
+        <div class="case-ph" role="img" aria-label="A block from 9am to midday, three hours of a weekday morning">
+          <div>
+            <p class="ck-time">09:00 &rarr; 12:00</p>
+            <p class="ck-sub">Weekdays · 3 hours</p>
+          </div>
+          <div>
+            <div class="ck-track"><i style="--s:.375;--e:.5"></i></div>
+            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+          </div>
+        </div>
+        <h3>Deep work</h3>
+        <p>Set the block before you sit down with the thing that actually needs doing.
+          The machine stops being somewhere to escape to, so the hour has nowhere else
+          to go.</p>
+      </article>
 
-      <div class="case rise">
-        <p class="tag">Gaming &nbsp;·&nbsp; doomscrolling</p>
-        <h3>“One more” turned into four hours again</h3>
-        <p>You already know it's happening while it happens. That's the cruel part —
-           and it's why a blocker you can switch off is no help at all. Set a block
-           and the machine simply stops answering. <em>There is nothing left to
-           negotiate with.</em></p>
-      </div>
+      <article class="case rise">
+        <div class="case-ph" role="img" aria-label="A block from 7pm to 9pm, two hours of an evening">
+          <div>
+            <p class="ck-time">19:00 &rarr; 21:00</p>
+            <p class="ck-sub">Term time · 2 hours</p>
+          </div>
+          <div>
+            <div class="ck-track"><i style="--s:.7917;--e:.875"></i></div>
+            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+          </div>
+        </div>
+        <h3>Study sessions</h3>
+        <p>Deciding to start is the hardest part of every session, and it's a decision
+          you have to win again tomorrow. Put the hour in the schedule once and it stops
+          being yours to make.</p>
+      </article>
 
-      <div class="case rise">
-        <p class="tag">Parents</p>
-        <h3>A bedtime the PC actually keeps</h3>
-        <p>No standing over anyone, no nightly argument, no clever child finding
-           the setting you switched on. Schedule the evening, put the
-           <em>Accountability Lock</em> on it, and the password is yours. The
-           computer does the saying-no.</p>
-      </div>
+      <article class="case rise">
+        <div class="case-ph" role="img" aria-label="A one-hour block started by hand in the middle of an afternoon">
+          <div>
+            <p class="ck-time">14:30 &rarr; 15:30</p>
+            <p class="ck-sub">By hand · 1 hour</p>
+          </div>
+          <div>
+            <div class="ck-track"><i style="--s:.6042;--e:.6458"></i></div>
+            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+          </div>
+        </div>
+        <h3>Breaking the scroll</h3>
+        <p>You already know it's happening while it happens — which is exactly why a
+          blocker you can switch off is no help at all. A block leaves nothing to
+          negotiate with.</p>
+      </article>
 
-      <div class="case rise">
-        <p class="tag">Study &nbsp;·&nbsp; deep work</p>
-        <h3>Revision that starts without you agreeing to it</h3>
-        <p>Deciding to start is the hardest part of every session, and it's a
-           decision you have to win again tomorrow. Put it in the schedule once and
-           <em>you never have to make it again</em> — 09:00 arrives, and so does
-           the block.</p>
-      </div>
+      <article class="case rise">
+        <div class="case-ph" role="img" aria-label="A block from 11pm to 7am, crossing midnight">
+          <div>
+            <p class="ck-time">23:00 &rarr; 07:00</p>
+            <p class="ck-sub">Nightly · 8 hours</p>
+          </div>
+          <div>
+            <div class="ck-track"><i style="--s:.9583;--e:1"></i><i style="--s:0;--e:.2917"></i></div>
+            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+          </div>
+        </div>
+        <h3>Intentional downtime</h3>
+        <p>The hours you lose aren't the ones you chose to stay up for — they're the ones
+          that just kept going. A block that arrives on its own at 23:00 ends the night
+          before it gets away from you.</p>
+      </article>
     </div>
+
+    <p class="cases-foot rise">Every one of these is the same block underneath — the
+      whole machine, for as long as you set. <b>Start one by hand, or leave it to the
+      schedule.</b></p>
   </div>
 </section>
 
-<!-- ═══ SCHEDULE ═══ -->
-<section class="vs" id="vs">
-  <div class="wrap vs-grid">
-    <div class="vs-lede rise">
+<!-- ═══ COMPARE ═══
+     Ported from the live page. The three glyphs are defined once here and
+     reused down the list: the repeat is the argument — five rivals carrying
+     a list or a browser window, then one row carrying the product's own mark. -->
+<section class="band" id="vs">
+  <div class="wrap vs-grid grid">
+    <div class="rise">
       <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
-      <h2>They block a list. This blocks the machine.</h2>
-      <!-- three glyphs, reused: a list, a browser window, the two input
-           devices. The repeat down the column is the argument. -->
+      <h2 class="big">They block a list.<br>This blocks the machine.</h2>
       <svg width="0" height="0" aria-hidden="true" style="position:absolute">
         <symbol id="i-list" viewBox="0 0 20 20" fill="none" stroke="currentColor"
                 stroke-width="1.6" stroke-linecap="round">
@@ -896,187 +1298,190 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     </div>
   </div>
 </section>
-<section class="sched" id="schedule">
-  <div class="wrap">
-    <div class="head rise">
-      <p class="eyebrow">Schedule</p>
-      <h2>Never have to decide again</h2>
-      <p>Starting is the decision you lose. So set the week once and stop making
-         it — The All Block turns up on time whether or not you were planning to be
-         good that day.</p>
-    </div>
 
-    <div class="week" id="week">
-      <div class="week-hours">
-        <span>Hour</span><span>8</span><span>9</span><span>10</span><span>11</span>
-        <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span>
-        <span>17</span><span>18</span><span>19</span>
+<!-- ═══ QUOTE STRIP ═══ -->
+<section class="strip">
+  <img src="img/photos/meadow-1536.jpg"
+       srcset="img/photos/meadow-800.jpg 800w, img/photos/meadow-1536.jpg 1536w"
+       sizes="100vw" width="1536" height="1024" loading="lazy"
+       alt="A meadow of wild poppies and grasses under a pale open sky">
+  <div class="wrap">
+    <p class="q">The hours you stop losing have to go somewhere.</p>
+    <p class="by">That's the whole pitch.</p>
+  </div>
+</section>
+
+<!-- ═══ LOCK ═══ -->
+<section class="band" id="lock">
+  <div class="wrap">
+    <div class="two grid">
+      <div class="rise">
+        <p class="eyebrow">Accountability Lock · free in every copy</p>
+        <h2 class="big">Hand the key to somebody else.</h2>
+        <p class="lede" style="margin-top:18px">A schedule only holds until the person
+          it's meant to stop opens Settings and deletes it. So set a password, and let a
+          parent, a partner, a friend — or your own steadier self, twenty minutes ago —
+          be the one who holds it.</p>
+        <ul class="holds">
+          <li>Blocks can't be edited or deleted</li>
+          <li>Blocks can't be switched off</li>
+          <li>The All Block can't be closed or quit</li>
+          <li>It re-arms itself at every restart</li>
+          <li>Turning it back <em>on</em> never needs the password</li>
+        </ul>
+        <p class="lede" style="margin-top:24px;font-size:14px">One thing it deliberately
+          leaves alone: the monthly emergency unlock. A lock with no exit at all is how
+          somebody ends up unable to answer a phone call — so the way out stays scarce
+          and counted rather than disappearing.</p>
       </div>
-      <div class="row"><span class="day">Mon</span><div class="lane">
-        <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.05s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:11.6%;transition-delay:.30s">14:30 · 1 hr</span></div></div>
-      <div class="row"><span class="day">Tue</span><div class="lane">
-        <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.10s">09:00 · 1 hr 30</span></div></div>
-      <div class="row"><span class="day">Wed</span><div class="lane">
-        <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.15s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:11.6%;transition-delay:.35s">14:30 · 1 hr</span></div></div>
-      <div class="row"><span class="day">Thu</span><div class="lane">
-        <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.20s">09:00 · 1 hr 30</span></div></div>
-      <div class="row"><span class="day">Fri</span><div class="lane">
-        <span class="blk" style="left:8.3%;width:12.5%;transition-delay:.25s">09:00 · 1 hr 30</span>
-        <span class="blk" style="left:50%;width:11.6%;transition-delay:.40s">14:30 · 1 hr</span></div></div>
-      <div class="row"><span class="day">Sat</span><div class="lane">
-        <span class="blk off" style="left:87.5%;width:12.5%;transition-delay:.45s">20:00 · off</span></div></div>
-      <div class="row"><span class="day">Sun</span><div class="lane">
-        <span class="blk off" style="left:87.5%;width:12.5%;transition-delay:.50s">20:00 · off</span></div></div>
-    </div>
-
-    <div class="shots2">
-      <figure class="shot rise">
-        <img src="img/schedules_light.png" width="1520" height="960" loading="lazy"
-             alt="The Schedule window listing two recurring blocks, weekdays at 09:00 and every evening at 20:30, each with an on and off switch">
-        <figcaption><b>Set it once</b>A block starts on its own, and switches off without losing the setup.</figcaption>
-      </figure>
-      <figure class="shot rise">
-        <img src="img/stats_light.png" width="1520" height="960" loading="lazy"
-             alt="The Session stats window showing total focus time, session count, a six day streak and the four most recent sessions">
-        <figcaption><b>The receipts</b>Focus time, sessions, and the streak you'd rather not break.</figcaption>
+      <figure class="appfig rise">
+        <div class="live live--dlg" id="liveDlg" role="img"
+             aria-label="The Accountability Lock dialog over the app: a password field, the
+                         reminder note the owner wrote, and Leave it on and Unlock buttons.
+                         A password is typed and refused.">
+          <div class="dlg-bg" aria-hidden="true">
+            <span>5 min</span><b>10 min</b><span>15 min</span>
+          </div>
+          <div class="dlg-wrap">
+            <div class="dlg">
+              <div class="dlg-head"><b>Accountability Lock</b><span>&times;</span></div>
+              <p>The lock is <b>on</b>. Blocks can't be edited, switched off or deleted, and
+                The All Block can't be closed until someone enters the password.</p>
+              <p class="dlg-hint">Reminder: the usual one</p>
+              <span class="dlg-lab">Password</span>
+              <div class="dlg-field"><span class="dlg-dots" id="dlgDots"></span></div>
+              <div class="dlg-row"><span>Leave it on</span><span class="pri">Unlock</span></div>
+              <p class="dlg-err">That isn't the password.</p>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>The prompt somebody else answers.</b> The reminder line is yours to
+          write — it never stores the password, only the hint.</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<!-- ═══ THE ACCOUNTABILITY LOCK ═══ -->
-<section class="hold" id="lock">
+<!-- ═══ DEVICES ═══ -->
+<section class="band band--hush" id="devices">
   <div class="wrap">
-    <div class="hold-in rise">
-      <p class="eyebrow">Accountability Lock &nbsp;·&nbsp; <b>Free</b></p>
-      <h2>Hand the key to somebody else</h2>
-      <p class="hold-lede">A schedule only holds until the person it's meant to stop
-         goes into Settings and deletes it. So set a password — and let a parent, a
-         partner, a friend, or <b>your own steadier self twenty minutes ago</b> be
-         the one who holds it.</p>
-    </div>
-
-    <div class="hold-pair rise">
-      <ul class="holds">
-        <li>Blocks can't be edited or deleted</li>
-        <li>Blocks can't be switched off</li>
-        <li>The All Block can't be closed or quit</li>
-        <li>It re-arms itself at every restart</li>
-        <li><span>Turning it back <em>on</em> never needs the password</span></li>
-      </ul>
-
-      <figure class="shot shot--one">
-        <img src="img/lock_light.png" width="1520" height="960" loading="lazy"
-             alt="The Accountability Lock window in The All Block: the lock is on, with a reminder reading ask Mum, a password field, and buttons to leave it on or unlock">
-        <figcaption><b>This is the whole thing</b>One password, and the schedule
-          stops answering to whoever is sitting at the machine.</figcaption>
+    <div class="two grid">
+      <div class="rise">
+        <p class="eyebrow">Windows + Android</p>
+        <h2 class="big">One commitment.<br>Every screen.</h2>
+        <p class="lede" style="margin-top:18px">The All Block is out now on Windows. An
+          Android companion is in testing — a duration picker, a blocking countdown, and
+          an offline copy of the schedules from your signed-in desktop.</p>
+        <p class="lede" style="font-size:14px">Schedules travel from desktop to phone.
+          Session history, escape balances and the Accountability Lock stay on the machine
+          that owns them — each device runs its own blocks.</p>
+        <div class="plat-os">
+          <div>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5l8-1.1v7.2H3zM12 4.2L21 3v8.6h-9zM3 12.4h8v7.2l-8-1.1zM12 12.4h9V21l-9-1.2z"/></svg>
+            <span><b>Windows</b><em>Out now — Windows 10 &amp; 11</em></span>
+          </div>
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="8.5" width="11" height="11.5" rx="2"/><path d="M4 11v5M20 11v5M9.5 3.6l1.2 2M14.5 3.6l-1.2 2M7.5 7.6a4.5 4.5 0 019 0"/></svg>
+            <span><b>Android</b><em>In testing — not on Google Play yet</em></span>
+          </div>
+        </div>
+        <div class="cta-row">
+          <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download for Windows</a>
+          <a class="btn btn--ghost" href="mailto:MrAuzeo@protonmail.com?subject=Tell%20me%20when%20Android%20is%20ready">Tell me when Android lands</a>
+        </div>
+      </div>
+      <figure class="rise devrig">
+        <div class="devwin">
+          <img class="swap-light" src="img/wheel_light.png" width="1520" height="960"
+               loading="lazy" decoding="async"
+               alt="The All Block on Windows, the duration wheel set to 10 minutes">
+          <img class="swap-dark" src="img/wheel_dark.png" width="1520" height="960"
+               loading="lazy" decoding="async"
+               alt="The All Block on Windows in dark theme, the duration wheel set to 10 minutes">
+        </div>
+        <div class="devphone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="8.5" width="11" height="11.5" rx="2"/><path d="M4 11v5M20 11v5M9.5 3.6l1.2 2M14.5 3.6l-1.2 2M7.5 7.6a4.5 4.5 0 019 0"/></svg>
+          <span>Soon</span>
+        </div>
       </figure>
-    </div>
-
-    <div class="hold-in">
-      <p class="hold-foot">One thing it deliberately leaves alone: the monthly
-         emergency unlock. A lock with no exit at all is how somebody ends up
-         unable to answer a phone call — so the way out stays scarce and counted
-         rather than disappearing.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══ VS — for people arriving from another blocker ═══ -->
-
-<!-- ═══ INSIDE ═══ -->
-<section class="feat" id="inside">
+<!-- ═══ FEATURES ═══ -->
+<section class="band" id="inside">
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Inside</p>
-      <h2>Built to not be argued with</h2>
+      <h2 class="big">Built to not be argued with.</h2>
+      <p>Everything you need to hold the line, and nothing that lets you talk your way
+        out of it.</p>
     </div>
-
-    <div class="feat-grid">
+    <div class="feats grid">
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg></div>
-        <h3>Accountability Lock</h3>
-        <p>A password that stops the schedule being edited, switched off or closed —
-           by anyone who doesn't have it. Free, in every copy.</p>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg></div>
+        <h3>Whole-device blocking</h3>
+        <p>Mouse, keyboard, Alt+Tab and the Task Manager shuffle, all at once.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <h3>Survives a restart</h3>
-        <p>Reboot mid-block and it comes back still locked, with the clock where you left it.</p>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
+        <h3>Recurring schedules</h3>
+        <p>Days, start time and length. Three blocks free, unlimited on Pro.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
-        <h3>Schedules that fire themselves</h3>
-        <p>Pick the days, the time and the length. It starts without being asked —
-           three blocks free, as many as you like on Pro.</p>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Restart safe</h3>
+        <p>Reboot mid-block and it comes back still locked, with the clock intact.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div>
         <h3>Session history</h3>
-        <p>Focus time, sessions and a running streak — kept on your machine, nowhere else.</p>
+        <p>Focus time, sessions and a streak — all kept on your own machine.</p>
       </div>
       <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.9-7.5 9.3C7.5 19.9 4.5 16.4 4.5 12V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <h3>Nothing can shut it down</h3>
-        <p>It runs as administrator, which is what lets it hold the lock against
-           Task Manager and everything else on the machine.</p>
-      </div>
-      <div class="card rise">
-        <div class="ic"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 000 18z" fill="currentColor" stroke="none"/></svg></div>
         <h3>Light and dark</h3>
-        <p>Both are first-class, and the switch is one click in the header.</p>
+        <p>Follows your Windows theme, or pick one and stay there.</p>
       </div>
-    </div>
-
-    <div class="shots2" style="margin-top:26px">
-      <figure class="shot rise">
-        <img src="img/settings_light.png" width="1520" height="960" loading="lazy"
-             alt="The All Block settings window: resume on restart, session stats, schedule, the Accountability Lock, a desktop shortcut, About, Go Pro and sign in">
-        <figcaption><b>All of it in one panel</b>Settings is a single screen, because there isn't much to set.</figcaption>
-      </figure>
-      <figure class="shot rise">
-        <img src="img/wheel_dark.png" width="1520" height="960" loading="lazy"
-             alt="The All Block main window in dark theme showing the duration wheel set to 10 minutes">
-        <figcaption><b>Dark, if you'd rather</b>One click in the header, and it remembers.</figcaption>
-      </figure>
+      <div class="card rise">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Local first</h3>
+        <p>Works with no connection. An account is optional, never required.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ PRICING — free tier is the product; Pro lifts the caps ═══ -->
-<section class="price" id="pricing">
+<!-- ═══ PRICING ═══ -->
+<section class="band band--sand" id="pricing">
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Pricing</p>
-      <h2>Pay once, or not at all</h2>
-      <p>Manual sessions, the schedule and the Accountability Lock are all free
-         forever — that's the promise the app is shared on. Pro only lifts the
-         caps on how long and how many.</p>
+      <h2 class="big">Pay once, or not at all.</h2>
+      <p>Manual sessions, the schedule and the Accountability Lock are free forever —
+        that's the promise the app is shared on. Pro only lifts the caps on how long and
+        how many.</p>
     </div>
 
-    <div class="price-grid">
+    <div class="plans grid">
       <div class="plan rise">
-        <p class="plan-tag">Standard</p>
+        <div class="plan-top"><p class="plan-tag">Standard</p></div>
         <div class="plan-cost">Free</div>
         <p class="plan-note">No account, no expiry, no nag screen.</p>
         <ul class="plan-list">
           <li>Manual sessions, <b>10 seconds to 3 hours</b></li>
           <li><b>Three</b> scheduled blocks</li>
           <li>Scheduled blocks up to <b>3 hours</b></li>
-          <li><b>Accountability Lock</b> — a password someone else holds</li>
+          <li><b>Accountability Lock</b> — a password somebody else holds</li>
           <li><b>One</b> emergency unlock a month</li>
-          <li>Survives restarts, full session history</li>
+          <li>Restart-safe, with full session history</li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.4.exe">
-          Download The All Block
-        </a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download The All Block</a>
       </div>
 
       <div class="plan plan--pro rise">
-        <p class="plan-tag">Pro</p>
-        <div class="plan-cost">£4.99<span> once</span></div>
+        <div class="plan-top"><p class="plan-tag">Pro · lifetime</p><span class="pop">Most popular</span></div>
+        <div class="plan-cost">£7.99<span> once</span></div>
         <p class="plan-note">One payment. Not a subscription, not a rental.</p>
         <ul class="plan-list">
           <li>Everything in Standard</li>
@@ -1086,113 +1491,140 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           <li><b>Three</b> emergency unlocks a month</li>
           <li>Optional account keeps Pro across reinstalls</li>
         </ul>
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.4.exe">
-          Get it in the app
-        </a>
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Get it in the app</a>
+      </div>
+
+      <div class="plan plan--week rise">
+        <div class="plan-top"><p class="plan-tag">Pro · 7 days</p><span class="pop pop--try">Try it first</span></div>
+        <div class="plan-cost">£1.99<span> one week</span></div>
+        <p class="plan-note">One payment. It ends on its own — nothing renews.</p>
+        <ul class="plan-list">
+          <li><b>Everything in Pro</b>, for seven days</li>
+          <li>Sessions of <b>4, 6, 8, 12 and 24 hours</b></li>
+          <li><b>Unlimited</b> scheduled blocks, up to <b>24 hours</b></li>
+          <li>Nothing to cancel when it runs out</li>
+          <li>Works on <b>Windows and Android</b></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Get it in the app</a>
       </div>
     </div>
 
     <p class="price-foot rise">Pro is bought inside The All Block — open the app, hit
-       <b>Pro</b>, and checkout opens in your browser. Payments are handled by
-       Paddle, who act as the merchant of record.
-       <b>Full refund within 14 days</b>, no questions asked — see the
-       <a href="/refunds.html">refund policy</a>. Only need one more emergency
-       unlock this month? A single <b>Escape</b> is <b>£0.99</b> and never
-       expires — no need to go full Pro for it.</p>
+      <b>Pro</b>, and checkout opens in your browser. Payments are handled by Paddle as
+      merchant of record. <b>Full refund within 14 days</b>, no questions asked — see the
+      <a href="/refunds.html">refund policy</a>. Only need one more emergency unlock this
+      month? A single <b>Escape</b> is <b>£0.99</b> and never expires.</p>
   </div>
 </section>
 
-<!-- ═══ FAQ — the questions that actually come in ═══ -->
-<section class="faq" id="faq">
+<!-- ═══ FAQ ═══ -->
+<section class="band" id="faq">
   <div class="wrap">
-    <div class="head rise">
-      <p class="eyebrow">FAQ</p>
-      <h2>If something goes sideways</h2>
-    </div>
+    <div class="faq-grid grid">
+      <div class="rise">
+        <p class="eyebrow">FAQ</p>
+        <h2 class="big">If something goes sideways.</h2>
+        <p class="lede" style="margin-top:18px">The questions that actually come in — and
+          the way out of each one.</p>
+        <p class="lede" style="font-size:14px">Still stuck?
+          <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20help" style="color:var(--green-txt)">Email me directly</a>
+          — it's a one-person project, so it's me who answers.</p>
+      </div>
 
-    <div class="faq-list rise">
-      <details class="faq-item">
-        <summary>A session started on its own, or in the middle of the night?</summary>
-        <div class="faq-a">
-          <p>That's a <b>scheduled block</b> firing. Scheduled blocks run at their set
-             time whether the app is open or not, and on a laptop they can wake the
-             machine to start on time. Open <b>The All Block → Schedule</b> to change or
-             remove one — a session you start by hand never begins on its own.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>I'm stuck on the lock screen and nothing responds.</summary>
-        <div class="faq-a">
-          <p>Press <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> and end
-             <b>The All Block</b> from Task Manager. Windows reserves that combination
-             system-wide, so the lock screen can never intercept it — it's always your
-             way back in. To end the session properly instead, hold <kbd>Esc</kbd> for
-             five seconds to spend a monthly emergency unlock.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>How many emergency unlocks do I get?</summary>
-        <div class="faq-a">
-          <p>One a month free, three a month on Pro, refilling on the 1st. Need another
-             the same month, an extra <b>Escape is £0.99</b> and never expires. Hold
-             <kbd>Esc</kbd> for five seconds on the lock screen to use one.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>Does closing the app or restarting my PC end a session?</summary>
-        <div class="faq-a">
-          <p>No — it re-arms the same session on the way back, down to the time that was
-             left. <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> → Task Manager is
-             still there if you genuinely need out before the timer.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>My touchpad feels off after restarting during a break.</summary>
-        <div class="faq-a">
-          <p>The All Block disables some touchpad gestures during a session and restores
-             them after; a restart mid-session can interrupt that hand-back. The app
-             repairs it on its next launch, or fix it now in
-             <b>Windows Settings → Bluetooth &amp; devices → Touchpad</b> →
-             <b>“Reset touchpad settings and gestures to defaults.”</b></p>
-        </div>
-      </details>
+      <div class="rise">
+        <details class="faq-item">
+          <summary>A session started on its own, or in the middle of the night?</summary>
+          <div class="faq-a"><p>That's a <b>scheduled block</b> firing. Scheduled blocks run
+            at their set time whether the app is open or not, and on a laptop they can wake
+            the machine to start on time. Open <b>The All Block → Schedule</b> to change or
+            remove one — a session you start by hand never begins on its own.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>I'm stuck on the lock screen and nothing responds.</summary>
+          <div class="faq-a"><p>Press <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> and end
+            <b>The All Block</b> from Task Manager. Windows reserves that combination
+            system-wide, so the lock screen can never intercept it — it's always your way
+            back in. To end the session properly instead, hold <kbd>Esc</kbd> for five
+            seconds to spend a monthly emergency unlock.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>How many emergency unlocks do I get?</summary>
+          <div class="faq-a"><p>One a month free, three a month on Pro, refilling on the 1st.
+            Need another the same month, an extra <b>Escape is £0.99</b> and never expires.
+            Hold <kbd>Esc</kbd> for five seconds on the lock screen to use one.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Does closing the app or restarting my PC end a session?</summary>
+          <div class="faq-a"><p>No — it re-arms the same session on the way back, down to the
+            time that was left. <kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>Delete</kbd> → Task
+            Manager is still there if you genuinely need out before the timer.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a subscription?</summary>
+          <div class="faq-a"><p>No. Manual sessions and the Accountability Lock are free
+            forever, and Pro is a single <b>£7.99</b> payment that never renews. There's
+            nothing to cancel.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>When will the Android app be available?</summary>
+          <div class="faq-a"><p>It's in testing, not on Google Play yet. It already does manual
+            timers, blocking and an offline copy of your desktop schedules.
+            <a href="mailto:MrAuzeo@protonmail.com?subject=Tell%20me%20when%20Android%20is%20ready" style="color:var(--green-txt)">Email me</a>
+            and I'll let you know when it's out.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Where does my data live?</summary>
+          <div class="faq-a"><p>On your machine. Session history, streaks and the Accountability
+            Lock password never leave it. An account is optional — it exists so Pro survives a
+            reinstall, and so schedules can reach the Android companion.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>My touchpad feels off after restarting during a break.</summary>
+          <div class="faq-a"><p>The All Block disables some touchpad gestures during a session
+            and restores them after; a restart mid-session can interrupt that hand-back. The app
+            repairs it on its next launch, or fix it now in <b>Windows Settings → Bluetooth
+            &amp; devices → Touchpad</b> → <b>“Reset touchpad settings and gestures to
+            defaults.”</b></p></div>
+        </details>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ FIRST RUN — the SmartScreen warning everyone hits ═══ -->
-<section class="first" id="firstrun">
+<!-- ═══ FIRST RUN ═══
+     Ported from the live page. These three are real screen captures of the
+     Windows dialogs, not mockups — the point of the section is that the
+     visitor recognises the exact box in front of them.                     -->
+<section class="band band--sand" id="firstrun">
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">First run</p>
-      <h2>Windows will warn you</h2>
+      <h2 class="big">Windows will warn you.</h2>
       <p>The All Block isn't code-signed yet, and SmartScreen warns about anything
-         unsigned no matter what's in it. So you'll see this once, on the first
-         launch. Here's the way through it.</p>
+        unsigned no matter what's in it. So you'll see this once, on the first
+        launch. Here's the way through it.</p>
     </div>
-
-    <ol class="steps">
-      <li class="step rise">
-        <img src="img/smartscreen-1-warning.png" width="1120" height="640" loading="lazy"
+    <ol class="runsteps grid">
+      <li class="runstep rise">
+        <img src="img/smartscreen-1-warning.png" width="1120" height="640"
+             loading="lazy" decoding="async"
              alt="The Windows protected your PC dialog, with the More info link highlighted">
-        <div class="step-say"><b>Click “More info”</b>
+        <div class="runstep-say"><b>Click “More info”</b>
           The warning says Windows doesn't recognise the publisher — not that it
           found anything wrong.</div>
       </li>
-      <li class="step rise">
-        <img src="img/smartscreen-2-runanyway.png" width="1120" height="680" loading="lazy"
+      <li class="runstep rise">
+        <img src="img/smartscreen-2-runanyway.png" width="1120" height="680"
+             loading="lazy" decoding="async"
              alt="The expanded SmartScreen dialog showing the Run anyway button">
-        <div class="step-say"><b>Click “Run anyway”</b>
+        <div class="runstep-say"><b>Click “Run anyway”</b>
           The button only appears after the first step.</div>
       </li>
-      <li class="step rise">
-        <img src="img/smartscreen-3-uac.png" width="1200" height="720" loading="lazy"
+      <li class="runstep rise">
+        <img src="img/smartscreen-3-uac.png" width="1200" height="720"
+             loading="lazy" decoding="async"
              alt="The Windows User Account Control prompt asking to allow The All Block to make changes">
-        <div class="step-say"><b>Click “Yes” on the admin prompt</b>
+        <div class="runstep-say"><b>Click “Yes” on the admin prompt</b>
           Admin is what lets The All Block hold the input lock against everything
           else. Without it, some of the blocking is skipped.</div>
       </li>
@@ -1201,83 +1633,126 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </section>
 
 <!-- ═══ ABOUT ═══ -->
-<section class="hold" id="about">
+<section class="band" id="about">
   <div class="wrap">
-    <div class="hold-in rise">
+    <div class="about-head rise">
       <p class="eyebrow">About</p>
-      <h2>Why this exists</h2>
+      <h2 class="big">Why this exists.</h2>
     </div>
-    <div class="hold-in dev-note">
-      <div class="dev-note-head">
-        <img src="img/auzeo-logo.png" alt="Auzeo logo" class="dev-note-logo">
-        <span class="dev-note-who">A note from the developer</span>
+    <div class="note rise">
+      <div class="note-head">
+        <img src="img/auzeo-logo.png" width="44" height="44" loading="lazy"
+             alt="" class="note-logo">
+        <span class="note-who">A note from the developer</span>
       </div>
-      <p class="hold-foot">I tried pretty much every blocker out there, and always
-         found a way to sneak past them once I'd started — so I built one myself
-         that wouldn't let me, or at least make it not worth my effort to bypass.</p>
-      <p class="hold-foot">Entire project was by one person, not a company or
-         anything. Just a small-time Irish design and software engineer without a
-         team or investors, so your support and feedback would mean so much.</p>
-      <p class="hold-foot">Got an idea or spotted a bug?
+      <p>I tried pretty much every blocker out there, and always found a way to
+         sneak past them once I'd started — so I built one myself that wouldn't
+         let me, or at least make it not worth my effort to bypass.</p>
+      <p>Entire project was by one person, not a company or anything. Just a
+         small-time Irish design and software engineer without a team or
+         investors, so your support and feedback would mean so much.</p>
+      <p>Got an idea or spotted a bug?
          <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion">Email me</a>
          — I'd love to hear it!</p>
-      <p class="dev-note-sign">— Auzeo</p>
+      <p class="note-sign">— Auzeo</p>
     </div>
   </div>
 </section>
 
-<!-- ═══ GET IT ═══ -->
-<section class="get" id="get">
+<!-- ═══ FINAL ═══ -->
+<section class="final" id="get">
+  <img src="img/photos/dawn-1536.jpg"
+       srcset="img/photos/dawn-800.jpg 800w, img/photos/dawn-1536.jpg 1536w"
+       sizes="100vw" width="1536" height="1024" loading="lazy"
+       alt="Snow-capped peaks rising above a sea of cloud at sunrise">
   <div class="wrap">
-    <p class="eyebrow rise">Free download &nbsp;·&nbsp; <b>Windows&nbsp;10&nbsp;&amp;&nbsp;11</b></p>
-    <h2 class="rise">Take tonight back</h2>
-    <p class="rise">One file, one wheel, and a computer that finally knows how to
-       say no. Free to download, nothing to cancel.</p>
-    <div class="hero-cta rise">
-      <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.7.4.exe">
+    <p class="eyebrow rise">A quieter tomorrow</p>
+    <h2 class="rise">Your next distraction doesn't get a vote.</h2>
+    <p class="sub rise">One file, one wheel, and a computer that finally knows how to say
+      no. Free to download, nothing to cancel.</p>
+    <div class="cta-row rise">
+      <a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
-        Download The All Block
+        Download for Windows
       </a>
-      <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block">View on GitHub</a>
+      <a class="btn btn--clear" href="https://github.com/Auzeo/all-block">View on GitHub</a>
     </div>
-    <div class="specs">
+    <div class="final-specs rise">
       <span>Windows 10 / 11</span><span>Single .exe</span>
-      <span>No install</span><span>Free — Pro is £4.99 once</span>
+      <span>No install</span><span>Free — Pro is £7.99 once</span>
     </div>
   </div>
 </section>
 
-<footer><div class="wrap in">
-  <span>The All Block — built for whatever you can't put down.<br>
-    © 2026 Auzeo · All rights reserved ·
-    <a href="https://github.com/Auzeo/all-block">github.com/Auzeo/all-block</a> ·
-    <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a></span>
-  <span class="legal-links">
-    <a href="#pricing">Pricing</a>
-    <a href="#about">About</a>
-    <a href="/terms.html">Terms of service</a>
-    <a href="/privacy.html">Privacy policy</a>
-    <a href="/refunds.html">Refund policy</a>
-  </span>
-</div></footer>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="foot grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
+            </svg>
+          </span>
+          The All Block
+        </a>
+        <p class="foot-tag">Built for whatever you can't put down.</p>
+        <p class="foot-meta">Windows 10 &amp; 11 · v7.9.2 · single .exe</p>
+        <div class="foot-social">
+          <a href="https://github.com/Auzeo/all-block" aria-label="The All Block on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
+          </a>
+          <a href="mailto:MrAuzeo@protonmail.com" aria-label="Email the developer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3.2 6.5 12 13l8.8-6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="#app">The app</a>
+        <a href="#vs">Compare</a>
+        <a href="#devices">Devices</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h4>Help</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#firstrun">First run</a>
+        <a href="#about">About</a>
+        <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <a href="/terms.html">Terms of service</a>
+        <a href="/privacy.html">Privacy policy</a>
+        <a href="/refunds.html">Refund policy</a>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Auzeo · All rights reserved</span>
+      <span>Made by one person.</span>
+      <a class="foot-top" href="#top">Back to top
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"/><path d="M6 11l6-6 6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
 
 <script>
 (function(){
 "use strict";
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ── theme toggle ─────────────────────────────────────────────────────
-   The <head> script already set data-theme before first paint (system
-   preference, or a stored choice) so there's no flash to fix here — this
-   just wires up the button and keeps the mobile theme-color meta in step. */
+/* ── theme ──────────────────────────────────────────────────── */
 var themeBtn = document.getElementById("themeToggle");
 var metaTheme = document.getElementById("metaThemeColor");
 function paintMeta(){
   if (metaTheme) metaTheme.setAttribute("content",
-    document.documentElement.getAttribute("data-theme") === "dark" ? "#0b0b0d" : "#fafafa");
+    document.documentElement.getAttribute("data-theme") === "dark" ? "#0d0d0f" : "#faf9f6");
 }
 paintMeta();
-if (themeBtn) themeBtn.addEventListener("click", function(){
+themeBtn.addEventListener("click", function(){
   var dark = document.documentElement.getAttribute("data-theme") === "dark";
   if (dark) document.documentElement.removeAttribute("data-theme");
   else document.documentElement.setAttribute("data-theme","dark");
@@ -1285,20 +1760,14 @@ if (themeBtn) themeBtn.addEventListener("click", function(){
   paintMeta();
 });
 
-/* ── the wheel ────────────────────────────────────────────────────────
-   A real drum rather than a stack of shrinking text: every option sits on
-   the surface of a cylinder, placed with rotateX(θ) translateZ(R). That is
-   what gives it the curve the app's wheel has — options roll away over the
-   top and bottom edges instead of just fading.                          */
-/* WHEEL_PRESETS, copied from the app so the labels read the same here as
-   they do on your machine — "1½ hour", not "90 min". */
+/* ── the wheel — real app presets ───────────────────────────── */
 var PRESETS = [
   ["10 sec",     10], ["1 min",    60], ["5 min",   300], ["10 min",  600],
   ["15 min",    900], ["20 min", 1200], ["25 min", 1500], ["30 min", 1800],
   ["45 min",   2700], ["1 hour", 3600], ["1½ hour", 5400],
   ["2 hours",  7200], ["3 hours", 10800]
 ];
-var DEG = 15, RAD = 235, DEFAULT_IDX = 3;   // "10 min", the app's default
+var DEG = 15, RAD = 235, DEFAULT_IDX = 3;
 
 var el    = document.querySelector(".wheel"),
     track = el.querySelector(".wheel-track"),
@@ -1316,10 +1785,8 @@ function draw(){
   for (var i = 0; i < opts.length; i++){
     var d = i - pos, ang = d * DEG;
     if (Math.abs(ang) > 92){ opts[i].style.opacity = 0; continue; }
-    // the ramp bottoms out at .8 rather than 0: below that the unselected
-    // slots drop under a 3:1 contrast ratio and stop being readable text.
-    // The drum still falls away — the wheel's mask does that, and it fades
-    // to transparent rather than to pale grey.
+    /* opacity floors at .8 — below that the dimmed options drop under the
+       3:1 contrast line. Deliberate; don't "improve" it. */
     var op = 0.8 + 0.2 * Math.pow(Math.max(0, Math.cos(ang * Math.PI / 180)), 1.5);
     opts[i].style.transform =
       "translateY(-50%) rotateX(" + (-ang) + "deg) translateZ(" + RAD + "px)";
@@ -1333,7 +1800,6 @@ function draw(){
 function picked(){
   return PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(target)))];
 }
-
 function loop(){
   pos += (target - pos) * .18;
   if (Math.abs(target - pos) < .001){ pos = target; raf = null; draw(); return; }
@@ -1344,15 +1810,10 @@ function run(){ if (reduce){ pos = target; draw(); return; }
                 if (!raf) raf = requestAnimationFrame(loop); }
 function go(v){ target = Math.max(0, Math.min(PRESETS.length - 1, v)); run(); }
 
-/* The drum used to swallow every wheel event that crossed it. It's over half
-   the hero tall, so scrolling down the page there moved no page at all — it
-   raced through thirteen presets instead, which is the "scrolls extremely
-   fast" spot. Now it only takes the wheel once you've actually picked it up
-   (a click or a Tab focus), it hands the wheel back at either end of the
-   drum, and it steps at a readable pace rather than per notch. */
 var spun = 0;
+/* only steals the scroll once focused — otherwise it hijacks the page */
 el.addEventListener("wheel", function(e){
-  if (document.activeElement !== el) return;      // not yours — let the page go
+  if (document.activeElement !== el) return;
   var dir = e.deltaY > 0 ? 1 : -1, at = Math.round(target);
   if ((dir > 0 && at === PRESETS.length - 1) || (dir < 0 && at === 0)) return;
   e.preventDefault();
@@ -1361,17 +1822,15 @@ el.addEventListener("wheel", function(e){
   spun = now;
   go(at + dir);
 }, {passive:false});
-/* clicking the drum should pick it up, not just start a drag */
-el.addEventListener("pointerdown", function(){ el.focus({preventScroll:true}); });
-
 el.addEventListener("keydown", function(e){
   if (e.key === "ArrowUp"   || e.key === "ArrowLeft" ){ e.preventDefault(); go(Math.round(target) - 1); }
   if (e.key === "ArrowDown" || e.key === "ArrowRight"){ e.preventDefault(); go(Math.round(target) + 1); }
 });
-
 var drag = null;
 el.addEventListener("pointerdown", function(e){
-  drag = {y:e.clientY, start:target}; el.setPointerCapture(e.pointerId);
+  el.focus({preventScroll:true});
+  drag = {y:e.clientY, start:target};
+  el.setPointerCapture(e.pointerId);
 });
 el.addEventListener("pointermove", function(e){
   if (!drag) return;
@@ -1384,11 +1843,7 @@ el.addEventListener("pointerup", drop);
 el.addEventListener("pointercancel", drop);
 draw();
 
-/* ── the demo ─────────────────────────────────────────────────────────
-   The real session runs for the duration you picked. Here it runs the
-   whole thing in DEMO_SECS of wall time, so the clock still counts the
-   right numbers down from the right starting point — it just moves in
-   bigger steps. Anything shorter than that plays at real speed.      */
+/* ── demo overlay ───────────────────────────────────────────── */
 var DEMO_SECS = 15;
 var demo      = document.getElementById("demo"),
     demoClock = document.getElementById("demoClock"),
@@ -1403,18 +1858,17 @@ function mmss(s){
   var pad = function(n){ return (n < 10 ? "0" : "") + n; };
   return h ? h + ":" + pad(m) + ":" + pad(q) : pad(m) + ":" + pad(q);
 }
-
 function openDemo(){
   var total = picked()[1];
-  var rate  = Math.max(1, total / DEMO_SECS);   // session-seconds per real second
+  var rate  = Math.max(1, total / DEMO_SECS);
   var left  = total, t0 = null;
 
   lastFocus = document.activeElement;
   demo.hidden = false; demo.setAttribute("aria-hidden", "false");
   demo.classList.remove("done");
   demoState.textContent = "● Locked";
-  demoSub.textContent = "Clicking, typing, Alt+Tab, Ctrl+Alt+Del — nothing " +
-                        "reaches Windows until the clock hits zero.";
+  demoSub.textContent = "Clicking, typing and Alt+Tab stop reaching Windows " +
+                        "until the clock hits zero.";
   demoClock.textContent = mmss(left);
   demoBar.style.transform = "scaleX(1)";
   requestAnimationFrame(function(){ demo.classList.add("on"); });
@@ -1439,7 +1893,6 @@ function openDemo(){
     demoTimer = requestAnimationFrame(tick);
   })(performance.now());
 }
-
 function closeDemo(){
   if (demoTimer){ cancelAnimationFrame(demoTimer); demoTimer = null; }
   demo.classList.remove("on");
@@ -1449,75 +1902,159 @@ function closeDemo(){
     if (lastFocus) lastFocus.focus();
   }, 320);
 }
-
 document.getElementById("demoStart").addEventListener("click", openDemo);
 document.getElementById("demoBack").addEventListener("click", closeDemo);
 document.addEventListener("keydown", function(e){
   if (e.key === "Escape" && !demo.hidden) closeDemo();
 });
 
-/* ── reveal on enter ─────────────────────────────────────────────── */
+/* ── screenshot rail ────────────────────────────────────────── */
+var rail = document.getElementById("rail");
+function railStep(){
+  var card = rail.querySelector(".shot");
+  return card ? card.getBoundingClientRect().width + 18 : 300;
+}
+document.getElementById("railPrev").addEventListener("click", function(){
+  rail.scrollBy({left:-railStep(), behavior: reduce ? "auto" : "smooth"});
+});
+document.getElementById("railNext").addEventListener("click", function(){
+  rail.scrollBy({left: railStep(), behavior: reduce ? "auto" : "smooth"});
+});
+
+/* ── reveal ─────────────────────────────────────────────────── */
 var io = new IntersectionObserver(function(entries){
   entries.forEach(function(en){
     if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
   });
-}, {threshold:.16, rootMargin:"0px 0px -8% 0px"});
-document.querySelectorAll(".rise, #week").forEach(function(n){ io.observe(n); });
+}, {rootMargin:"0px 0px -8% 0px"});
+document.querySelectorAll(".rise").forEach(function(n){ io.observe(n); });
 
-/* Going home shouldn't leave "#top" in the address bar — people copy the URL
-   from there to share it, and a fragment gives link scrapers a second cache
-   key for the same page. Scroll to the top ourselves and strip the hash. */
-document.querySelectorAll('a[href="#top"]').forEach(function(a){
-  a.addEventListener("click", function(e){
-    e.preventDefault();
-    // same distance rule as the nav links below: from far down the page a
-    // glide home is just a blur, so it arrives instead
-    scrollTo({top:0, behavior: (matchMedia("(prefers-reduced-motion: reduce)").matches
-                                || window.scrollY > window.innerHeight * 2)
-                              ? "auto" : "smooth"});
-    history.replaceState(null, "", location.pathname + location.search);
-  });
-});
 
-/* ── nav follows the section you're in ───────────────────────────── */
-var links = {};
-/* [data-spy] only — the badge and the download action share the pill but
-   are not section links, so they must never take the "here" state. */
-document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){ links[a.dataset.spy] = a; });
-
-/* This used to be an IntersectionObserver over a thin band. Observers hand you
-   entries in no defined order and only when a boundary is crossed, so whichever
-   entry happened to fire last won the "here" state. Sections are ordered on the
-   page, so read them that way instead: the section you're in is the last one
-   whose top has passed the reading line, which can only ever be one answer.
-   Sorted by where the sections actually sit in the document rather than by the
-   order they're listed here — a hand-kept list is one more thing that can
-   disagree with the page, which was half of the bug this fixes. */
-var spyNodes = ["top","block","who","lock","inside","pricing","faq"]
-      .map(function(id){ return document.getElementById(id); })
-      .filter(Boolean)
-      .sort(function(a, b){
-        return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
-      }),
-    spyAt = null;
-
-function paintSpy(){
-  var line = window.innerHeight * 0.42, cur = spyNodes[0];
-  for (var i = 0; i < spyNodes.length; i++){
-    if (spyNodes[i].getBoundingClientRect().top <= line) cur = spyNodes[i];
-  }
-  /* the last section is usually short enough that its top never reaches the
-     line before the page runs out of scroll — at the bottom, it's the one */
-  if (window.scrollY + window.innerHeight >=
-      document.documentElement.scrollHeight - 4) cur = spyNodes[spyNodes.length - 1];
-  if (cur === spyAt) return;
-  spyAt = cur;
-  for (var k in links) links[k].classList.remove("here");
-  if (links[cur.id]) links[cur.id].classList.add("here");
+/* ── the live figures ──────────────────────────────
+   The lock screen, the schedule and the Accountability Lock prompt are built
+   from the page's own markup, so they have to be wound up by hand. Each one is
+   driven only while it is actually on screen -- a countdown nobody is looking
+   at is a timer running for nothing -- and none of them start at all for a
+   reader who has asked for reduced motion: the markup already shows a sensible
+   frozen frame, which is exactly what the old screenshots were. */
+function whileVisible(el, start, stop){
+  if (!el) return;
+  var running = false;
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting === running) return;
+      running = en.isIntersecting;
+      running ? start() : stop();
+    });
+  }, {threshold:.25}).observe(el);
 }
 
-/* ── the nav tucks away going down, returns coming up ─────────────── */
-var nav = document.querySelector(".nav"), navY = window.scrollY, navHid = false;
+if (!reduce) {
+  /* the lock screen, counting a 25-minute session down */
+  var lkClock = document.getElementById("lkClock"),
+      lkBar   = document.getElementById("lkBar"),
+      LK_TOTAL = 1500, lkLeft = 1062, lkTimer = null;
+  function lkPaint(){
+    lkClock.textContent = mmss(lkLeft);
+    lkBar.style.width = ((LK_TOTAL - lkLeft) / LK_TOTAL * 100) + "%";
+  }
+  whileVisible(document.getElementById("liveLock"), function(){
+    lkPaint();
+    lkTimer = setInterval(function(){
+      /* it restarts rather than sitting at zero: the figure's job is to be a
+         block in progress, and a spent one says nothing */
+      lkLeft = lkLeft > 1 ? lkLeft - 1 : 1062;
+      lkPaint();
+    }, 1000);
+  }, function(){ clearInterval(lkTimer); });
+
+  /* the new-block form, filled in from one suggestion after another - the
+     figure's subject here is the setting up, so the setting up is what moves */
+  var NB = [
+    {days:[0,1,2,3,4,5,6], from:"10:00", fromMer:"pm", to:"6:00", toMer:"am",
+     span:"Every day \u00b7 blocked from 10:00 PM until 6:00 AM the next morning \u2014 8 hours."},
+    {days:[0,1,2,3,4], from:"9:00", fromMer:"am", to:"12:00", toMer:"pm",
+     span:"Weekdays \u00b7 blocked from 9:00 AM until 12:00 PM \u2014 3 hours."},
+    {days:[5,6], from:"8:00", fromMer:"am", to:"7:00", toMer:"am",
+     span:"Weekends \u00b7 blocked from 8:00 AM until 7:00 AM the next morning \u2014 23 hours."}
+  ];
+  var nbSugs = document.getElementById("nbSugs"),
+      nbDays = document.getElementById("nbDays"),
+      nbStep = 1, nbTimer = null;
+  function nbPaint(){
+    var p = NB[nbStep], i;
+    for (i = 0; i < nbSugs.children.length; i++)
+      nbSugs.children[i].classList.toggle("on", i === nbStep);
+    for (i = 0; i < nbDays.children.length; i++)
+      nbDays.children[i].classList.toggle("on", p.days.indexOf(i) >= 0);
+    document.getElementById("nbFrom").textContent = p.from;
+    document.getElementById("nbTo").textContent = p.to;
+    document.getElementById("nbFromAm").classList.toggle("on", p.fromMer === "am");
+    document.getElementById("nbFromPm").classList.toggle("on", p.fromMer === "pm");
+    document.getElementById("nbToAm").classList.toggle("on", p.toMer === "am");
+    document.getElementById("nbToPm").classList.toggle("on", p.toMer === "pm");
+    document.getElementById("nbSpan").textContent = p.span;
+  }
+  whileVisible(document.getElementById("liveNew"), function(){
+    nbPaint();
+    nbTimer = setInterval(function(){
+      nbStep = (nbStep + 1) % NB.length;
+      nbPaint();
+    }, 3400);
+  }, function(){ clearInterval(nbTimer); });
+
+  /* the prompt, being answered wrongly, forever. Seven dots go in, Unlock is
+     pressed, the field refuses, and it clears. The loop is the argument. */
+  var dlg = document.getElementById("liveDlg"),
+      dots = document.getElementById("dlgDots"), dlgStep = 0, dlgTimer = null;
+  function dlgTick(){
+    dlgStep++;
+    if (dlgStep <= 7){
+      dots.appendChild(document.createElement("span"));
+      dlgTimer = setTimeout(dlgTick, 150);
+    } else if (dlgStep === 8){
+      dlgTimer = setTimeout(dlgTick, 520);
+    } else if (dlgStep === 9){
+      dlg.classList.add("press");
+      dlgTimer = setTimeout(dlgTick, 160);
+    } else if (dlgStep === 10){
+      dlg.classList.remove("press");
+      dlg.classList.add("bad");
+      dlgTimer = setTimeout(dlgTick, 2100);
+    } else {
+      dlg.classList.remove("bad");
+      dots.textContent = "";
+      dlgStep = 0;
+      dlgTimer = setTimeout(dlgTick, 900);
+    }
+  }
+  whileVisible(dlg, function(){ dlgTimer = setTimeout(dlgTick, 500); },
+                    function(){ clearTimeout(dlgTimer); });
+}
+
+/* ── nav spy ────────────────────────────────────────────────── */
+var links = {};
+document.querySelectorAll(".nav-pill a[data-spy]").forEach(function(a){
+  a.getAttribute("data-spy").split(" ").forEach(function(id){ links[id] = a; });
+});
+var spy = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if (!en.isIntersecting) return;
+    document.querySelectorAll(".nav-pill a[data-spy]")
+            .forEach(function(x){ x.classList.remove("here"); });
+    var a = links[en.target.id];
+    if (a) a.classList.add("here");
+  });
+}, {rootMargin:"-45% 0px -50% 0px"});
+Object.keys(links).forEach(function(id){
+  var n = document.getElementById(id);
+  if (n) spy.observe(n);
+});
+
+/* ── the nav tucks away going down, returns coming up ───────────
+   Same behaviour as the live site. The pill is fixed now, so without this
+   it would sit over the copy for the whole page.                        */
+var navEl = document.querySelector(".nav"), navY = window.scrollY, navHid = false;
 function paintNav(){
   var y = Math.max(0, window.scrollY), dy = y - navY;
   if (Math.abs(dy) < 7) return;            // ignore trackpad jitter and rubber-band
@@ -1525,87 +2062,10 @@ function paintNav(){
   var hide = dy > 0 && y > 150;            // never hide over the hero
   if (hide === navHid) return;
   navHid = hide;
-  nav.classList.toggle("tucked", hide);
+  navEl.classList.toggle("tucked", hide);
 }
-
-/* ── scroll scrubs the countdown ──────────────────────────────────
-   The section is 265vh with a sticky pin, so its progress maps onto 0→1
-   and drives the clock, the bar and the kill list. Read inside a rAF so
-   the scroll handler never forces layout.                             */
-var scrub = document.querySelector(".scrub"),
-    cd = document.getElementById("cd"),
-    cdbar = document.getElementById("cdbar"),
-    cdstate = document.getElementById("cdstate"),
-    items = [].slice.call(document.querySelectorAll("#cutlist li")),
-    ticking = false, lastP = -1;
-
-function paint(){
-  ticking = false;
-  var r = scrub.getBoundingClientRect();
-  var total = scrub.offsetHeight - window.innerHeight;
-  var p = total > 0 ? Math.max(0, Math.min(1, -r.top / total)) : 0;
-  if (Math.abs(p - lastP) < .0015) return;
-  lastP = p;
-
-  /* PRESETS entries are [label, seconds], so take the seconds. */
-  var start = PRESETS[Math.max(0, Math.min(PRESETS.length - 1, Math.round(pos)))][1];
-  cd.textContent = mmss(Math.max(0, start * (1 - p)));
-  cdbar.style.width = (p * 100).toFixed(2) + "%";
-
-  items.forEach(function(li, i){
-    if (i === items.length - 1) return;          // "Your work" is never cut
-    li.classList.toggle("cut", p > .12 + i * .16);
-  });
-
-  var done = p > .985;
-  cdstate.textContent = done ? "Session complete — you're free" : "Locked — keep scrolling";
-  cdstate.classList.toggle("done", done);
-}
-/* The wheel is the browser's, and it stays that way.
-
-   Three attempts now: a pacing loop, then taller sections, then damping the
-   notch and easing it. The damped version was the worst of them — it pinned
-   the page in places until you scrolled at it hard, because every glide fights
-   whatever else the frame is already doing. A hijacked wheel never matches the
-   weight the rest of the machine has, and the failure mode is far worse than
-   the complaint. If this page needs to read slower, it gets taller — see
-   .scrub — or the reader turns their own scroll speed down. */
-
-/* Anchor links, with the one rule a tall page needs.
-
-   A smooth scroll takes roughly the same time whatever the distance, so a
-   jump from the top to the pricing table drags twelve thousand pixels through
-   the window in a few hundred milliseconds. That is the fastest thing on this
-   page by a wide margin, and it has nothing to do with the wheel.
-
-   So the glide is kept for targets near enough that it shows you where you
-   went, and anything further arrives at once — which is what a jump has
-   always done, and what nobody has ever called fast.
-
-   It lives here rather than in scroll-behavior:smooth on the root, because a
-   root-level rule reaches every scroll the page performs and cannot tell one
-   distance from another. */
-document.addEventListener("click", function(e){
-  var a = e.target.closest && e.target.closest('a[href^="#"]');
-  if (!a) return;
-  var id = a.getAttribute("href").slice(1), t = id && document.getElementById(id);
-  if (!t || id === "top") return;      // going home has its own handler, above
-  e.preventDefault();
-  var far = Math.abs(t.getBoundingClientRect().top) > window.innerHeight * 2;
-  t.scrollIntoView({behavior: (reduce || far) ? "auto" : "smooth", block: "start"});
-  history.replaceState(null, "", "#" + id);
-});
-
-/* one listener, one frame: the countdown, the nav and the spy all read the
-   same scroll position instead of each forcing their own layout pass */
-function frame(){ paint(); paintNav(); paintSpy(); }
-addEventListener("scroll", function(){
-  if (!ticking){ ticking = true; requestAnimationFrame(frame); }
-}, {passive:true});
-addEventListener("resize", frame);
-frame();
+addEventListener("scroll", paintNav, {passive:true});
 })();
 </script>
 </body>
 </html>
-

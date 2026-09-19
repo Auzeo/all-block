@@ -4,3 +4,9 @@ build/
 dist/
 *.spec.bak
 *.log
+android/.gradle/
+android/local.properties
+android/.idea/
+.tools/
+*.jks
+*.keystore
