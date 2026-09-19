@@ -31,14 +31,14 @@ try{
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The All Block">
 <!-- absolute, because WhatsApp/Slack/Discord don't resolve relative og:image -->
-<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.9.2">
+<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=7.9.3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
 <meta property="og:image:alt" content="The All Block: the headline A blocker you can't bypass, so the 1am spiral never starts, beside a duration wheel set to 10 minutes.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The All Block">
 <meta name="twitter:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
-<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.9.2">
+<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=7.9.3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="img/photos/forest-1024.jpg" imagesrcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w" imagesizes="(max-width:900px) 100vw, 50vw">
@@ -407,9 +407,21 @@ section[id],header[id]{scroll-margin-top:86px}
   max-width:62ch}
 .cases-foot b{color:var(--ink);font-weight:700}
 /* the four rise together as one block, not as a stagger of four */
-.cases .case:nth-child(2){transition-delay:.06s}
-.cases .case:nth-child(3){transition-delay:.12s}
-.cases .case:nth-child(4){transition-delay:.18s}
+.cases .case:nth-child(2){transition-delay:.03s}
+.cases .case:nth-child(3){transition-delay:.06s}
+.cases .case:nth-child(4){transition-delay:.09s}
+
+/* The green outline walks the four cards on its own, a couple of seconds each.
+   Hover takes it over and hands it back — a card someone is actually looking
+   at should not be overruled by a timer. */
+.case.lit .case-ph,.case:hover .case-ph{
+  border-color:var(--green);
+  box-shadow:0 0 0 1px var(--green),
+             0 6px 22px color-mix(in srgb,var(--green) 16%,transparent)}
+.case.lit .ck-time{color:var(--green-txt)}
+@media(prefers-reduced-motion:reduce){
+  .case.lit .case-ph{box-shadow:none}
+}
 
 .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media(max-width:900px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -485,7 +497,11 @@ section[id],header[id]{scroll-margin-top:86px}
 @media(max-width:900px){.devrig{max-width:620px;margin:0 auto}}
 
 /* ── pricing ─────────────────────────────────────────────────── */
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+/* The plans get more room than the rest of the page: three columns of feature
+   lists wrap into tall thin cards at the body width, and the comparison is
+   easier to make when the three sit side by side without stacking. */
+.wrap--wide{max-width:1320px}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 @media(max-width:1000px){.plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
 .plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   padding:clamp(22px,2.4vw,30px);display:flex;flex-direction:column}
@@ -853,7 +869,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 /* ── motion ──────────────────────────────────────────────────── */
 .rise{opacity:0;transform:translateY(16px);
-  transition:opacity .6s ease,transform .6s ease}
+  transition:opacity .34s ease,transform .34s ease}
 .rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -889,7 +905,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
       </svg>
     </button>
-    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download</a>
+    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">Download</a>
   </div>
 </nav>
 
@@ -922,13 +938,13 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow mute">Windows &nbsp;·&nbsp; <b>v7.9.2</b></p>
+      <p class="eyebrow mute">Windows &nbsp;·&nbsp; <b>v7.9.3</b></p>
       <h1>A blocker you can't bypass<em>Your keyboard and mouse, locked until the timer ends</em></h1>
       <p class="hero-sub">Start the timer — at bedtime, mid-game,
         mid-scroll, whenever you need it. <b>No clicking, no alt-tabbing,
         no negotiating your way back in</b> before then.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
@@ -1172,9 +1188,8 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <h3>Deep work</h3>
-        <p>Set the block before you sit down with the thing that actually needs doing.
-          The machine stops being somewhere to escape to, so the hour has nowhere else
-          to go.</p>
+        <p>Set it before you sit down with the thing that needs doing. The machine
+          stops being somewhere to escape to.</p>
       </article>
 
       <article class="case rise">
@@ -1189,9 +1204,8 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <h3>Study sessions</h3>
-        <p>Deciding to start is the hardest part of every session, and it's a decision
-          you have to win again tomorrow. Put the hour in the schedule once and it stops
-          being yours to make.</p>
+        <p>Starting is the hardest part, and you have to win it again tomorrow.
+          Schedule the hour once and it stops being yours to decide.</p>
       </article>
 
       <article class="case rise">
@@ -1206,9 +1220,8 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <h3>Breaking the scroll</h3>
-        <p>You already know it's happening while it happens — which is exactly why a
-          blocker you can switch off is no help at all. A block leaves nothing to
-          negotiate with.</p>
+        <p>You know it's happening while it happens, which is why a blocker you can
+          switch off is no help. This one leaves nothing to negotiate with.</p>
       </article>
 
       <article class="case rise">
@@ -1223,9 +1236,8 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <h3>Intentional downtime</h3>
-        <p>The hours you lose aren't the ones you chose to stay up for — they're the ones
-          that just kept going. A block that arrives on its own at 23:00 ends the night
-          before it gets away from you.</p>
+        <p>The hours you lose are the ones that just kept going. A block that arrives
+          on its own at 23:00 ends the night before it gets away.</p>
       </article>
     </div>
 
@@ -1291,6 +1303,11 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       <p>And it closes the doors those apps leave open. It runs as admin, so
          nothing else can shut it down. It survives a reboot and comes back still
          locked. Task Manager, Alt+Tab and Ctrl+Alt+Del go with everything else.</p>
+      <p>And it doesn't stop at one machine. Sign in and your schedules sync
+         between Windows and the Android companion, either way round — write a
+         block on your phone and it's waiting on your desktop, and the other way
+         too. The phone can't become the machine you escape to, because the same
+         hours are shut there.</p>
       <p class="vs-pull">Then the schedule removes the last door — you. A block
          that turns up on its own at 09:00 was never a decision you made, and the
          itch lives entirely inside that decision. Put the Accountability Lock on
@@ -1371,8 +1388,9 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <h2 class="big">One commitment.<br>Every screen.</h2>
         <p class="lede" style="margin-top:18px">The All Block is out now on Windows. An
           Android companion is in testing — a duration picker, a blocking countdown, and
-          an offline copy of the schedules from your signed-in desktop.</p>
-        <p class="lede" style="font-size:14px">Schedules travel from desktop to phone.
+          your schedules, which you can write on either device.</p>
+        <p class="lede" style="font-size:14px">Schedules sync both ways: make one on your
+          phone and it reaches your desktop, and the other way round.
           Session history, escape balances and the Accountability Lock stay on the machine
           that owns them — each device runs its own blocks.</p>
         <div class="plat-os">
@@ -1386,7 +1404,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <div class="cta-row">
-          <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download for Windows</a>
+          <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">Download for Windows</a>
           <a class="btn btn--ghost" href="mailto:MrAuzeo@protonmail.com?subject=Tell%20me%20when%20Android%20is%20ready">Tell me when Android lands</a>
         </div>
       </div>
@@ -1454,7 +1472,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 <!-- ═══ PRICING ═══ -->
 <section class="band band--sand" id="pricing">
-  <div class="wrap">
+  <div class="wrap wrap--wide">
     <div class="head rise">
       <p class="eyebrow">Pricing</p>
       <h2 class="big">Pay once, or not at all.</h2>
@@ -1476,7 +1494,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <li><b>One</b> emergency unlock a month</li>
           <li>Restart-safe, with full session history</li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Download The All Block</a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">Download The All Block</a>
       </div>
 
       <div class="plan plan--pro rise">
@@ -1491,7 +1509,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <li><b>Three</b> emergency unlocks a month</li>
           <li>Optional account keeps Pro across reinstalls</li>
         </ul>
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Get it in the app</a>
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">Get it in the app</a>
       </div>
 
       <div class="plan plan--week rise">
@@ -1505,7 +1523,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <li>Nothing to cancel when it runs out</li>
           <li>Works on <b>Windows and Android</b></li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">Get it in the app</a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">Get it in the app</a>
       </div>
     </div>
 
@@ -1568,7 +1586,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <details class="faq-item">
           <summary>When will the Android app be available?</summary>
           <div class="faq-a"><p>It's in testing, not on Google Play yet. It already does manual
-            timers, blocking and an offline copy of your desktop schedules.
+            timers, blocking, and schedules you can write on the phone or the desktop.
             <a href="mailto:MrAuzeo@protonmail.com?subject=Tell%20me%20when%20Android%20is%20ready" style="color:var(--green-txt)">Email me</a>
             and I'll let you know when it's out.</p></div>
         </details>
@@ -1576,7 +1594,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <summary>Where does my data live?</summary>
           <div class="faq-a"><p>On your machine. Session history, streaks and the Accountability
             Lock password never leave it. An account is optional — it exists so Pro survives a
-            reinstall, and so schedules can reach the Android companion.</p></div>
+            reinstall, and so schedules sync between your desktop and the Android companion.</p></div>
         </details>
         <details class="faq-item">
           <summary>My touchpad feels off after restarting during a break.</summary>
@@ -1671,7 +1689,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     <p class="sub rise">One file, one wheel, and a computer that finally knows how to say
       no. Free to download, nothing to cancel.</p>
     <div class="cta-row rise">
-      <a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.2.exe">
+      <a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v7.9.3.exe">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
         Download for Windows
       </a>
@@ -1698,7 +1716,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           The All Block
         </a>
         <p class="foot-tag">Built for whatever you can't put down.</p>
-        <p class="foot-meta">Windows 10 &amp; 11 · v7.9.2 · single .exe</p>
+        <p class="foot-meta">Windows 10 &amp; 11 · v7.9.3 · single .exe</p>
         <div class="foot-social">
           <a href="https://github.com/Auzeo/all-block" aria-label="The All Block on GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
@@ -1928,6 +1946,29 @@ var io = new IntersectionObserver(function(entries){
   });
 }, {rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll(".rise").forEach(function(n){ io.observe(n); });
+
+
+/* ── the walking outline ───────────────────────────
+   The four use cases are one argument made four times, and a reader who stops
+   at the first card has only heard a quarter of it. The outline walks them so
+   the other three are seen to exist. Pointer wins: hovering parks the walk on
+   the card being read, and leaving hands it back. */
+(function(){
+  var cases = Array.prototype.slice.call(document.querySelectorAll(".cases .case"));
+  if (!cases.length || matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  var at = 0, timer = null, held = false;
+  function light(i){
+    cases.forEach(function(c, n){ c.classList.toggle("lit", n === i); });
+  }
+  function step(){ if (!held){ light(at); at = (at + 1) % cases.length; } }
+  cases.forEach(function(c, n){
+    c.addEventListener("pointerenter", function(){ held = true; light(n); at = (n + 1) % cases.length; });
+    c.addEventListener("pointerleave", function(){ held = false; });
+  });
+  whileVisible(cases[0].parentNode,
+    function(){ step(); timer = setInterval(step, 2000); },
+    function(){ clearInterval(timer); timer = null; });
+})();
 
 
 /* ── the live figures ──────────────────────────────
