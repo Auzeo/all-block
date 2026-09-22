@@ -9,44 +9,19 @@ try{
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Short on purpose: a browser tab shows roughly 25 characters before it
-     truncates, and the old title was cut mid-phrase at "there's no…". The
-     search-result headline lives in the description and og: tags. -->
-<title>The All Block for Windows</title>
+<title>The All Block — beta preview</title>
 <meta name="description" content="Set the timer and The All Block switches your mouse and keyboard off system-wide — at bedtime, mid-scroll, mid-game — until it ends. Free for Windows.">
-<meta property="og:title" content="The All Block">
-<meta property="og:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
-<!-- .ico first, for the browsers that only ever ask for /favicon.ico; the SVG
-     wins wherever it's understood and stays sharp on a hidpi tab.
-     The ?v= and the renamed SVG are cache-busters: Firefox keeps favicons in a
-     store of its own, keyed by URL and largely deaf to revalidation, so the
-     very first icon this site ever published (a slash, no ring) kept coming
-     back however many times the file behind it was rewritten. -->
-<link rel="icon" href="/favicon.ico?v=3" sizes="any">
-<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
 <meta name="theme-color" content="#faf9f6" id="metaThemeColor">
-<link rel="canonical" href="https://theallblock.com/">
-<meta property="og:url" content="https://theallblock.com/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="The All Block">
-<!-- absolute, because WhatsApp/Slack/Discord don't resolve relative og:image -->
-<meta property="og:image" content="https://theallblock.com/img/og-cover.png?v=8.0.6">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="628">
-<meta property="og:image:alt" content="The All Block: the headline A blocker you can't bypass, so the 1am spiral never starts, beside a duration wheel set to 10 minutes.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The All Block">
-<meta name="twitter:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
-<meta name="twitter:image" content="https://theallblock.com/img/og-cover.png?v=8.0.6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="img/photos/forest-1024.jpg" imagesrcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w" imagesizes="(max-width:900px) 100vw, 50vw">
+<link rel="preload" as="image" href="../img/photos/forest-1024.jpg" imagesrcset="../img/photos/forest-800.jpg 800w, ../img/photos/forest-1024.jpg 1024w" imagesizes="(max-width:900px) 100vw, 50vw">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap" media="print" onload="this.media='all';this.onload=null">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap"></noscript>
 <style>
 /* ═══════════════════════════════════════════════════════════════════
-   theallblock.com — the live page.
+   BETA PREVIEW — noindex, not linked from the live site.
    Photography: generated for this project, no licence or credit obligations.
    ═══════════════════════════════════════════════════════════════════ */
 :root{
@@ -125,9 +100,6 @@ h2.big{font-size:clamp(30px,4.2vw,48px)}
 .btn--clear{background:rgba(255,255,255,.12);color:#fff;
   border-color:rgba(255,255,255,.45);backdrop-filter:blur(6px)}
 .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-/* The one caveat under the two download buttons. An APK asks for a permission
-   Android warns about, and a download button that does not say so first is
-   the kind of surprise that gets an app uninstalled before it opens. */
 .dl-note{max-width:46ch;margin:12px 0 0;font-size:13px;line-height:1.6;color:var(--ash)}
 
 /* ── nav ─────────────────────────────────────────────────────── */
@@ -251,9 +223,21 @@ h2.big{font-size:clamp(30px,4.2vw,48px)}
   font-weight:700;margin-top:.5em;max-width:34ch}
 .hero-sub{color:var(--ash);margin:24px 0 0;max-width:44ch;font-size:16.5px}
 .hero-sub b{color:var(--ink);font-weight:700}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
-.hero-note{margin-top:20px;font-family:var(--mono);font-size:11.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.hero-cta{display:flex;gap:12px;flex-wrap:nowrap;margin-top:34px}
+.hero-cta .play-btn{padding-inline:18px;white-space:nowrap}
+@media(max-width:560px){.hero-cta{flex-wrap:wrap}}
+.hero-meta-line{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-top:20px}
+.hero-note{margin:0;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ash);position:relative;
+  display:inline-block}
+.hero-coming{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint)}
+.hero-note .demo-arrow{position:absolute;right:calc(100% - 6px);top:31px;
+  width:80px;height:37px;overflow:visible;pointer-events:none}
+.hero-note .demo-arrow path{fill:none;stroke:var(--green-txt);stroke-width:3.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.hero-note .demo-arrow .arrowhead{stroke-linejoin:miter;stroke-linecap:butt}
+@media(max-width:900px){.hero-note .demo-arrow{display:none}}
 
 /* the wheel — a real drum, same curve and geometry as the app */
 .wheel-card{position:relative;background:var(--card);
@@ -407,25 +391,17 @@ section[id],header[id]{scroll-margin-top:86px}
   padding-top:1.8cqw}
 .case h3{font-size:17px;margin-bottom:9px;letter-spacing:-.015em}
 .case p{margin:0;color:var(--ash);font-size:14px;line-height:1.66}
+@media(prefers-reduced-motion:no-preference){
+  .ck-track.range-ready i{width:2px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+  .ck-track.range-ready.range-in i{width:calc((var(--e) - var(--s))*100%)}
+}
 .cases-foot{margin:clamp(30px,4vw,44px) 0 0;color:var(--ash);font-size:14.5px;
   max-width:62ch}
 .cases-foot b{color:var(--ink);font-weight:700}
 /* the four rise together as one block, not as a stagger of four */
-.cases .case:nth-child(2){transition-delay:.03s}
-.cases .case:nth-child(3){transition-delay:.06s}
-.cases .case:nth-child(4){transition-delay:.09s}
-
-/* The green outline walks the four cards on its own, a couple of seconds each.
-   Hover takes it over and hands it back — a card someone is actually looking
-   at should not be overruled by a timer. */
-.case.lit .case-ph,.case:hover .case-ph{
-  border-color:var(--green);
-  box-shadow:0 0 0 1px var(--green),
-             0 6px 22px color-mix(in srgb,var(--green) 16%,transparent)}
-.case.lit .ck-time{color:var(--green-txt)}
-@media(prefers-reduced-motion:reduce){
-  .case.lit .case-ph{box-shadow:none}
-}
+.cases .case:nth-child(2){transition-delay:.06s}
+.cases .case:nth-child(3){transition-delay:.12s}
+.cases .case:nth-child(4){transition-delay:.18s}
 
 .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media(max-width:900px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -469,82 +445,48 @@ section[id],header[id]{scroll-margin-top:86px}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E")}
 
 /* ── platforms ───────────────────────────────────────────────── */
-.plat-os{display:flex;gap:28px;margin-top:26px;flex-wrap:wrap}
+.plat-os{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:28px;row-gap:20px;margin-top:26px}
 .plat-os>div{display:flex;gap:11px;align-items:flex-start}
 .plat-os svg{width:22px;height:22px;flex:none;margin-top:2px}
 .plat-os b{display:block;font-size:14.5px;font-family:var(--display);font-weight:800}
 .plat-os em{font-style:normal;font-size:13px;color:var(--ash)}
+.plat-os .coming{opacity:.62}
+@media(max-width:520px){.plat-os{grid-template-columns:1fr}}
 
 /* ── device rig ───────────────────────────────────── */
-/* Two screens, both alive, both running the same wheel off the same scroll.
-   It was a still capture of Windows with an empty phone outline beside it,
-   which said the Android build did not exist yet — it does, so the phone has
-   a screen now and the pair moves together: one duration, picked on both
-   devices at once, which is the whole claim this section makes. The real
-   pixel-for-pixel captures live in the Screenshots rail above; this is the
-   app's interface drawn in the page's own markup, which is the only way it
-   can be scrolled.                                                          */
-.devrig{position:relative;margin:0;padding:0 clamp(18px,2.8vw,34px) clamp(52px,7vw,84px) 0}
+.devrig{position:relative;width:100%;max-width:560px;min-width:0;margin:0 auto}
+#devices .two{grid-template-columns:repeat(2,minmax(0,1fr))}
+#devices .two>div{min-width:0}
+.device-stage{position:relative;padding:0 9% 44px 0}
 .devwin{border:1px solid var(--line);border-radius:15px;overflow:hidden;
-  background:var(--card);box-shadow:var(--shadow)}
-/* no `display` — see the swap-light/swap-dark note at the top of this sheet */
+   background:var(--card);box-shadow:var(--shadow)}
 .devwin img{width:100%;height:auto;vertical-align:top}
-/* the drawn title bar: the live screen has no chrome of its own in the pixels,
-   so it needs the little the window would have given it */
-.dw-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;
-  border-bottom:1px solid var(--line);background:var(--hush)}
-.dw-bar i{width:8px;height:8px;border-radius:50%;background:var(--line)}
-.dw-bar b{margin-left:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--faint);font-weight:600}
-.dw-screen{padding:clamp(16px,2.6vw,26px) clamp(14px,2.4vw,24px) clamp(18px,2.8vw,28px);
-  display:grid;justify-items:center;gap:10px}
-.rig-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--faint);margin:0}
-/* the drum. Rows are placed by transform off the centre line, the same way the
-   app places them, so the movement is the app's movement and not a scrollbar */
-.rig-drum{position:relative;width:100%;overflow:hidden;
-  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);
-  mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent)}
-.rig-drum span{position:absolute;left:0;right:0;top:50%;text-align:center;
-  font-family:var(--display);font-weight:800;white-space:nowrap;
-  color:var(--ash);will-change:transform,opacity}
+.dw-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--hush)}
+.dw-bar b{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.dw-controls{display:flex;gap:16px;margin-left:auto;color:var(--ash)}
+.dw-controls svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.2}
+.dw-screen{padding:clamp(16px,2.6vw,26px) clamp(14px,2.4vw,24px) clamp(18px,2.8vw,28px);display:grid;justify-items:center;gap:10px}
+.rig-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0}
+.rig-drum{position:relative;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent)}
+.rig-drum span{position:absolute;left:0;right:0;top:50%;text-align:center;font-family:var(--display);font-weight:800;white-space:nowrap;color:var(--ash);will-change:transform,opacity}
 .rig-drum span.on{color:var(--ink)}
-.dw-drum{height:132px}
-.dw-drum span{font-size:26px}
-/* the line the value sits on, and the readout under it */
+.dw-drum{height:132px}.dw-drum span{font-size:26px}
 .rig-mark{width:min(230px,70%);height:1px;background:var(--line);position:relative}
-.rig-read{margin:0;font-size:13.5px;color:var(--ash)}
-.rig-read b{font-family:var(--display);font-size:17px;color:var(--ink)}
-.rig-go{display:inline-block;border-radius:999px;background:var(--green);
-  color:#fff;font-family:var(--display);font-weight:800;letter-spacing:.01em}
-.dw-screen .rig-go{padding:10px 22px;font-size:13.5px}
-/* the phone. Wider than the outline it replaces, because there is something
-   in it now, and still cut out of the page by the band-coloured ring. */
-.devphone{position:absolute;right:0;bottom:0;width:clamp(92px,17%,116px);
+.rig-read{margin:0;font-size:13.5px;color:var(--ash)}.rig-read b{font-family:var(--display);font-size:17px;color:var(--ink)}
+.rig-go{display:inline-block;border-radius:999px;background:var(--green);color:#fff;font-family:var(--display);font-weight:800;letter-spacing:.01em}.dw-screen .rig-go{padding:10px 22px;font-size:13.5px}
+.devphone{position:absolute;right:0;bottom:0;width:clamp(82px,24%,116px);
   aspect-ratio:9/18.5;border-radius:16px;background:var(--card);
   border:1px solid var(--line);box-shadow:0 0 0 5px var(--hush),var(--shadow);
-  overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;
-  gap:6px;padding:12px 8px 10px}
-.dp-notch{width:26px;height:3px;border-radius:99px;background:var(--line);
-  justify-self:center}
-.dp-screen{display:grid;justify-items:center;align-content:center;gap:5px;min-height:0}
-.dp-screen .rig-eyebrow{font-size:7px;letter-spacing:.16em}
-.dp-drum{height:74px}
-.dp-drum span{font-size:14px}
-.dp-screen .rig-go{padding:6px 12px;font-size:8.5px}
-.devrig figcaption{position:absolute;left:0;bottom:0;max-width:60%;
-  font-size:12px;line-height:1.55;color:var(--ash)}
-@media(max-width:900px){.devrig{max-width:620px;margin:0 auto}
-  .devrig figcaption{position:static;max-width:none;margin-top:14px}
-  .devphone{width:26%}}
+  overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;gap:6px;padding:12px 8px 10px}
+.dp-notch{width:26px;height:3px;border-radius:99px;background:var(--line);justify-self:center}
+.dp-screen{display:grid;justify-items:center;align-content:center;gap:5px;min-height:0}.dp-screen .rig-eyebrow{font-size:7px;letter-spacing:.16em}.dp-drum{height:74px}.dp-drum span{font-size:14px}.dp-screen .rig-go{padding:6px 12px;font-size:8.5px}
+.devrig figcaption{margin-top:18px;font-size:12px;line-height:1.55;color:var(--ash)}
+@media(max-width:900px){#devices .two{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.rig-drum span{transition:none}}
 
 /* ── pricing ─────────────────────────────────────────────────── */
-/* The plans get more room than the rest of the page: three columns of feature
-   lists wrap into tall thin cards at the body width, and the comparison is
-   easier to make when the three sit side by side without stacking. */
-.wrap--wide{max-width:1320px}
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 @media(max-width:1000px){.plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
 .plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   padding:clamp(22px,2.4vw,30px);display:flex;flex-direction:column}
@@ -565,27 +507,12 @@ section[id],header[id]{scroll-margin-top:86px}
 .plan-note{color:var(--ash);font-size:13.5px;margin:0 0 22px}
 .plan-list{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px}
 .plan .btn{margin-top:auto;justify-content:center}
-/* ── what the others charge ──────────────────────────────────────
-   Named, because a comparison nobody can check is just a boast. Every
-   figure is the cheapest honest price on that company's own page on the
-   date in the footnote — their annual, not their monthly, and never a
-   struck-through "list" price nobody pays. */
-.versus{margin:0 0 34px;border:1px solid var(--line);border-radius:var(--r);
-  background:var(--card);overflow:hidden}
-.versus table{width:100%;border-collapse:collapse;font-size:14px}
-.versus th,.versus td{padding:13px 18px;text-align:left;
-  border-bottom:1px solid var(--line)}
-.versus thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--faint);font-weight:700;
-  background:var(--sand)}
-.versus td:first-child{font-weight:600}
-.versus td+td,.versus th+th{text-align:right;white-space:nowrap;color:var(--ash)}
-.versus tbody tr:last-child td{border-bottom:0}
-.versus .us td{background:color-mix(in srgb,var(--green) 8%,var(--card));
-  color:var(--ink);font-weight:700}
-.versus .us td:first-child{box-shadow:inset 3px 0 0 var(--green)}
-.versus-foot{margin:0;padding:12px 18px;background:var(--sand);
-  border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+.versus{margin:0 0 34px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);overflow:hidden}
+.versus table{width:100%;border-collapse:collapse;font-size:14px}.versus th,.versus td{padding:13px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.versus thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:700;background:var(--sand)}
+.versus td:first-child{font-weight:600}.versus td+td,.versus th+th{text-align:right;white-space:nowrap;color:var(--ash)}.versus tbody tr:last-child td{border-bottom:0}
+.versus .us td{background:color-mix(in srgb,var(--green) 8%,var(--card));color:var(--ink);font-weight:700}.versus .us td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+.versus-foot{margin:0;padding:12px 18px;background:var(--sand);border-top:1px solid var(--line);color:var(--faint);font-size:12px}
 @media(max-width:560px){.versus th:nth-child(2),.versus td:nth-child(2){display:none}}
 .price-foot{margin:22px 0 0;color:var(--ash);font-size:13.5px;max-width:78ch}
 .price-foot b{color:var(--ink)}
@@ -742,7 +669,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 /* A dark room with the monitor switched off — which is the actual point of the
    app. Kept at a third opacity so the countdown stays the only bright thing. */
 .demo::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background:url(img/photos/lock-ambient-800.jpg) center/cover no-repeat;
+  background:url(../img/photos/lock-ambient-800.jpg) center/cover no-repeat;
   opacity:.32}
 .demo::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse at 50% 50%,transparent 0%,#0b0b0d 78%)}
@@ -934,7 +861,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 /* ── motion ──────────────────────────────────────────────────── */
 .rise{opacity:0;transform:translateY(16px);
-  transition:opacity .34s ease,transform .34s ease}
+  transition:opacity .6s ease,transform .6s ease}
 .rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -942,10 +869,14 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   .btn:hover{transform:none}
   .nav.tucked{transform:none;opacity:1}
 }
+.beta-flag{position:fixed;left:0;bottom:0;z-index:300;background:var(--green);
+  color:#062b15;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;padding:6px 14px;border-radius:0 8px 0 0;font-weight:700}
 </style>
 </head>
 <body>
 
+<span class="beta-flag">Beta preview</span>
 
 <!-- ═══ NAV ═══ -->
 <nav class="nav">
@@ -970,15 +901,15 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
       </svg>
     </button>
-    <a class="nav-cta" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Download</a>
+    <a class="nav-cta" href="#devices">Download</a>
   </div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero" id="top">
   <div class="hero-bg" aria-hidden="true">
-    <img src="img/photos/forest-1024.jpg"
-         srcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w"
+    <img src="../img/photos/forest-1024.jpg"
+         srcset="../img/photos/forest-800.jpg 800w, ../img/photos/forest-1024.jpg 1024w"
          sizes="(max-width:900px) 100vw, 50vw"
          width="1024" height="1536" alt="" fetchpriority="high">
   </div>
@@ -997,25 +928,39 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <span>Duration</span>
         <button class="go" id="demoStart" type="button">
           <svg width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0l9 5-9 5z"/></svg>
-          Start demo
+          Start
         </button>
       </div>
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow mute">Windows &nbsp;·&nbsp; <b>v8.0.6</b></p>
-      <h1>A blocker you can't bypass<em>Your keyboard and mouse, locked until the timer ends</em></h1>
+      <p class="eyebrow mute">Windows + Android &nbsp;·&nbsp; <b>Available now</b></p>
+      <h1>A blocker you can't bypass<em>No Apps. No Exceptions.</em></h1>
       <p class="hero-sub">Start the timer — at bedtime, mid-game,
-        mid-scroll, whenever you need it. <b>No clicking, no alt-tabbing,
+        mid-scroll, whenever you need it, or schedule. <b>No clicking, no alt-tabbing,
         no negotiating your way back in</b> before then.</p>
       <div class="hero-cta">
         <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
-        <a class="btn btn--ghost" href="#app">See it in action</a>
+        <a class="btn btn--ghost play-btn" href="https://play.google.com/store/apps/details?id=com.theallblock.companion">
+          <svg width="17" height="17" viewBox="0 0 192 192" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M156.84 109.93 54.96 167.87c-10.68 6.07-23.94-1.64-23.94-13.93V38.06c0-12.29 13.26-20 23.94-13.93l101.88 57.94c10.8 6.14 10.8 21.71 0 27.85Z"/>
+            <path d="m35 33 88 90M35 157.61 124 67"/>
+          </svg>
+          Google Play
+        </a>
       </div>
-      <p class="hero-note">Click the wheel, then scroll — it's the real one</p>
+      <div class="hero-meta-line">
+        <p class="hero-note">Try the demo
+          <svg class="demo-arrow" viewBox="0 0 140 64" aria-hidden="true" focusable="false">
+            <path d="M135 5C112 54 59 62 15 12"/>
+            <path class="arrowhead" d="M39 16L15 12L16 36"/>
+          </svg>
+        </p>
+        <span class="hero-coming" style="padding-right: 200px;">macOS + iOS coming soon</span>
+      </div>
     </div>
 
   </div>
@@ -1028,7 +973,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg><span>Blocks the whole machine</span></div>
     <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18"/><path d="M5 12.5a11 11 0 015-2.8M14.5 10a11 11 0 014.5 2.5"/><path d="M8.5 16a6 6 0 013-1.4"/><path d="M12 19.5h.01"/></svg><span>Works fully offline</span></div>
     <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.9-7.5 9.3C7.5 19.9 4.5 16.4 4.5 12V6z"/></svg><span>Survives a restart</span></div>
-    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M7 6.5h.01M9.5 6.5h.01"/></svg><span>Your data stays local</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="11" height="8" rx="1.5"/><path d="M6 16h5M8.5 12v4"/><rect x="15.5" y="12" width="5.5" height="9" rx="1.2"/><path d="M17.5 14h1.5M14 8.5c2.6 0 4.7 1 6.1 2.6M16.5 6.2c3.1.4 5.2 1.5 6.5 3.1"/></svg><span>Sync across devices</span></div>
   </div>
 </section>
 
@@ -1050,88 +995,18 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   </div>
 </div>
 
-<!-- ═══ THE APP ═══ -->
-<section class="band" id="app">
-  <div class="wrap">
-    <div class="head-row rise">
-      <div>
-        <p class="eyebrow">The app</p>
-        <h2 class="big">See it in action.</h2>
-        <p class="lede" style="margin:14px 0 0">Five screens, one job. Every shot below
-          is the shipping build, not a mockup.</p>
-      </div>
-      <div class="rail-nav">
-        <button class="rail-btn" id="railPrev" type="button" aria-label="Previous screenshots">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-        </button>
-        <button class="rail-btn" id="railNext" type="button" aria-label="More screenshots">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="rail rise" id="rail">
-      <figure class="shot">
-        <img class="swap-light" src="img/wheel_light.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The All Block main window showing the duration wheel set to 10 minutes">
-        <img class="swap-dark" src="img/wheel_dark.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The All Block main window in dark theme, the duration wheel set to 10 minutes">
-        <figcaption><b>The wheel</b><span>Pick a duration and lock in.</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <img class="swap-light" src="img/schedules_light.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The Schedule window listing recurring blocks with on and off switches">
-        <img class="swap-dark" src="img/schedules_dark.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The Schedule window in dark theme, listing recurring blocks with on and off switches">
-        <figcaption><b>Schedules</b><span>Set the week once, it fires itself.</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <img class="swap-light" src="img/stats_light.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The session stats window showing total focus time, session count and a streak">
-        <img class="swap-dark" src="img/stats_dark.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The session stats window in dark theme, showing total focus time, session count and a streak">
-        <figcaption><b>Session history</b><span>Focus time, sessions, streak.</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <img class="swap-light" src="img/lock_light.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The Accountability Lock window with a password field and a reminder note">
-        <img class="swap-dark" src="img/lock_dark.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The Accountability Lock window in dark theme, with a password field and a reminder note">
-        <figcaption><b>Accountability Lock</b><span>Hand the key to someone else.</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <img class="swap-light" src="img/settings_light.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The All Block settings window with resume, stats, schedule and theme options">
-        <img class="swap-dark" src="img/settings_dark.png" width="1520" height="960"
-             loading="lazy" decoding="async"
-             alt="The All Block settings window in dark theme, with resume, stats, schedule and theme options">
-        <figcaption><b>Settings</b><span>One screen — there isn't much to set.</span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ WHY ═══ -->
 <section class="band band--sand" id="why">
   <div class="wrap">
     <div class="two grid">
       <div class="rise">
         <p class="eyebrow">The problem</p>
-        <h2 class="big">Willpower runs out.<br>The timer doesn't.</h2>
+        <h2 class="big">Willpower runs out,<br>the timer won't.</h2>
         <p class="lede" style="margin-top:18px">Games, feeds, one more episode — the pull
           is always there, and it's strongest exactly when you've decided to stop. Site
           blockers ask you not to click. This one takes the click away.</p>
         <p class="hand" style="margin-top:26px;transform:rotate(-2deg)">Decide once.
-          Not forty times a night.</p>
+          Not forty times a night!</p>
       </div>
       <figure class="appfig rise">
         <div class="live live--lock" id="liveLock" role="img"
@@ -1153,6 +1028,75 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       </figure>
     </div>
 
+  </div>
+</section>
+
+<!-- ═══ THE APP ═══ -->
+<section class="band" id="app">
+  <div class="wrap">
+    <div class="head-row rise">
+      <div>
+        <p class="eyebrow">The app</p>
+        <h2 class="big">See it in action.</h2>
+        <p class="lede" style="margin:14px 0 0">Every feature, kept simple.</p>
+      </div>
+      <div class="rail-nav">
+        <button class="rail-btn" id="railPrev" type="button" aria-label="Previous screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="rail-btn" id="railNext" type="button" aria-label="More screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="rail rise" id="rail">
+      <figure class="shot">
+        <img class="swap-light" src="../img/wheel_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block main window showing the duration wheel set to 10 minutes">
+        <img class="swap-dark" src="../img/wheel_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block main window in dark theme, the duration wheel set to 10 minutes">
+        <figcaption><b>The wheel</b><span>Pick a duration and lock in.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="../img/schedules_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Schedule window listing recurring blocks with on and off switches">
+        <img class="swap-dark" src="../img/schedules_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Schedule window in dark theme, listing recurring blocks with on and off switches">
+        <figcaption><b>Schedules</b><span>Set the week once, it fires itself.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="../img/lock_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Accountability Lock window with a password field and a reminder note">
+        <img class="swap-dark" src="../img/lock_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The Accountability Lock window in dark theme, with a password field and a reminder note">
+        <figcaption><b>Accountability Lock</b><span>Hand the key to someone else.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="../img/stats_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The session stats window showing total focus time, session count and a streak">
+        <img class="swap-dark" src="../img/stats_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The session stats window in dark theme, showing total focus time, session count and a streak">
+        <figcaption><b>Session history</b><span>Focus time, sessions, streak.</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img class="swap-light" src="../img/settings_light.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block settings window with resume, stats, schedule and theme options">
+        <img class="swap-dark" src="../img/settings_dark.png" width="1520" height="960"
+             loading="lazy" decoding="async"
+             alt="The All Block settings window in dark theme, with resume, stats, schedule and theme options">
+        <figcaption><b>Settings</b><span>One screen — there isn't much to set.</span></figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -1217,7 +1161,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <div class="step rise"><span class="n">3</span><div>
             <h3>Get it back</h3>
             <p>The clock runs out and everything returns at once. The session lands in
-              your history either way.</p>
+              your history.</p>
           </div></div>
         </div>
       </div>
@@ -1237,24 +1181,25 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       <h2 class="big">Built for the moments<br>that matter.</h2>
       <p class="lede" style="margin-top:18px">Nobody installs a blocker because they're
         short of good intentions. They install one because the intention keeps losing to
-        the moment. These are the moments people bring it here for.</p>
+        impulse.</p>
     </div>
 
     <div class="cases">
       <article class="case rise">
-        <div class="case-ph" role="img" aria-label="A block from 9am to midday, three hours of a weekday morning">
+        <div class="case-ph" role="img" aria-label="A block from 5pm to 10pm, five hours of a weekday evening">
           <div>
-            <p class="ck-time">09:00 &rarr; 12:00</p>
-            <p class="ck-sub">Weekdays · 3 hours</p>
+            <p class="ck-time">17:00 &rarr; 22:00</p>
+            <p class="ck-sub">Weekdays · 5 hours</p>
           </div>
           <div>
-            <div class="ck-track"><i style="--s:.375;--e:.5"></i></div>
-            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+            <div class="ck-track"><i style="--s:.7083;--e:.9167"></i></div>
+            <p class="ck-scale"><span>00</span><span>09</span><span>17</span><span>18</span><span>22</span></p>
           </div>
         </div>
-        <h3>Deep work</h3>
-        <p>Set it before you sit down with the thing that needs doing. The machine
-          stops being somewhere to escape to.</p>
+        <h3>Family time</h3>
+        <p>Guilty about using your phone or computer to do <b>"important work"</b> after coming home?
+          <b>Block the devices</b> that get in the way, and be present for the people who matter the most.
+        </p>
       </article>
 
       <article class="case rise">
@@ -1269,28 +1214,12 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <h3>Study sessions</h3>
-        <p>Starting is the hardest part, and you have to win it again tomorrow.
-          Schedule the hour once and it stops being yours to decide.</p>
+        <p>Deciding to start is the hardest part of every session, and it's a decision
+          you have to win again tomorrow. Set the schedule once, and it becomes a <b>routine.</b></p>
       </article>
 
       <article class="case rise">
         <div class="case-ph" role="img" aria-label="A one-hour block started by hand in the middle of an afternoon">
-          <div>
-            <p class="ck-time">14:30 &rarr; 15:30</p>
-            <p class="ck-sub">By hand · 1 hour</p>
-          </div>
-          <div>
-            <div class="ck-track"><i style="--s:.6042;--e:.6458"></i></div>
-            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
-          </div>
-        </div>
-        <h3>Breaking the scroll</h3>
-        <p>You know it's happening while it happens, which is why a blocker you can
-          switch off is no help. This one leaves nothing to negotiate with.</p>
-      </article>
-
-      <article class="case rise">
-        <div class="case-ph" role="img" aria-label="A block from 11pm to 7am, crossing midnight">
           <div>
             <p class="ck-time">23:00 &rarr; 07:00</p>
             <p class="ck-sub">Nightly · 8 hours</p>
@@ -1300,9 +1229,25 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
             <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
           </div>
         </div>
-        <h3>Intentional downtime</h3>
-        <p>The hours you lose are the ones that just kept going. A block that arrives
-          on its own at 23:00 ends the night before it gets away.</p>
+        <h3>Scrolling before sleep</h3>
+        <p><b>You know it's bad for you — Yet you keep doing it until 3am!</b> Which is exactly why a
+          blocker you can switch off is no help at all. Set your sleep schedule with an accountability partner, and <b>reclaim those much needed hours.</b></p>
+      </article>
+
+      <article class="case rise">
+        <div class="case-ph" role="img" aria-label="A block from 4pm to 5:30pm, 1.5 hours set aside for reading">
+          <div>
+            <p class="ck-time">16:00 &rarr; 17:30</p>
+            <p class="ck-sub">Daily · 1.5 hours</p>
+          </div>
+          <div>
+            <div class="ck-track"><i style="--s:.6667;--e:.7292"></i></div>
+            <p class="ck-scale"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></p>
+          </div>
+        </div>
+        <h3>A chapter a day</h3>
+        <p>Protect the part of the afternoon when your attention is still yours. 
+          Block the distractions, open the book, and turn a good intention into a daily ritual.</p>
       </article>
     </div>
 
@@ -1320,7 +1265,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   <div class="wrap vs-grid grid">
     <div class="rise">
       <p class="eyebrow">Coming from Cold Turkey or Freedom</p>
-      <h2 class="big">They block a list.<br>This blocks the machine.</h2>
+      <h2 class="big">They block a few apps and sites.<br>This blocks the machine.</h2>
       <svg width="0" height="0" aria-hidden="true" style="position:absolute">
         <symbol id="i-list" viewBox="0 0 20 20" fill="none" stroke="currentColor"
                 stroke-width="1.6" stroke-linecap="round">
@@ -1355,41 +1300,24 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       </ul>
     </div>
     <div class="vs-say rise">
-      <p>Every other blocker works from a list of <em>things</em> — these sites,
-         those apps, a list you're expected to keep current. A list has edges, and
-         the itch is extraordinarily good at finding them: the app you forgot to
-         add, the second browser, the phone hotspot, the setting you can still
-         reach because your keyboard still works.</p>
-      <p>The All Block keeps no list, because it isn't blocking things. It takes
-         <em>the mouse and the keyboard</em> away for the length of the session.
-         Not the browser — the computer. There is no app it forgot about and no
-         window you can click into instead, because clicking has stopped
-         happening.</p>
-      <p>And it closes the doors those apps leave open. It runs as admin, so
-         nothing else can shut it down. It survives a reboot and comes back still
-         locked. Task Manager, Alt+Tab and Ctrl+Alt+Del go with everything else.</p>
-      <p>And it doesn't stop at one machine. Sign in and your schedules sync
-         between Windows and the Android companion, either way round — write a
-         block on your phone and it's waiting on your desktop, and the other way
-         too. The phone can't become the machine you escape to, because the same
-         hours are shut there.</p>
-      <p class="vs-pull">Then the schedule removes the last door — you. A block
-         that turns up on its own at 09:00 was never a decision you made, and the
-         itch lives entirely inside that decision. Put the Accountability Lock on
-         top and even <em>you</em> can't take it back.</p>
-    </div>
+  <p>Every other blocker operates on a <em>list</em> — sites, apps, or a list you’re expected to constantly update. Lists have limitations, and the urge to escape is remarkably adept at finding those gaps: the app you missed adding, the second browser, the phone hotspot, or the setting you can still reach because your keyboard still works.</p>
+  <p>The All Block doesn’t use a list at all because it isn’t blocking anything. Instead, it disables <em>the mouse and the keyboard</em> for the duration of the session. Not just the browser — the entire computer. There’s no app it overlooked, no window you can click into, because clicking itself has been disabled.</p>
+  <p>It seals the loopholes those apps leave open. It runs as an administrator, so nothing else can shut it down. It survives a reboot and reappears locked. Task Manager, Alt+Tab, and Ctrl+Alt+Del can’t break through.</p>
+  <p class="vs-pull">Then the schedule removes the final barrier — <em>you</em>. A block that activates automatically at 09:00 was never a choice you made, and the urge to escape lives entirely within that decision. Place the Accountability Lock at the top, and even <em>you</em> can’t undo it.</p>
+</div>
+
   </div>
 </section>
 
 <!-- ═══ QUOTE STRIP ═══ -->
 <section class="strip">
-  <img src="img/photos/meadow-1536.jpg"
-       srcset="img/photos/meadow-800.jpg 800w, img/photos/meadow-1536.jpg 1536w"
+  <img src="../img/photos/meadow-1536.jpg"
+       srcset="../img/photos/meadow-800.jpg 800w, ../img/photos/meadow-1536.jpg 1536w"
        sizes="100vw" width="1536" height="1024" loading="lazy"
        alt="A meadow of wild poppies and grasses under a pale open sky">
   <div class="wrap">
-    <p class="q">The hours you stop losing have to go somewhere.</p>
-    <p class="by">That's the whole pitch.</p>
+    <p class="q">Stop wasting your time</p>
+    <p class="by">You won't get it back</p>
   </div>
 </section>
 
@@ -1400,21 +1328,15 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       <div class="rise">
         <p class="eyebrow">Accountability Lock · free in every copy</p>
         <h2 class="big">Hand the key to somebody else.</h2>
-        <p class="lede" style="margin-top:18px">A schedule only holds until the person
-          it's meant to stop opens Settings and deletes it. So set a password, and let a
-          parent, a partner, a friend — or your own steadier self, twenty minutes ago —
-          be the one who holds it.</p>
+        <p class="lede" style="margin-top:18px">A schedule only lasts until the person it’s meant to stop opens Settings and deletes it. So set a password, and let a parent, a partner, a friend — or your own steadier self, twenty minutes ago — be the one who holds it.</p>
         <ul class="holds">
           <li>Blocks can't be edited or deleted</li>
           <li>Blocks can't be switched off</li>
-          <li>The All Block can't be closed or quit</li>
-          <li>It re-arms itself at every restart</li>
+          <li>The All Block can't be closed or exited</li>
+          <li>It rearms itself at every restart</li>
           <li>Turning it back <em>on</em> never needs the password</li>
         </ul>
-        <p class="lede" style="margin-top:24px;font-size:14px">One thing it deliberately
-          leaves alone: the monthly emergency unlock. A lock with no exit at all is how
-          somebody ends up unable to answer a phone call — so the way out stays scarce
-          and counted rather than disappearing.</p>
+        <p class="lede" style="margin-top:24px;font-size:14px">One thing it deliberately leaves alone: the monthly emergency unlock. A lock with no exit at all is how somebody ends up unable to answer a phone call — so the way out stays limited and intentional, rather than vanishing entirely.</p>
       </div>
       <figure class="appfig rise">
         <div class="live live--dlg" id="liveDlg" role="img"
@@ -1449,21 +1371,12 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   <div class="wrap">
     <div class="two grid">
       <div class="rise">
-        <p class="eyebrow">Windows + Android</p>
+        <p class="eyebrow">Windows + Android · macOS + iOS soon</p>
         <h2 class="big">One commitment.<br>Every screen.</h2>
-        <p class="lede" style="margin-top:18px">The All Block is out now on Windows. The
-          Android companion is built and running — the same duration wheel, whole-phone
-          blocking, and your schedules, which you can write on either device. Its Google
-          Play listing is being set up now.</p>
-        <p class="lede" style="font-size:14px">On the phone a block is the whole phone.
-          Calls get through — the dialer, your contacts and the call itself stay open,
-          because a blocker that can stop you answering the phone is a fault, not a feature.
-          Everything else waits: press home, open recents, tap a notification, and you land
-          straight back on the block screen.</p>
-        <p class="lede" style="font-size:14px">Schedules sync both ways: make one on your
-          phone and it reaches your desktop, and the other way round.
-          Session history, escape balances and the Accountability Lock stay on the machine
-          that owns them — each device runs its own blocks.</p>
+        <p class="lede" style="margin-top:18px">Block distractions on Windows and Android.
+          Set your schedule on either device and it syncs to the other.</p>
+        <p class="lede" style="font-size:14px">On Android, the whole phone stays blocked
+          while calls, your dialer and contacts remain available.</p>
         <div class="plat-os">
           <div>
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5l8-1.1v7.2H3zM12 4.2L21 3v8.6h-9zM3 12.4h8v7.2l-8-1.1zM12 12.4h9V21l-9-1.2z"/></svg>
@@ -1471,42 +1384,37 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
           <div>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="8.5" width="11" height="11.5" rx="2"/><path d="M4 11v5M20 11v5M9.5 3.6l1.2 2M14.5 3.6l-1.2 2M7.5 7.6a4.5 4.5 0 019 0"/></svg>
-            <span><b>Android</b><em>Download it now — Google Play listing in setup</em></span>
+            <span><b>Android</b><em>Out now on Google Play</em></span>
+          </div>
+          <div class="coming">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span><b>macOS</b><em>Coming soon</em></span>
+          </div>
+          <div class="coming">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M10 5h4M11 19h2"/></svg>
+            <span><b>iOS</b><em>Coming soon</em></span>
           </div>
         </div>
         <div class="cta-row">
           <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Download for Windows</a>
-          <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v0.6.2.apk">Download for Android</a>
+          <a class="btn btn--ghost" href="https://play.google.com/store/apps/details?id=com.theallblock.companion">Get it on Google Play</a>
         </div>
-        <p class="dl-note">The Android build is a direct
-          download while its Google Play listing is being set up, so your phone
-          will ask you to allow the install once. It is the same app that will
-          be on Play.</p>
       </div>
       <figure class="rise devrig" id="devRig">
+        <div class="device-stage">
         <div class="devwin">
-          <div class="dw-bar" aria-hidden="true"><i></i><i></i><i></i><b>The All Block</b></div>
-          <div class="dw-screen">
-            <p class="rig-eyebrow">Block for</p>
-            <div class="rig-drum dw-drum" id="rigWin" role="img"
-                 aria-label="The duration wheel on Windows, turning as the page scrolls"></div>
-            <div class="rig-mark" aria-hidden="true"></div>
-            <p class="rig-read"><b id="rigRead">10 minutes</b> on this machine</p>
-            <span class="rig-go" aria-hidden="true">Start block</span>
-          </div>
+          <div class="dw-bar" aria-hidden="true"><b>The All Block</b><span class="dw-controls"><svg viewBox="0 0 12 12"><path d="M1 10h10"/></svg><svg viewBox="0 0 12 12"><rect x="1.5" y="1.5" width="9" height="9"/></svg><svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8"/></svg></span></div>
+          <div class="dw-screen"><p class="rig-eyebrow">Block for</p>
+            <div class="rig-drum dw-drum" id="rigWin" role="img" aria-label="The duration wheel on Windows, turning as the page scrolls"></div>
+            <div class="rig-mark" aria-hidden="true"></div><p class="rig-read"><b id="rigRead">10 minutes</b> on this machine</p>
+            <span class="rig-go" aria-hidden="true">Start block</span></div>
         </div>
         <div class="devphone" aria-hidden="true">
-          <span class="dp-notch"></span>
-          <div class="dp-screen">
-            <p class="rig-eyebrow">Block for</p>
-            <div class="rig-drum dp-drum" id="rigPhone"></div>
-            <span class="rig-go">Start</span>
-          </div>
+          <span class="dp-notch"></span><div class="dp-screen"><p class="rig-eyebrow">Block for</p>
+            <div class="rig-drum dp-drum" id="rigPhone"></div><span class="rig-go">Start</span></div>
         </div>
-        <figcaption>Both wheels turn as you scroll — the same duration, picked on
-          either device. Drawn here in the page's own markup so it can move;
-          the pixel-for-pixel captures are in
-          <a href="#app" style="color:var(--green-txt)">See it in action</a>.</figcaption>
+        </div>
+        <figcaption>Your schedule, synced across Windows and Android.</figcaption>
       </figure>
     </div>
   </div>
@@ -1558,7 +1466,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 <!-- ═══ PRICING ═══ -->
 <section class="band band--sand" id="pricing">
-  <div class="wrap wrap--wide">
+  <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Pricing</p>
       <h2 class="big">Pay once, or not at all.</h2>
@@ -1567,23 +1475,17 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         how many.</p>
     </div>
 
-    <div class="versus rise">
-      <table>
-        <thead>
-          <tr><th scope="col">Blocker</th><th scope="col">Subscription</th><th scope="col">Pay once</th></tr>
-        </thead>
+    <div class="versus rise" id="vs">
+      <table><thead><tr><th scope="col">Blocker</th><th scope="col">Subscription</th><th scope="col">Pay once</th></tr></thead>
         <tbody>
-          <tr><td>Opal</td><td>$99.99 a year</td><td>$399 &middot; about £300</td></tr>
-          <tr><td>Freedom</td><td>$39.96 a year</td><td>$199 &middot; about £150</td></tr>
-          <tr><td>Jomo</td><td>$29.99 a year</td><td>$99.99 &middot; about £75</td></tr>
-          <tr><td>Cold Turkey Blocker Pro</td><td>None</td><td>$39 &middot; about £30</td></tr>
+          <tr><td>Opal</td><td>$99.99 a year</td><td>$399 · about £300</td></tr>
+          <tr><td>Freedom</td><td>$39.96 a year</td><td>$199 · about £150</td></tr>
+          <tr><td>Jomo</td><td>$29.99 a year</td><td>$99.99 · about £75</td></tr>
+          <tr><td>Cold Turkey Blocker Pro</td><td>None</td><td>$39 · about £30</td></tr>
           <tr class="us"><td>The All Block Pro</td><td>None, ever</td><td>£12.99</td></tr>
         </tbody>
       </table>
-      <p class="versus-foot">Prices as published by each company in September 2026, converted at
-        the rate that month. Most of them are subscriptions first; the last column is what
-        they charge to stop paying them. Every one of them has a free tier too &mdash; so
-        does this.</p>
+      <p class="versus-foot">Prices as published by each company in September 2026, converted at the rate that month. Every one has a free tier too — so does this.</p>
     </div>
 
     <div class="plans grid">
@@ -1608,7 +1510,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <p class="plan-note">One payment. Not a subscription, not a rental.</p>
         <ul class="plan-list">
           <li>Everything in Standard</li>
-          <li>Sessions up to <b>24 hours</b>, in half-hour steps</li>
+          <li>Sessions of <b>4, 6, 8, 12 and 24 hours</b></li>
           <li><b>Unlimited</b> scheduled blocks</li>
           <li>Scheduled blocks up to <b>24 hours</b></li>
           <li><b>Three</b> emergency unlocks a month</li>
@@ -1618,12 +1520,12 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       </div>
 
       <div class="plan plan--week rise">
-        <div class="plan-top"><p class="plan-tag">Pro · 7 days</p><span class="pop pop--try">Short term</span></div>
+        <div class="plan-top"><p class="plan-tag">Pro · 7 days</p><span class="pop pop--try">Try it first</span></div>
         <div class="plan-cost">£2.99<span> one week</span></div>
         <p class="plan-note">One payment. It ends on its own — nothing renews.</p>
         <ul class="plan-list">
           <li><b>Everything in Pro</b>, for seven days</li>
-          <li>Sessions up to <b>24 hours</b>, in half-hour steps</li>
+          <li>Sessions of <b>4, 6, 8, 12 and 24 hours</b></li>
           <li><b>Unlimited</b> scheduled blocks, up to <b>24 hours</b></li>
           <li>Nothing to cancel when it runs out</li>
           <li>Works on <b>Windows and Android</b></li>
@@ -1632,11 +1534,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
       </div>
     </div>
 
-    <p class="price-foot rise">Pro is bought inside The All Block — open the app, hit
-      <b>Pro</b>, and checkout opens in your browser. Payments are handled by Paddle as
-      merchant of record. <b>Full refund within 14 days</b>, no questions asked — see the
-      <a href="/refunds.html">refund policy</a>. Only need one more emergency unlock this
-      month? A single <b>Escape</b> is <b>£0.99</b> and never expires.</p>
+    <p class="price-foot rise">Buy Pro directly in The All Block — select it, checkout in browser, paid via Paddle. 14-day full refund. One-time £0.99 "Escape" unlock never expires.</p>
   </div>
 </section>
 
@@ -1689,27 +1587,16 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
             nothing to cancel.</p></div>
         </details>
         <details class="faq-item">
-          <summary>When will the Android app be available?</summary>
-          <div class="faq-a"><p>It's built and running — manual timers, whole-phone blocking,
-            and schedules you can write on the phone or the desktop, named and synced both ways.
-            You can download it from this page today; the developer account is approved and the
-            Google Play listing is being set up now, which is the only thing still to come.
-            <a href="mailto:MrAuzeo@protonmail.com?subject=Tell%20me%20when%20Android%20is%20ready" style="color:var(--green-txt)">Email me</a>
-            and I'll let you know when it's out.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary>What can I still use on my phone during a block?</summary>
-          <div class="faq-a"><p>Calls, and nothing else. The phone app, the contacts inside it
-            and the screen you see during a call are all left alone. Every other app is put
-            away the moment it comes to the front — there is no few-second window to slip
-            through, and the emergency call button is not a pass to the rest of the phone.
-            If you genuinely need out, that is what the monthly emergency unlock is for.</p></div>
+          <summary>Is the Android app available?</summary>
+          <div class="faq-a"><p>Yes. Get the Android companion on
+            <a href="https://play.google.com/store/apps/details?id=com.theallblock.companion" style="color:var(--green-txt)">Google Play</a>
+            for manual timers, whole-phone blocking and schedules that sync with Windows.</p></div>
         </details>
         <details class="faq-item">
           <summary>Where does my data live?</summary>
           <div class="faq-a"><p>On your machine. Session history, streaks and the Accountability
             Lock password never leave it. An account is optional — it exists so Pro survives a
-            reinstall, and so schedules sync between your desktop and the Android companion.</p></div>
+            reinstall, and so schedules can reach the Android companion.</p></div>
         </details>
         <details class="faq-item">
           <summary>My touchpad feels off after restarting during a break.</summary>
@@ -1739,7 +1626,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     </div>
     <ol class="runsteps grid">
       <li class="runstep rise">
-        <img src="img/smartscreen-1-warning.png" width="1120" height="640"
+        <img src="../img/smartscreen-1-warning.png" width="1120" height="640"
              loading="lazy" decoding="async"
              alt="The Windows protected your PC dialog, with the More info link highlighted">
         <div class="runstep-say"><b>Click “More info”</b>
@@ -1747,14 +1634,14 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           found anything wrong.</div>
       </li>
       <li class="runstep rise">
-        <img src="img/smartscreen-2-runanyway.png" width="1120" height="680"
+        <img src="../img/smartscreen-2-runanyway.png" width="1120" height="680"
              loading="lazy" decoding="async"
              alt="The expanded SmartScreen dialog showing the Run anyway button">
         <div class="runstep-say"><b>Click “Run anyway”</b>
           The button only appears after the first step.</div>
       </li>
       <li class="runstep rise">
-        <img src="img/smartscreen-3-uac.png" width="1200" height="720"
+        <img src="../img/smartscreen-3-uac.png" width="1200" height="720"
              loading="lazy" decoding="async"
              alt="The Windows User Account Control prompt asking to allow The All Block to make changes">
         <div class="runstep-say"><b>Click “Yes” on the admin prompt</b>
@@ -1774,28 +1661,38 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     </div>
     <div class="note rise">
       <div class="note-head">
-        <img src="img/auzeo-logo.png" width="44" height="44" loading="lazy"
+        <img src="../img/auzeo-logo.png" width="44" height="44" loading="lazy"
              alt="" class="note-logo">
-        <span class="note-who">A note from the developer</span>
+        <span class="note-who">The Developer's story</span>
       </div>
-      <p>I tried pretty much every blocker out there, and always found a way to
-         sneak past them once I'd started — so I built one myself that wouldn't
-         let me, or at least make it not worth my effort to bypass.</p>
-      <p>Entire project was by one person, not a company or anything. Just a
-         small-time Irish design and software engineer without a team or
-         investors, so your support and feedback would mean so much.</p>
+      <p>I was so addicted to video games and social media, that I regularly
+        found myself awake in the late hours of the night, 3 or 4 am, gaming or 
+        watching some useless YouTube or Instagram video. I would be tired the next
+        day, with barely enough energy to make it through the a day's work, study or to go to the gym.
+        <br><br>
+        I tried different app blockers to help control my screen time but they never really worked, because it was quite easy
+        to bypass them if I was determined. And if they did, they would be aufully confusing, expensive,
+        with annoying monthly subscriptions, and crazy prices to own any of them. 
+        Also, they would often only work on a single device, with a separate app for each device, which was a pain to manage.
+        <br><br>
+        That's why I set out to make my own app that would remedy all these issues at once.
+        Windows and android are out, and macOS and iOS are coming soon. 
+      </p>
+      <p>The entire project was made, funded and maintained by myself, no team
+        or investors, so your support would mean a ton!
+      </p>
       <p>Got an idea or spotted a bug?
          <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20suggestion">Email me</a>
          — I'd love to hear it!</p>
-      <p class="note-sign">— Auzeo</p>
+      <p> — Auzeo</p>
     </div>
   </div>
 </section>
 
 <!-- ═══ FINAL ═══ -->
 <section class="final" id="get">
-  <img src="img/photos/dawn-1536.jpg"
-       srcset="img/photos/dawn-800.jpg 800w, img/photos/dawn-1536.jpg 1536w"
+  <img src="../img/photos/dawn-1536.jpg"
+       srcset="../img/photos/dawn-800.jpg 800w, ../img/photos/dawn-1536.jpg 1536w"
        sizes="100vw" width="1536" height="1024" loading="lazy"
        alt="Snow-capped peaks rising above a sea of cloud at sunrise">
   <div class="wrap">
@@ -1894,14 +1791,11 @@ themeBtn.addEventListener("click", function(){
 });
 
 /* ── the wheel — real app presets ───────────────────────────── */
-/* Exactly core.py's WHEEL_PRESETS -- the free half of the wheel, in the app's
-   own words. The half-hours arrived with 7.9.6: the list used to thin out
-   above an hour, which is the shape of a study timer rather than of a day. */
 var PRESETS = [
   ["10 sec",     10], ["1 min",    60], ["5 min",   300], ["10 min",  600],
   ["15 min",    900], ["20 min", 1200], ["25 min", 1500], ["30 min", 1800],
-  ["45 min",   2700], ["1 hour", 3600], ["1½ hours", 5400],
-  ["2 hours",  7200], ["2½ hours", 9000], ["3 hours", 10800]
+  ["45 min",   2700], ["1 hour", 3600], ["1½ hour", 5400],
+  ["2 hours",  7200], ["3 hours", 10800]
 ];
 var DEG = 15, RAD = 235, DEFAULT_IDX = 3;
 
@@ -1978,6 +1872,51 @@ function drop(){ if (drag){ drag = null; go(Math.round(target)); } }
 el.addEventListener("pointerup", drop);
 el.addEventListener("pointercancel", drop);
 draw();
+
+/* One-time wheel introduction, interrupted immediately by interaction. */
+if (!reduce) {
+  var introFrame = null, introDelay = null, introCancelled = false;
+  function cancelWheelIntro(){
+    introCancelled = true;
+    clearTimeout(introDelay);
+    if (introFrame !== null) {
+      cancelAnimationFrame(introFrame);
+      introFrame = null;
+      pos = target = Math.round(pos);
+      draw();
+    }
+  }
+  ["pointerdown", "focus", "wheel", "keydown"].forEach(function(type){
+    el.addEventListener(type, cancelWheelIntro, {capture:true, passive:true});
+  });
+  document.getElementById("demoStart").addEventListener("click", cancelWheelIntro, true);
+  function startWheelIntro(){
+    if (introCancelled) return;
+    introDelay = setTimeout(function(){
+      var bounds = el.getBoundingClientRect();
+      if (introCancelled || document.hidden || bounds.bottom <= 0 || bounds.top >= innerHeight) return;
+      var start = pos, end = Math.min(PRESETS.length - 1, start + 5), began = null;
+      var settled = Math.max(start, end - 1);
+      function animateIntro(time){
+        if (introCancelled) return;
+        if (began === null) began = time;
+        var elapsed = time - began;
+        // Scroll forward, hesitate for 250ms, then reconsider by one notch.
+        var returning = elapsed >= 1050;
+        var progress = returning ? Math.min(1, (elapsed - 1050) / 400)
+                                 : Math.min(1, elapsed / 800);
+        var eased = progress * progress * (3 - 2 * progress);
+        pos = target = returning ? end + (settled - end) * eased
+                                 : start + (end - start) * eased;
+        draw();
+        introFrame = elapsed < 1450 ? requestAnimationFrame(animateIntro) : null;
+      }
+      introFrame = requestAnimationFrame(animateIntro);
+    }, 350);
+  }
+  if (document.readyState === "complete") startWheelIntro();
+  else window.addEventListener("load", startWheelIntro, {once:true});
+}
 
 /* ── demo overlay ───────────────────────────────────────────── */
 var DEMO_SECS = 15;
@@ -2065,28 +2004,19 @@ var io = new IntersectionObserver(function(entries){
 }, {rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll(".rise").forEach(function(n){ io.observe(n); });
 
-
-/* ── the walking outline ───────────────────────────
-   The four use cases are one argument made four times, and a reader who stops
-   at the first card has only heard a quarter of it. The outline walks them so
-   the other three are seen to exist. Pointer wins: hovering parks the walk on
-   the card being read, and leaving hands it back. */
-(function(){
-  var cases = Array.prototype.slice.call(document.querySelectorAll(".cases .case"));
-  if (!cases.length || matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-  var at = 0, timer = null, held = false;
-  function light(i){
-    cases.forEach(function(c, n){ c.classList.toggle("lit", n === i); });
-  }
-  function step(){ if (!held){ light(at); at = (at + 1) % cases.length; } }
-  cases.forEach(function(c, n){
-    c.addEventListener("pointerenter", function(){ held = true; light(n); at = (n + 1) % cases.length; });
-    c.addEventListener("pointerleave", function(){ held = false; });
+if (!reduce) {
+  var rangeObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      en.target.classList.add("range-in");
+      rangeObserver.unobserve(en.target);
+    });
+  }, {threshold:.75, rootMargin:"0px 0px -5% 0px"});
+  document.querySelectorAll(".ck-track").forEach(function(track){
+    track.classList.add("range-ready");
+    rangeObserver.observe(track);
   });
-  whileVisible(cases[0].parentNode,
-    function(){ step(); timer = setInterval(step, 2000); },
-    function(){ clearInterval(timer); timer = null; });
-})();
+}
 
 
 /* ── the live figures ──────────────────────────────
@@ -2156,11 +2086,12 @@ if (!reduce) {
   }
   whileVisible(document.getElementById("liveNew"), function(){
     nbPaint();
-    nbTimer = setInterval(function(){
+    nbTimer = setTimeout(function advancePreset(){
       nbStep = (nbStep + 1) % NB.length;
       nbPaint();
-    }, 3400);
-  }, function(){ clearInterval(nbTimer); });
+      nbTimer = setTimeout(advancePreset, 2500);
+    }, 900);
+  }, function(){ clearTimeout(nbTimer); });
 
   /* the prompt, being answered wrongly, forever. Seven dots go in, Unlock is
      pressed, the field refuses, and it clears. The loop is the argument. */
@@ -2210,86 +2141,6 @@ Object.keys(links).forEach(function(id){
   if (n) spy.observe(n);
 });
 
-/* ── both wheels, turned by the page ──────────────────────────
-   The Windows drum and the phone drum run off one number, and that number is
-   how far the rig has crossed the viewport. Two devices landing on the same
-   duration at the same instant is the section's whole claim, so they are
-   literally the same variable rather than two animations timed to agree.
-
-   The values are real: every one of these is on the app's own wheel, taken
-   from core.py's WHEEL_PRESETS and PRO_PRESETS. It is a subset, because forty
-   four rows cannot be read going past — but nothing here is a duration the app
-   could not be set to.                                                      */
-var RIG = [
-  ["10 min",   "10 minutes"], ["30 min",  "30 minutes"], ["45 min", "45 minutes"],
-  ["1 hr",     "1 hour"],     ["1½ hr",  "1½ hours"],   ["2 hr",   "2 hours"],
-  ["3 hr",     "3 hours"],    ["4½ hr",  "4½ hours"],   ["6 hr",   "6 hours"],
-  ["7½ hr",   "7½ hours"],  ["9 hr",    "9 hours"],     ["12 hr",  "12 hours"],
-  ["18 hr",    "18 hours"],   ["24 hr",   "24 hours"]
-];
-(function(){
-  var rig = document.getElementById("devRig");
-  if (!rig) return;
-  var win = document.getElementById("rigWin"),
-      phone = document.getElementById("rigPhone"),
-      read = document.getElementById("rigRead");
-
-  /* Rows are absolutely placed off the centre line and moved by transform,
-     the way the app's own drum does it, so a turn is one composited property
-     and not a reflow of fourteen elements. */
-  function fill(drum, rowHeight){
-    var made = [];
-    RIG.forEach(function(v){
-      var s = document.createElement("span");
-      s.textContent = v[0];
-      s.style.marginTop = (-rowHeight / 2) + "px";
-      s.style.lineHeight = rowHeight + "px";
-      s.style.height = rowHeight + "px";
-      drum.appendChild(s);
-      made.push(s);
-    });
-    return {rows:made, h:rowHeight};
-  }
-  function turn(d, at){
-    for (var i = 0; i < d.rows.length; i++){
-      var off = i - at, near = Math.abs(off);
-      var s = d.rows[i];
-      s.style.transform = "translateY(" + (off * d.h) + "px) scale("
-        + (1 - Math.min(.34, near * .13)) + ")";
-      s.style.opacity = near > 2.6 ? 0 : String(1 - Math.min(.72, near * .3));
-      s.className = near < .5 ? "on" : "";
-    }
-  }
-
-  var dw = fill(win, 38), dp = fill(phone, 22), shown = -1;
-  function paint(at){
-    turn(dw, at); turn(dp, at);
-    var i = Math.max(0, Math.min(RIG.length - 1, Math.round(at)));
-    if (i !== shown){ shown = i; read.textContent = RIG[i][1]; }
-  }
-
-  if (reduce){ paint(3); return; }   // a sensible frozen frame, same as the rest
-
-  /* Progress: 0 when the rig's top reaches the bottom of the window, 1 when
-     its bottom leaves the top. Eased at both ends so the wheel settles on a
-     value as the section arrives rather than whipping past it. */
-  var queued = false;
-  function frame(){
-    queued = false;
-    var r = rig.getBoundingClientRect(), vh = innerHeight || 1;
-    var p = (vh - r.top) / (vh + r.height);
-    p = Math.max(0, Math.min(1, (p - .12) / .72));
-    paint(p * (RIG.length - 1));
-  }
-  addEventListener("scroll", function(){
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(frame);
-  }, {passive:true});
-  addEventListener("resize", frame, {passive:true});
-  frame();
-})();
-
 /* ── the nav tucks away going down, returns coming up ───────────
    Same behaviour as the live site. The pill is fixed now, so without this
    it would sit over the copy for the whole page.                        */
@@ -2304,6 +2155,18 @@ function paintNav(){
   navEl.classList.toggle("tucked", hide);
 }
 addEventListener("scroll", paintNav, {passive:true});
+
+/* The desktop and phone wheels share one scroll-driven duration. */
+var RIG = [["10 min","10 minutes"],["30 min","30 minutes"],["45 min","45 minutes"],["1 hr","1 hour"],["1½ hr","1½ hours"],["2 hr","2 hours"],["3 hr","3 hours"],["4½ hr","4½ hours"],["6 hr","6 hours"],["7½ hr","7½ hours"],["9 hr","9 hours"],["12 hr","12 hours"],["18 hr","18 hours"],["24 hr","24 hours"]];
+(function(){
+  var rig=document.getElementById("devRig"), win=document.getElementById("rigWin"), phone=document.getElementById("rigPhone"), read=document.getElementById("rigRead");
+  if(!rig||!win||!phone||!read)return;
+  function fill(d,h){var a=[];RIG.forEach(function(v){var s=document.createElement("span");s.textContent=v[0];s.style.marginTop=(-h/2)+"px";s.style.lineHeight=h+"px";s.style.height=h+"px";d.appendChild(s);a.push(s)});return {rows:a,h:h}}
+  function turn(d,at){d.rows.forEach(function(s,i){var o=i-at,n=Math.abs(o);s.style.transform="translateY("+(o*d.h)+"px) scale("+(1-Math.min(.34,n*.13))+")";s.style.opacity=n>2.6?0:String(1-Math.min(.72,n*.3));s.className=n<.5?"on":""})}
+  var dw=fill(win,38),dp=fill(phone,22),queued=false;
+  function frame(){queued=false;var r=rig.getBoundingClientRect(),p=((innerHeight-r.top)/(innerHeight+r.height)-.12)/.72;p=Math.max(0,Math.min(1,p));turn(dw,p*(RIG.length-1));turn(dp,p*(RIG.length-1));read.textContent=RIG[Math.round(p*(RIG.length-1))][1]}
+  addEventListener("scroll",function(){if(queued)return;queued=true;requestAnimationFrame(frame)},{passive:true});addEventListener("resize",frame,{passive:true});frame();
+})();
 })();
 </script>
 </body>
