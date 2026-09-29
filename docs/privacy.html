@@ -133,6 +133,11 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         with a random salt — never in plain text, and never uploaded.</li>
   </ul>
   <p>We can't read any of it. Deleting that folder deletes all of it.</p>
+  <p>That last one holds even if you add a recovery email to the Accountability
+     Lock. The password still never leaves your computer and we still cannot
+     read it or reset it. All a recovery email lets us do is send a link to
+     <em>you</em> and, when you open it, tell your own copy of the app that you
+     said yes — the app is what forgets the password, not us.</p>
 </section>
 
 <section>
@@ -156,9 +161,27 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       <td>To issue the licence, honour it once, and stop the same key being
           redeemed twice.</td>
     </tr>
+    <tr>
+      <td>An installation identifier — a random number, not anything about your
+          machine</td>
+      <td>With an account, or when you redeem a licence key</td>
+      <td>So a licence stays attached to the install that redeemed it, and so a
+          lock released on one computer is not released on every computer you
+          own. It tells us nothing about the device and is never shared.</td>
+    </tr>
+    <tr>
+      <td>An Accountability Lock recovery email, if you choose to add one, and
+          the record of any reset link sent to it</td>
+      <td>Only if you set one up</td>
+      <td>So that a forgotten lock password can be released by whoever holds
+          that inbox. It may be somebody else's address — that is the point of
+          it. It is used for nothing else, never shown to anyone using the app,
+          and removed when the account is deleted.</td>
+    </tr>
   </table></div>
-  <p>That is the complete list. No name, no address, no device identifier, no
-     usage statistics, no contents of your blocks.</p>
+  <p>That is the complete list. No name, no postal address, no usage statistics,
+     no contents of your blocks, and nothing that identifies your device beyond
+     the random number above.</p>
 </section>
 
 <section>
@@ -198,16 +221,29 @@ footer a:hover{color:var(--ink);text-decoration:underline}
   <p>Under UK GDPR we rely on <b>performance of a contract</b> for account and
      licence data — without it we cannot give you the Pro you paid for — and on
      <b>legal obligation</b> for the transaction records Paddle keeps for tax.</p>
-  <p>Account data is kept until you delete the account. Licence records are kept
-     while the licence is valid, so we can honour and support it. Ask us to
-     delete your account and we remove the email address and profile; a licence
-     key may be retained in a form that is not linked to you, so the same key
-     cannot be redeemed again.</p>
+  <p>Account data is kept until you delete the account, which you can do at any
+     time and without asking us: in the app, under Settings &rarr; Account
+     &rarr; Delete account, or on the
+     <a href="/delete-account.html">account deletion page</a>, which needs
+     nothing installed. Either route removes the email address, the password,
+     the profile, your synced schedules, the record of escapes you have spent
+     and any Google Play purchase records held against the account. It happens
+     immediately.</p>
+  <p>Two things outlive it. A licence key you bought is unlinked from you rather
+     than deleted, so what remains is a random string with nobody's name against
+     it &mdash; and so that you can redeem it again on a new account, because you
+     paid for it. Payment records held by Paddle, and the transaction
+     identifiers we keep so that one payment cannot be counted twice, have to be
+     kept for six years under UK tax law.</p>
 </section>
 
 <section>
   <h2>Your rights</h2>
-  <p>You can ask us to give you a copy of your data, correct it, delete it,
+  <p><b>Deleting your account needs no request at all.</b> Do it in the app,
+     under Settings &rarr; Account &rarr; Delete account, or on the
+     <a href="/delete-account.html">account deletion page</a>. It is immediate
+     and it is final.</p>
+  <p>You can also ask us to give you a copy of your data, correct it, delete it,
      restrict how we use it, or object to it — by emailing
      <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>. We will
      answer within 30 days, and will not charge you for it.</p>
@@ -244,6 +280,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <a href="/terms.html">Terms of service</a>
     <a href="/privacy.html">Privacy policy</a>
     <a href="/refunds.html">Refund policy</a>
+    <a href="/delete-account.html">Delete account</a>
     <a href="mailto:MrAuzeo@protonmail.com">Contact</a>
   </span>
 </div></footer>

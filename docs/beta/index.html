@@ -486,27 +486,81 @@ section[id],header[id]{scroll-margin-top:86px}
 @media(prefers-reduced-motion:reduce){.rig-drum span{transition:none}}
 
 /* ── pricing ─────────────────────────────────────────────────── */
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;
+  align-items:stretch}
 @media(max-width:1000px){.plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
 .plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   padding:clamp(22px,2.4vw,30px);display:flex;flex-direction:column}
-.plan--pro{border-color:var(--green)}
-/* the week pass is the cheapest way in, so it gets a card and not a footnote */
-.plan--week{border-color:color-mix(in srgb, var(--green) 45%, transparent);
-  background:color-mix(in srgb, var(--green) 5%, var(--card))}
+
+/* The recommended plan is inverted rather than outlined. --onyx already flips
+   with the theme, so this is a black card on the light page and a light card
+   on the dark one without a second rule. */
+.plan--pro{background:var(--onyx);color:var(--onyx-txt);border-color:var(--onyx);
+  box-shadow:0 34px 60px -34px rgba(0,0,0,.5)}
+.plan--pro .plan-tag,.plan--pro .plan-note,.plan--pro .plan-cost span:not(.cost-num),
+.plan--pro .plan-sub{color:color-mix(in srgb,var(--onyx-txt) 66%,transparent)}
+.plan--pro .btn{background:var(--onyx-txt);color:var(--onyx);border-color:var(--onyx-txt)}
+/* Specificity has to beat `.rise.in{transform:none}` or the lift is undone the
+   moment the card reveals itself. */
+@media(min-width:1001px){.plans .plan--pro.rise.in{transform:translateY(-16px)}}
+
 .plan-top{display:flex;align-items:center;justify-content:space-between;gap:10px;
-  flex-wrap:wrap}
+  flex-wrap:wrap;min-height:26px}
 .plan-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
   text-transform:uppercase;color:var(--faint);margin:0}
 .pop{background:var(--green-soft);color:var(--green-deep);font-size:11px;
   font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
 .pop--try{background:transparent;box-shadow:inset 0 0 0 1px var(--green)}
-.plan-cost{font-family:var(--display);font-weight:800;font-size:clamp(34px,2.9vw,42px);
-  line-height:1;margin:14px 0 6px;letter-spacing:-.03em}
+.plan-cost{font-family:var(--display);font-weight:800;font-size:clamp(36px,3.1vw,46px);
+  line-height:1;margin:16px 0 6px;letter-spacing:-.03em}
 .plan-cost span{font-size:15px;font-weight:600;color:var(--ash);letter-spacing:0}
-.plan-note{color:var(--ash);font-size:13.5px;margin:0 0 22px}
+/* The generic span rule above shrinks anything in the price line, and the
+   figure itself has to be in a span so the toggle can swap it. */
+.plan-cost .cost-num{font-size:inherit;font-weight:inherit;color:inherit;
+  letter-spacing:inherit}
+.plan-note{color:var(--ash);font-size:13.5px;margin:0 0 22px;min-height:20px}
 .plan-list{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px}
 .plan .btn{margin-top:auto;justify-content:center}
+
+/* ── the billing toggle ──────────────────────────────────────────────────── */
+.bill{display:flex;justify-content:center;margin:0 0 32px}
+.bill-set{display:inline-flex;align-items:center;gap:4px;padding:5px;
+  background:var(--card);border:1px solid var(--line);border-radius:999px}
+.bill-btn{appearance:none;border:0;background:transparent;cursor:pointer;
+  font:inherit;font-weight:700;font-size:13.5px;color:var(--ash);
+  padding:10px 20px;border-radius:999px;display:inline-flex;align-items:center;
+  gap:9px;transition:background .2s ease,color .2s ease}
+.bill-btn:hover{color:var(--ink)}
+.bill-btn[aria-pressed="true"]{background:var(--onyx);color:var(--onyx-txt)}
+.bill-save{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;font-weight:700;padding:4px 8px;border-radius:999px;
+  background:var(--green-soft);color:var(--green-deep)}
+.bill-btn[aria-pressed="true"] .bill-save{background:var(--green);color:#06260f}
+
+/* ── the two products that are not a plan ────────────────────────────────── */
+.extras{margin:20px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px}
+@media(max-width:1000px){.extras{grid-template-columns:1fr;max-width:560px;margin:20px auto 0}}
+.extra{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 26px;display:flex;align-items:center;justify-content:space-between;
+  gap:18px;flex-wrap:wrap}
+.extra h3{margin:0 0 5px;font-size:16.5px;letter-spacing:-.01em}
+.extra p{margin:0;color:var(--ash);font-size:13.5px;max-width:42ch}
+.extra-cost{font-family:var(--display);font-weight:800;font-size:26px;
+  letter-spacing:-.02em;white-space:nowrap}
+
+/* ── what is true of every plan ──────────────────────────────────────────── */
+.assure{margin:26px 0 0;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:10px 26px;padding:16px 20px;background:var(--card);border:1px solid var(--line);
+  border-radius:999px}
+@media(max-width:700px){.assure{border-radius:var(--r)}}
+.assure span{position:relative;padding-left:24px;color:var(--ash);font-size:13.5px}
+.assure span::before{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;
+  border-radius:50%;background:var(--green-soft)
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314803d' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/10px no-repeat}
+:root[data-theme="dark"] .assure span::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E")}
+.assure b{color:var(--ink);font-weight:700}
 .versus{margin:0 0 34px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);overflow:hidden}
 .versus table{width:100%;border-collapse:collapse;font-size:14px}.versus th,.versus td{padding:13px 18px;text-align:left;border-bottom:1px solid var(--line)}
 .versus thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:700;background:var(--sand)}
@@ -940,7 +994,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         mid-scroll, whenever you need it, or schedule. <b>No clicking, no alt-tabbing,
         no negotiating your way back in</b> before then.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
           Download for Windows
         </a>
@@ -1326,7 +1380,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   <div class="wrap">
     <div class="two grid">
       <div class="rise">
-        <p class="eyebrow">Accountability Lock · free in every copy</p>
+        <p class="eyebrow">Accountability Lock · part of Pro</p>
         <h2 class="big">Hand the key to somebody else.</h2>
         <p class="lede" style="margin-top:18px">A schedule only lasts until the person it’s meant to stop opens Settings and deletes it. So set a password, and let a parent, a partner, a friend — or your own steadier self, twenty minutes ago — be the one who holds it.</p>
         <ul class="holds">
@@ -1335,6 +1389,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <li>The All Block can't be closed or exited</li>
           <li>It rearms itself at every restart</li>
           <li>Turning it back <em>on</em> never needs the password</li>
+          <li>Forgotten it? A link to the holder's own email releases it</li>
         </ul>
         <p class="lede" style="margin-top:24px;font-size:14px">One thing it deliberately leaves alone: the monthly emergency unlock. A lock with no exit at all is how somebody ends up unable to answer a phone call — so the way out stays limited and intentional, rather than vanishing entirely.</p>
       </div>
@@ -1396,7 +1451,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           </div>
         </div>
         <div class="cta-row">
-          <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Download for Windows</a>
+          <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">Download for Windows</a>
           <a class="btn btn--ghost" href="https://play.google.com/store/apps/details?id=com.theallblock.companion">Get it on Google Play</a>
         </div>
       </div>
@@ -1469,72 +1524,114 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Pricing</p>
-      <h2 class="big">Pay once, or not at all.</h2>
-      <p>Manual sessions, the schedule and the Accountability Lock are free forever —
-        that's the promise the app is shared on. Pro only lifts the caps on how long and
-        how many.</p>
+      <h2 class="big">Free to use. Pro when you want more.</h2>
+      <p>Manual sessions from ten seconds to three hours are free forever — that is the
+        promise the app is shared on, and it is not going anywhere. There is no trial to
+        run out and no card to enter: Pro is there when you want more.</p>
     </div>
 
-    <div class="versus rise" id="vs">
+    <div class="versus rise">
       <table><thead><tr><th scope="col">Blocker</th><th scope="col">Subscription</th><th scope="col">Pay once</th></tr></thead>
         <tbody>
           <tr><td>Opal</td><td>$99.99 a year</td><td>$399 · about £300</td></tr>
           <tr><td>Freedom</td><td>$39.96 a year</td><td>$199 · about £150</td></tr>
           <tr><td>Jomo</td><td>$29.99 a year</td><td>$99.99 · about £75</td></tr>
           <tr><td>Cold Turkey Blocker Pro</td><td>None</td><td>$39 · about £30</td></tr>
-          <tr class="us"><td>The All Block Pro</td><td>None, ever</td><td>£12.99</td></tr>
+          <tr class="us"><td>The All Block Pro</td><td>£34.99 a year</td><td>£49.99</td></tr>
         </tbody>
       </table>
-      <p class="versus-foot">Prices as published by each company in September 2026, converted at the rate that month. Every one has a free tier too — so does this.</p>
+      <p class="versus-foot">Prices as published by each company in September 2026, converted at
+        the rate that month. The last column is what each one charges to stop paying them, where
+        they offer that at all. Every one of them has a free tier too — so does this, and this
+        one gives you the paid tier for the first week as well.</p>
+    </div>
+
+    <div class="bill rise">
+      <div class="bill-set" role="group" aria-label="Billing period">
+        <button type="button" class="bill-btn" data-cycle="month" aria-pressed="false">Monthly</button>
+        <button type="button" class="bill-btn" data-cycle="year" aria-pressed="true">Yearly <span class="bill-save">Save 64%</span></button>
+      </div>
     </div>
 
     <div class="plans grid">
       <div class="plan rise">
-        <div class="plan-top"><p class="plan-tag">Standard</p></div>
-        <div class="plan-cost">Free</div>
+        <div class="plan-top"><p class="plan-tag">Free</p></div>
+        <div class="plan-cost"><span class="cost-num">£0</span><span> always</span></div>
         <p class="plan-note">No account, no expiry, no nag screen.</p>
         <ul class="plan-list">
           <li>Manual sessions, <b>10 seconds to 3 hours</b></li>
           <li><b>One</b> scheduled block</li>
           <li>Scheduled blocks up to <b>3 hours</b></li>
-          <li><b>Accountability Lock</b> — a password somebody else holds</li>
           <li><b>One</b> emergency unlock a month</li>
           <li>Restart-safe, with full session history</li>
+          <li><b>No account</b> and no card needed</li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Download The All Block</a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">Download The All Block</a>
       </div>
 
       <div class="plan plan--pro rise">
-        <div class="plan-top"><p class="plan-tag">Pro · lifetime</p><span class="pop">Most popular</span></div>
-        <div class="plan-cost">£12.99<span> once</span></div>
-        <p class="plan-note">One payment. Not a subscription, not a rental.</p>
+        <div class="plan-top"><p class="plan-tag">Pro</p><span class="pop">Most popular</span></div>
+        <div class="plan-cost">
+          <span class="cost-num bill-m" hidden>£7.99</span><span class="bill-m" hidden> a month</span>
+          <span class="cost-num bill-y">£2.99</span><span class="bill-y"> a month</span>
+        </div>
+        <p class="plan-note"><span class="bill-m" hidden>Billed monthly. Cancel whenever you like.</span><span class="bill-y">£34.99 a year, billed once. Cancel whenever you like.</span></p>
         <ul class="plan-list">
-          <li>Everything in Standard</li>
-          <li>Sessions of <b>4, 6, 8, 12 and 24 hours</b></li>
+          <li>Everything in Free</li>
+          <li>Sessions up to <b>24 hours</b>, in half-hour steps</li>
           <li><b>Unlimited</b> scheduled blocks</li>
           <li>Scheduled blocks up to <b>24 hours</b></li>
+          <li><b>Accountability Lock</b> — a password somebody else holds</li>
           <li><b>Three</b> emergency unlocks a month</li>
-          <li>Optional account keeps Pro across reinstalls</li>
+          <li>Schedules sync with the Android app</li>
         </ul>
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Get it in the app</a>
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">Get it in the app</a>
       </div>
 
-      <div class="plan plan--week rise">
-        <div class="plan-top"><p class="plan-tag">Pro · 7 days</p><span class="pop pop--try">Try it first</span></div>
-        <div class="plan-cost">£2.99<span> one week</span></div>
-        <p class="plan-note">One payment. It ends on its own — nothing renews.</p>
+      <div class="plan rise">
+        <div class="plan-top"><p class="plan-tag">Lifetime</p><span class="pop pop--try">Pay once</span></div>
+        <div class="plan-cost"><span class="cost-num">£49.99</span><span> once</span></div>
+        <p class="plan-note">Rent nothing. Keep it, and every version after this one.</p>
         <ul class="plan-list">
-          <li><b>Everything in Pro</b>, for seven days</li>
-          <li>Sessions of <b>4, 6, 8, 12 and 24 hours</b></li>
-          <li><b>Unlimited</b> scheduled blocks, up to <b>24 hours</b></li>
-          <li>Nothing to cancel when it runs out</li>
-          <li>Works on <b>Windows and Android</b></li>
+          <li><b>Everything in Pro</b>, permanently</li>
+          <li>One payment — <b>nothing renews</b></li>
+          <li>Every future update included</li>
+          <li>Less than seven months of monthly Pro</li>
+          <li>Optional account keeps it across reinstalls</li>
         </ul>
-        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">Get it in the app</a>
+        <a class="btn btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">Get it in the app</a>
       </div>
     </div>
 
-    <p class="price-foot rise">Buy Pro directly in The All Block — select it, checkout in browser, paid via Paddle. 14-day full refund. One-time £0.99 "Escape" unlock never expires.</p>
+    <div class="extras rise">
+      <div class="extra">
+        <div>
+          <h3>Seven days of Pro</h3>
+          <p>An exam, a deadline, a weekend. It ends on its own and there is nothing to cancel.</p>
+        </div>
+        <div class="extra-cost">£1.99</div>
+      </div>
+      <div class="extra">
+        <div>
+          <h3>A single Escape</h3>
+          <p>One more emergency unlock this month, without moving to Pro. It never expires.</p>
+        </div>
+        <div class="extra-cost">£0.99</div>
+      </div>
+    </div>
+
+    <div class="assure rise">
+      <span><b>Free forever</b>, with no account</span>
+      <span>No card needed to start</span>
+      <span>Cancel at any time</span>
+      <span><b>14-day refund</b>, no reason needed</span>
+    </div>
+
+    <p class="price-foot rise">Pro is bought inside The All Block — open the app, press
+      <b>Pro</b>, and checkout opens in your browser. Monthly and yearly Pro renew until you
+      cancel; Lifetime, the week and single unlocks are paid once and renew nothing. Payments
+      are handled by Paddle, the merchant of record. See the
+      <a href="/refunds.html">refund policy</a>.</p>
   </div>
 </section>
 
@@ -1582,9 +1679,11 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         </details>
         <details class="faq-item">
           <summary>Is there a subscription?</summary>
-          <div class="faq-a"><p>No. Manual sessions and the Accountability Lock are free
-            forever, and Pro is a single <b>£12.99</b> payment that never renews. There's
-            nothing to cancel.</p></div>
+          <div class="faq-a"><p>There is one, and you never have to take it. Manual sessions
+            of up to three hours are free forever. Pro is <b>£7.99 a month</b> or
+            <b>£34.99 a year</b>, and if you would rather not rent anything,
+            <b>£49.99 buys it permanently</b> — one payment, every future version included.
+            None of it is needed to start: the free tier asks for no card at all.</p></div>
         </details>
         <details class="faq-item">
           <summary>Is the Android app available?</summary>
@@ -1597,6 +1696,14 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <div class="faq-a"><p>On your machine. Session history, streaks and the Accountability
             Lock password never leave it. An account is optional — it exists so Pro survives a
             reinstall, and so schedules can reach the Android companion.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>What if I forget the Accountability Lock password?</summary>
+          <div class="faq-a"><p>When you set the lock, you can add one email address for exactly
+            this. It can be somebody else's — that is rather the point. We email a link there and
+            nowhere else, and the lock comes off when that link is opened. The password itself is
+            never sent to us and cannot be read or reset by us, so without that address the only
+            way out is to reinstall.</p></div>
         </details>
         <details class="faq-item">
           <summary>My touchpad feels off after restarting during a break.</summary>
@@ -1701,7 +1808,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     <p class="sub rise">One file, one wheel, and a computer that finally knows how to say
       no. Free to download, nothing to cancel.</p>
     <div class="cta-row rise">
-      <a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.0.6.exe">
+      <a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.2.2.exe">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
         Download for Windows
       </a>
@@ -1709,7 +1816,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     </div>
     <div class="final-specs rise">
       <span>Windows 10 / 11</span><span>Single .exe</span>
-      <span>No install</span><span>Free — Pro is £12.99 once</span>
+      <span>No install</span><span>Free — Pro from £2.99 a month</span>
     </div>
   </div>
 </section>
@@ -1728,7 +1835,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           The All Block
         </a>
         <p class="foot-tag">Built for whatever you can't put down.</p>
-        <p class="foot-meta">Windows 10 &amp; 11 · v8.0.6 · single .exe</p>
+        <p class="foot-meta">Windows 10 &amp; 11 · v8.2.2 · single .exe</p>
         <div class="foot-social">
           <a href="https://github.com/Auzeo/all-block" aria-label="The All Block on GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
@@ -1757,6 +1864,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         <a href="/terms.html">Terms of service</a>
         <a href="/privacy.html">Privacy policy</a>
         <a href="/refunds.html">Refund policy</a>
+        <a href="/delete-account.html">Delete account</a>
       </div>
     </div>
     <div class="foot-base">
@@ -1773,6 +1881,23 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 (function(){
 "use strict";
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ── billing toggle ─────────────────────────────────── */
+/* Both prices are in the markup with one set hidden, so the page is right
+   before this runs and right if it never does. */
+var billSet = document.querySelector(".bill-set");
+if (billSet) billSet.addEventListener("click", function(e){
+  var hit = e.target.closest(".bill-btn");
+  if (!hit) return;
+  var yearly = hit.getAttribute("data-cycle") === "year";
+  Array.prototype.forEach.call(billSet.querySelectorAll(".bill-btn"), function(b){
+    b.setAttribute("aria-pressed",
+      String((b.getAttribute("data-cycle") === "year") === yearly));
+  });
+  var pricing = document.getElementById("pricing");
+  Array.prototype.forEach.call(pricing.querySelectorAll(".bill-m"), function(n){ n.hidden = yearly; });
+  Array.prototype.forEach.call(pricing.querySelectorAll(".bill-y"), function(n){ n.hidden = !yearly; });
+});
 
 /* ── theme ──────────────────────────────────────────────────── */
 var themeBtn = document.getElementById("themeToggle");

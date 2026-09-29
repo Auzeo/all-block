@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accountability Lock reset — The All Block</title>
+<meta name="description" content="Open the link we emailed you to take an Accountability Lock off a device, or to change where reset links are sent.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"></noscript>
+<style>
+/* Same palette and type as the home page and the legal pages. This is a door in
+   the product, not a form bolted on the side of it. */
+:root{
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
+  --lock:#1f9d55; --lock-txt:#177a41; --red:#c0392b;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding-inline:var(--gut)}
+a{color:var(--lock-txt)}
+a:hover{color:var(--ink)}
+
+.bar{border-bottom:1px solid var(--line);background:var(--card)}
+.bar .wrap{display:flex;align-items:center;gap:14px;
+  padding-block:14px;max-width:1180px}
+.bar a.home{display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}
+.mark{width:28px;height:28px;flex:none;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center}
+.mark svg{width:14px;height:14px}
+.bar .spacer{flex:1}
+.bar .back{text-decoration:none;color:var(--ash);font-size:14px;font-weight:500}
+.bar .back:hover{color:var(--ink)}
+
+header.doc{padding:clamp(48px,8vw,88px) 0 8px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ash);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:800;line-height:1.02;margin:0;
+  font-variation-settings:"wdth" 112;letter-spacing:-.02em;
+  font-size:clamp(32px,6vw,48px)}
+.lede{color:var(--ash);font-size:17.5px;margin:18px 0 0;max-width:58ch}
+main{padding-bottom:clamp(60px,10vw,110px)}
+section{padding-top:32px}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(20px,3vw,24px);
+  line-height:1.15;font-variation-settings:"wdth" 112;letter-spacing:-.015em;
+  margin:0 0 12px}
+p{margin:0 0 14px}
+ul{margin:0 0 14px;padding-left:20px}
+li{margin-bottom:8px}
+strong,b{font-weight:700}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:clamp(22px,4vw,30px)}
+.panel p:last-of-type{margin-bottom:0}
+button.go{width:100%;padding:14px 18px;border:0;border-radius:12px;
+  background:var(--lock);color:#fff;font:inherit;font-weight:700;font-size:16px;
+  cursor:pointer;margin-top:18px}
+button.go:hover{background:#188345}
+button.go:disabled{opacity:.45;cursor:default}
+.msg{margin:16px 0 0;font-size:14.5px;min-height:1.2em}
+.msg.bad{color:var(--red);font-weight:600}
+.msg.good{color:var(--lock-txt);font-weight:600}
+.quiet{color:var(--ash);font-size:14.5px}
+
+footer{border-top:1px solid var(--line);background:var(--card);
+  padding:34px 0;font-size:13.5px;color:var(--ash)}
+footer .in{display:flex;flex-wrap:wrap;gap:10px 26px;
+  align-items:center;justify-content:space-between;max-width:1180px}
+footer a{color:var(--ash);text-decoration:none}
+footer a:hover{color:var(--ink);text-decoration:underline}
+.legal-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="home" href="/">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.2 17.8L17.8 6.2"/></svg></span>
+    The All Block
+  </a>
+  <span class="spacer"></span>
+  <a class="back" href="/">&larr; Back to the site</a>
+</div></div>
+
+<main class="wrap">
+<header class="doc">
+  <p class="eyebrow">Accountability Lock</p>
+  <h1 id="title">Checking that link</h1>
+  <p class="lede" id="lede">One moment.</p>
+</header>
+
+<section>
+  <div class="panel" id="panel" hidden>
+    <p id="detail"></p>
+    <p class="quiet" id="detail2"></p>
+    <button class="go" id="go" type="button">Confirm</button>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<section id="about" hidden>
+  <h2>Why this page exists</h2>
+  <p>The Accountability Lock is a password that hands the controls of a device
+     to somebody else. It is not stored on our servers and it is not something
+     we can read, so there is nothing here to look up and nothing to email
+     back.</p>
+  <p>What there is, if it was set up, is one address that reset links are sent
+     to. Opening the link on this page is the whole of the proof: it says that
+     whoever holds that inbox agrees to the lock coming off. Nobody sitting at
+     the locked device can do that for themselves, which is the point of having
+     handed the password over in the first place.</p>
+  <p>Taking the lock off changes nothing else. Schedules, history and any block
+     already running all stay exactly as they were.</p>
+</section>
+</main>
+
+<footer><div class="wrap in">
+  <span>© 2026 Auzeo · All rights reserved</span>
+  <span class="legal-links">
+    <a href="/#pricing">Pricing</a>
+    <a href="/terms.html">Terms of service</a>
+    <a href="/privacy.html">Privacy policy</a>
+    <a href="/refunds.html">Refund policy</a>
+    <a href="/delete-account.html">Delete account</a>
+    <a href="mailto:MrAuzeo@protonmail.com">Contact</a>
+  </span>
+</div></footer>
+
+<script>
+/* The same project the apps talk to. The key below is the public anon key: it
+   identifies the project, not a person. The token in the address bar is what
+   authorises this, and only its SHA-256 is stored, so a copy of the database
+   would not yield a working link. */
+var SUPABASE = "https://jkssypznppzqmdndmssz.supabase.co";
+var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imprc3N5cHpucHB6cW1kbmRtc3N6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMDcwNjYsImV4cCI6MjEwMjc4MzA2Nn0.ujK9-FfekXhQ_6F2nep47u4K5KU2_Pwyax3Xww-YMMw";
+
+var token = new URLSearchParams(location.search).get("t") || "";
+var title = document.getElementById("title"),
+    lede = document.getElementById("lede"),
+    panel = document.getElementById("panel"),
+    about = document.getElementById("about"),
+    detail = document.getElementById("detail"),
+    detail2 = document.getElementById("detail2"),
+    go = document.getElementById("go"),
+    msg = document.getElementById("msg");
+
+function say(text, kind) {
+  msg.textContent = text;
+  msg.className = "msg" + (kind ? " " + kind : "");
+}
+
+function dead(heading, line) {
+  title.textContent = heading;
+  lede.textContent = line;
+  panel.hidden = true;
+  about.hidden = false;
+}
+
+function call(action, body) {
+  return fetch(SUPABASE + "/functions/v1/guard-reset", {
+    method: "POST",
+    headers: { "apikey": ANON, "Authorization": "Bearer " + ANON,
+               "Content-Type": "application/json" },
+    body: JSON.stringify(Object.assign({ action: action, token: token }, body || {}))
+  }).then(function (reply) {
+    return reply.json().catch(function () { return {}; });
+  });
+}
+
+if (!token) {
+  dead("That link is incomplete",
+       "Open the link from the email itself rather than typing this address in, "
+     + "so that the part after the question mark comes with it.");
+} else {
+  call("check").then(function (result) {
+    if (!result.ok) {
+      dead("That link no longer works",
+           result.error || "Ask for a new one from the app.");
+      return;
+    }
+    about.hidden = false;
+    panel.hidden = false;
+    if (result.kind === "change_email") {
+      title.textContent = "Change where reset links go";
+      lede.textContent = "Somebody has asked to send future Accountability Lock "
+                       + "reset links to a different address.";
+      detail.textContent = result.new_email
+        ? "From now on they would go to " + result.new_email + " instead of here."
+        : "Reset links would stop being sent anywhere at all, which means a "
+        + "forgotten password could only be cleared by reinstalling.";
+      detail2.textContent = "If you did not ask for this, close this page. "
+                          + "Nothing changes until you confirm.";
+      go.textContent = "Change the address";
+    } else {
+      title.textContent = "Release the Accountability Lock";
+      lede.textContent = "Somebody has forgotten the password on a device signed "
+                       + "in to this All Block account.";
+      detail.textContent = "Confirming removes the password from that device. "
+                         + "Schedules, history and any block already running all "
+                         + "stay exactly as they are.";
+      detail2.textContent = "If you did not expect this, close this page. The "
+                          + "lock stays on until you confirm.";
+      go.textContent = "Release the lock";
+    }
+  }).catch(function () {
+    dead("Couldn't check that link",
+         "Something went wrong reaching our servers. Try the link again in a "
+       + "few minutes.");
+  });
+}
+
+go.addEventListener("click", function () {
+  go.disabled = true;
+  say("Confirming…");
+  call("approve").then(function (result) {
+    if (!result.ok) {
+      say(result.error || "Something went wrong. Try the link again.", "bad");
+      go.disabled = false;
+      return;
+    }
+    go.hidden = true;
+    detail2.textContent = "";
+    if (result.kind === "change_email") {
+      detail.textContent = "Done. Reset links will go to the new address from now on.";
+    } else {
+      detail.textContent = "Done. The lock comes off that device within a few "
+                         + "seconds, as long as The All Block is open on it. If it "
+                         + "is closed, it will be off the next time it starts.";
+    }
+    say("Confirmed.", "good");
+  }).catch(function () {
+    say("Couldn't reach the server. Try the link again in a few minutes.", "bad");
+    go.disabled = false;
+  });
+});
+</script>
+</body>
+</html>

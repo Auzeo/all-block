@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete your account — The All Block</title>
+<meta name="description" content="Delete your The All Block account and everything attached to it. Sign in here and it is done straight away — no reinstall, no email thread, no waiting.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://theallblock.com/delete-account.html">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/img/mark.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"></noscript>
+<style>
+/* Same palette and type as the home page and the legal pages — this belongs to
+   the site, not a form bolted on to satisfy a store requirement. */
+:root{
+  --paper:#fafafa; --card:#ffffff; --sand:#f2f0ec;
+  --ink:#18181a; --ash:#6c6c74; --line:#e5e5ea;
+  --lock:#1f9d55; --lock-txt:#177a41; --red:#c0392b;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding-inline:var(--gut)}
+a{color:var(--lock-txt)}
+a:hover{color:var(--ink)}
+
+/* ── top bar: a way back, nothing more ─────────────────────────────── */
+.bar{border-bottom:1px solid var(--line);background:var(--card)}
+.bar .wrap{display:flex;align-items:center;gap:14px;
+  padding-block:14px;max-width:1180px}
+.bar a.home{display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}
+.mark{width:28px;height:28px;flex:none;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center}
+.mark svg{width:14px;height:14px}
+.bar .spacer{flex:1}
+.bar .back{text-decoration:none;color:var(--ash);font-size:14px;font-weight:500}
+.bar .back:hover{color:var(--ink)}
+
+/* ── the document ──────────────────────────────────────────────────── */
+header.doc{padding:clamp(48px,8vw,88px) 0 8px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ash);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:800;line-height:.98;margin:0;
+  font-variation-settings:"wdth" 112;letter-spacing:-.02em;
+  font-size:clamp(34px,6vw,54px)}
+.lede{color:var(--ash);font-size:17.5px;margin:18px 0 0;max-width:60ch}
+main{padding-bottom:clamp(60px,10vw,110px)}
+section{padding-top:38px}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(21px,3vw,26px);
+  line-height:1.15;font-variation-settings:"wdth" 112;letter-spacing:-.015em;
+  margin:0 0 12px}
+p{margin:0 0 14px}
+ul{margin:0 0 14px;padding-left:20px}
+li{margin-bottom:8px}
+strong,b{font-weight:700}
+code{font-family:var(--mono);font-size:.92em;background:var(--sand);
+  padding:1px 5px;border-radius:5px}
+.callout{background:var(--sand);border:1px solid var(--line);border-radius:16px;
+  padding:22px 24px;margin:22px 0}
+.callout p:last-child{margin-bottom:0}
+
+/* ── the form ──────────────────────────────────────────────────────── */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:clamp(22px,4vw,30px)}
+.field{margin:0 0 16px}
+.field label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
+.field input{width:100%;padding:12px 14px;border:1px solid var(--line);
+  border-radius:11px;font:inherit;font-size:16px;
+  background:var(--paper);color:var(--ink)}
+.field input:focus{outline:2px solid var(--lock);outline-offset:1px;
+  border-color:var(--lock)}
+.agree{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;
+  color:var(--ash);margin:0 0 18px;line-height:1.55}
+.agree input{margin-top:5px;flex:none;width:17px;height:17px;accent-color:var(--red)}
+button.go{width:100%;padding:14px 18px;border:0;border-radius:12px;
+  background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:16px;
+  cursor:pointer}
+button.go:hover{background:#a5301f}
+button.go:disabled{opacity:.45;cursor:default}
+.msg{margin:16px 0 0;font-size:14.5px;min-height:1.2em}
+.msg.bad{color:var(--red);font-weight:600}
+.msg.good{color:var(--lock-txt);font-weight:600}
+
+/* ── footer, mirroring the home page's ─────────────────────────────── */
+footer{border-top:1px solid var(--line);background:var(--card);
+  padding:34px 0;font-size:13.5px;color:var(--ash)}
+footer .in{display:flex;flex-wrap:wrap;gap:10px 26px;
+  align-items:center;justify-content:space-between;max-width:1180px}
+footer a{color:var(--ash);text-decoration:none}
+footer a:hover{color:var(--ink);text-decoration:underline}
+.legal-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="home" href="/">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.2 17.8L17.8 6.2"/></svg></span>
+    The All Block
+  </a>
+  <span class="spacer"></span>
+  <a class="back" href="/">&larr; Back to the site</a>
+</div></div>
+
+<main class="wrap">
+<header class="doc">
+  <p class="eyebrow">Your account</p>
+  <h1>Delete your account</h1>
+  <p class="lede">This deletes your The All Block account and everything attached
+     to it. It happens immediately, it needs nothing installed, and there is
+     nobody to ask first.</p>
+</header>
+
+<section>
+  <div class="callout">
+    <p>The apps can do it too, if you have one to hand. <b>Windows:</b>
+       Settings, then Account, then Delete account. <b>Android:</b> Settings,
+       then the Account section at the bottom, then Delete account. This page is
+       for everyone else.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What gets deleted</h2>
+  <ul>
+    <li>your email address and password;</li>
+    <li>your Pro status, subscription dates and emergency-escape balance;</li>
+    <li>schedules you have synced between your computer and your phone;</li>
+    <li>the record of which escapes you have spent;</li>
+    <li>any Google Play purchase records held against the account.</li>
+  </ul>
+  <p>Deleting the account does not touch what is on your own devices. Your
+     schedules, session history and Accountability Lock password never left
+     them in the first place, and they stay where they are. To remove those as
+     well, uninstall the app — on Windows, also delete the <code>.allblock</code>
+     folder in your user profile.</p>
+</section>
+
+<section>
+  <h2>What we keep, and why</h2>
+  <ul>
+    <li><b>Your licence key</b>, if you bought one — unlinked from you first, so
+        what remains is a random string and whether it was paid for, with
+        nobody's name against it. It stays because it is still yours: enter it
+        again on a new account and your Pro comes back. Deleting it would be
+        deleting something you paid for.</li>
+    <li><b>Payment records</b> held by Paddle, our payment processor, and the
+        transaction identifiers we keep so that one payment cannot be counted
+        twice. UK tax law requires these to be kept for six years, so we cannot
+        remove them on request.</li>
+  </ul>
+  <p>The full picture is in the <a href="/privacy.html">privacy policy</a>.</p>
+</section>
+
+<section>
+  <h2>Delete it now</h2>
+  <p>Sign in with the account you want removed. This cannot be undone.</p>
+  <div class="panel">
+    <form id="form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" spellcheck="false" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </div>
+      <label class="agree">
+        <input id="agree" type="checkbox">
+        <span>I understand that my account and the data listed above will be
+              deleted permanently, and that this cannot be undone.</span>
+      </label>
+      <button class="go" id="go" type="submit" disabled>Delete my account</button>
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section>
+  <h2>If you cannot sign in</h2>
+  <p>Email <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>
+     from the address on the account and ask for it to be deleted. We will do it
+     and confirm, within 30 days and usually much sooner. You do not have to
+     give a reason.</p>
+  <p>Forgotten the password? <a href="/reset.html">Reset it</a>, then come back
+     here.</p>
+</section>
+</main>
+
+<footer><div class="wrap in">
+  <span>© 2026 Auzeo · All rights reserved</span>
+  <span class="legal-links">
+    <a href="/#pricing">Pricing</a>
+    <a href="/terms.html">Terms of service</a>
+    <a href="/privacy.html">Privacy policy</a>
+    <a href="/refunds.html">Refund policy</a>
+    <a href="/delete-account.html">Delete account</a>
+    <a href="mailto:MrAuzeo@protonmail.com">Contact</a>
+  </span>
+</div></footer>
+
+<script>
+/* The same project the apps talk to. The key below is the public anon key: it
+   identifies the project, not a person, and row-level security is what actually
+   guards the data. The deletion itself runs inside the delete-account edge
+   function, under a service role this page never sees. */
+var SUPABASE = "https://jkssypznppzqmdndmssz.supabase.co";
+var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imprc3N5cHpucHB6cW1kbmRtc3N6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMDcwNjYsImV4cCI6MjEwMjc4MzA2Nn0.ujK9-FfekXhQ_6F2nep47u4K5KU2_Pwyax3Xww-YMMw";
+
+var form = document.getElementById("form"),
+    agree = document.getElementById("agree"),
+    go = document.getElementById("go"),
+    msg = document.getElementById("msg");
+
+agree.addEventListener("change", function () { go.disabled = !agree.checked; });
+
+function say(text, kind) {
+  msg.textContent = text;
+  msg.className = "msg" + (kind ? " " + kind : "");
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  if (!agree.checked) return;
+  var email = document.getElementById("email").value.trim(),
+      password = document.getElementById("password").value;
+  if (!email || !password) { say("Enter your email and password.", "bad"); return; }
+
+  go.disabled = true;
+  say("Signing in…");
+
+  fetch(SUPABASE + "/auth/v1/token?grant_type=password", {
+    method: "POST",
+    headers: { "apikey": ANON, "Content-Type": "application/json" },
+    body: JSON.stringify({ email: email, password: password })
+  }).then(function (reply) {
+    if (!reply.ok) throw new Error("That email and password did not match an account.");
+    return reply.json();
+  }).then(function (session) {
+    say("Deleting…");
+    return fetch(SUPABASE + "/functions/v1/delete-account", {
+      method: "POST",
+      headers: { "apikey": ANON, "Authorization": "Bearer " + session.access_token,
+                 "Content-Type": "application/json" },
+      body: "{}"
+    });
+  }).then(function (reply) {
+    return reply.json().catch(function () { return {}; }).then(function (result) {
+      if (!reply.ok || !result.ok) {
+        throw new Error(result.error || "Something went wrong. Try again, or email us.");
+      }
+    });
+  }).then(function () {
+    form.innerHTML = "";
+    form.appendChild(msg);
+    say("Your account has been deleted. Nothing of it remains except the "
+      + "unlinked licence key and the payment records described above.", "good");
+  }).catch(function (error) {
+    say(error && error.message ? error.message
+        : "Couldn't reach the server. Check your connection and try again.", "bad");
+    go.disabled = false;
+  });
+});
+</script>
+</body>
+</html>
