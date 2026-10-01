@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy policy — The All Block</title>
-<meta name="description" content="The All Block has no analytics and no telemetry. Sessions, schedules and your lock password stay on your computer. The only data we hold is an email address, and only if you make an account.">
+<meta name="description" content="The All Block has no analytics and no telemetry. Sessions and your lock password stay on your device. Without an account nothing leaves it; with one, we hold your email address, your plan and your schedules.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://theallblock.com/privacy.html">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
@@ -105,39 +105,57 @@ footer a:hover{color:var(--ink);text-decoration:underline}
   <h1>Privacy policy</h1>
   <p class="lede">The All Block works without an account and sends nothing anywhere
      until you ask it to. This page says exactly what that means.</p>
-  <p class="stamp">Last updated 20 August 2026</p>
+  <p class="stamp">Last updated 1 October 2026</p>
 </header>
 
 <section>
   <h2>The short version</h2>
   <div class="callout">
     <p>There is no analytics, no telemetry, no advertising and no tracking in
-       The All Block. Your sessions, schedules, history and Accountability Lock
-       password never leave your computer. The only personal data we ever hold
-       is an email address — and only if you choose to make an account so your
-       Pro licence follows you between machines.</p>
+       The All Block, on Windows or on Android. Your sessions, history and
+       Accountability Lock password never leave your device. Without an account,
+       nothing else does either. If you choose to make one, we hold your email
+       address, what you have bought, and your scheduled blocks, so that your
+       plan and your schedules follow you between your computer and your
+       phone.</p>
+    <p>This policy covers the Windows app, the Android app and this
+       website.</p>
   </div>
   <p>The data controller is <b>Auzeo</b>, a sole trader in the United Kingdom.
      Contact: <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>.</p>
 </section>
 
 <section>
-  <h2>What stays on your computer</h2>
-  <p>The All Block keeps its data in a folder in your user profile
-     (<code>~/.allblock</code>). That includes:</p>
+  <h2>What stays on your device</h2>
+  <p>On Windows, The All Block keeps its data in a folder in your user profile
+     (<code>~/.allblock</code>). On Android, it keeps it in the app's own
+     private storage. That includes:</p>
   <ul>
-    <li>your scheduled blocks and their settings;</li>
+    <li>your scheduled blocks and their settings (also copied to your account
+        if you have one &mdash; see below);</li>
     <li>your session history and stats;</li>
     <li>the state of a running session, so it survives a restart;</li>
     <li>your Accountability Lock password, stored only as a PBKDF2-SHA256 hash
         with a random salt — never in plain text, and never uploaded.</li>
   </ul>
-  <p>We can't read any of it. Deleting that folder deletes all of it.</p>
+  <p>We can't read any of it. Deleting that folder, or uninstalling the
+     Android app, deletes all of it.</p>
   <p>That last one holds even if you add a recovery email to the Accountability
      Lock. The password still never leaves your computer and we still cannot
      read it or reset it. All a recovery email lets us do is send a link to
      <em>you</em> and, when you open it, tell your own copy of the app that you
      said yes — the app is what forgets the password, not us.</p>
+</section>
+
+<section>
+  <h2>The Android app's accessibility service</h2>
+  <p>To block your phone, the Android app uses Android's accessibility service.
+     While a block is running, it uses that service only to see which app has
+     come to the front, so that it can return you to the lock screen, and to
+     notice an incoming call, so that the call can still be answered.</p>
+  <p>It does not read what is on your screen, what you type, or the contents of
+     any notification or call. It records nothing, and nothing it sees is ever
+     sent off your phone &mdash; not to us and not to anyone else.</p>
 </section>
 
 <section>
@@ -156,6 +174,20 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       <td>So the app knows whether to unlock Pro features.</td>
     </tr>
     <tr>
+      <td>Your scheduled blocks: their names, times, days and settings</td>
+      <td>With an account</td>
+      <td>So schedules made on your computer appear on your phone, and the
+          other way round. Nothing about what you did during a block is
+          sent &mdash; only the schedule itself.</td>
+    </tr>
+    <tr>
+      <td>Purchase records: which plan you bought, whether it is still active,
+          and the emergency escapes you have bought and used</td>
+      <td>If you buy anything</td>
+      <td>So what you paid for works on every device signed in to your
+          account, and so a purchase is counted once and only once.</td>
+    </tr>
+    <tr>
       <td>Licence key and whether it has been paid and redeemed</td>
       <td>If you buy Pro</td>
       <td>To issue the licence, honour it once, and stop the same key being
@@ -165,9 +197,10 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       <td>An installation identifier — a random number, not anything about your
           machine</td>
       <td>With an account, or when you redeem a licence key</td>
-      <td>So a licence stays attached to the install that redeemed it, and so a
-          lock released on one computer is not released on every computer you
-          own. It tells us nothing about the device and is never shared.</td>
+      <td>So a licence stays attached to the install that redeemed it, so we
+          can tell which device last changed your schedules, and so a lock
+          released on one device is not released on every device you own. It
+          tells us nothing about the device and is never shared.</td>
     </tr>
     <tr>
       <td>An Accountability Lock recovery email, if you choose to add one, and
@@ -180,8 +213,8 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     </tr>
   </table></div>
   <p>That is the complete list. No name, no postal address, no usage statistics,
-     no contents of your blocks, and nothing that identifies your device beyond
-     the random number above.</p>
+     no session history, no list of the apps on your phone, no location, and
+     nothing that identifies your device beyond the random number above.</p>
 </section>
 
 <section>
@@ -192,13 +225,21 @@ footer a:hover{color:var(--ink);text-decoration:underline}
      data controller for that transaction — see
      <a href="https://www.paddle.com/legal/privacy" rel="noopener">paddle.com/legal/privacy</a>.
      What comes back to us is a licence key marked paid.</p>
+  <p>Purchases made inside the Android app go through <b>Google Play</b>
+     instead. Google handles the payment and your card details under
+     <a href="https://policies.google.com/privacy" rel="noopener">its own
+     privacy policy</a>; we never see them. What comes back to us is a purchase
+     token and the product bought, which we check with Google and keep against
+     your account.</p>
 </section>
 
 <section>
   <h2>Who processes data for us</h2>
   <ul>
-    <li><b>Supabase</b> — hosts the account database and the licence table.</li>
+    <li><b>Supabase</b> — hosts the account database, the licence table and
+        your synced schedules.</li>
     <li><b>Paddle</b> — payments, tax and receipts, as above.</li>
+    <li><b>Google Play</b> — payments made in the Android app, as above.</li>
     <li><b>GitHub</b> — hosts this website and the download. GitHub records
         requests to it, including IP addresses, in its own server logs.</li>
     <li><b>Google Fonts</b> — this website loads its typefaces from Google's CDN,
@@ -211,7 +252,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 
 <section>
   <h2>Cookies</h2>
-  <p>This website sets no cookies and runs no analytics. The app sets none
+  <p>This website sets no cookies and runs no analytics. Neither app sets any
      either. Paddle's checkout, which opens in your browser, uses its own
      cookies for the payment session.</p>
 </section>
@@ -237,12 +278,28 @@ footer a:hover{color:var(--ink);text-decoration:underline}
      kept for six years under UK tax law.</p>
 </section>
 
-<section>
+<section id="delete-data">
   <h2>Your rights</h2>
   <p><b>Deleting your account needs no request at all.</b> Do it in the app,
      under Settings &rarr; Account &rarr; Delete account, or on the
      <a href="/delete-account.html">account deletion page</a>. It is immediate
      and it is final.</p>
+  <h3>Deleting some of your data and keeping the account</h3>
+  <p>To have part of your data deleted from The All Block without closing your
+     account, email
+     <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a> from the
+     address you signed up with, and say which of these you want removed:</p>
+  <ul>
+    <li>your synced schedules (the copies on your devices stay where they
+        are);</li>
+    <li>your Accountability Lock recovery email and the record of reset links
+        sent to it;</li>
+    <li>the installation identifiers linked to your account.</li>
+  </ul>
+  <p>We delete them within 30 days and reply to confirm. Your email address and
+     your plan stay, because the account cannot work without them. Purchase and
+     payment records are kept for six years, as UK tax law requires, and are
+     only removed after that.</p>
   <p>You can also ask us to give you a copy of your data, correct it, delete it,
      restrict how we use it, or object to it — by emailing
      <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>. We will
@@ -256,8 +313,9 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 <section>
   <h2>Children</h2>
   <p>The All Block is not directed at children under 13, and accounts are not
-     intended for them. Parents do use the app on a child's machine — that is a
-     fine use, and it involves no account and no data leaving the computer.</p>
+     intended for them. Parents do use the app on a child's computer or phone
+     — that is a fine use, and it involves no account and no data leaving the
+     device.</p>
 </section>
 
 <section>
