@@ -1042,6 +1042,16 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 .lkfs-l>.lkfs-lbl,.lkfs-t,.lkfs-r,.lkfs-hints{transition:opacity .6s}
 .lkfs.over .lkfs-l>.lkfs-lbl,.lkfs.over .lkfs-t,.lkfs.over .lkfs-r,.lkfs.over .lkfs-hints{opacity:0}
 .lkfs.over .lkfs-done{opacity:1}
+/* the dim screen, as in the app (lock.html, Ambient.java): five seconds with
+   nobody touching anything and the block falls back to a small candle on black */
+.lkfs-amb{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .9s ease;z-index:5}
+.lkfs-amb.on{opacity:1}
+.lkfs-amb canvas{position:absolute;inset:0;width:100%;height:100%}
+.lkfs-ambT{position:absolute;left:0;right:0;text-align:center;color:#d8cfc2;font-size:16px}
+.lkfs-ambT b{display:block;font-size:1.875em;font-weight:400;letter-spacing:.5px}
+.lkfs-ambT span{display:block;font-size:.625em;font-weight:700;letter-spacing:2px;color:#a39a8c;margin-top:6px}
+.lkfs-ambH{position:absolute;left:0;right:0;bottom:clamp(14px,3.4vh,30px);text-align:center;font-size:12px;color:#5d574e}
+.lkfs-end{z-index:6}
 .lkfs-end{position:absolute;top:18px;right:18px;font:inherit;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--lk-faint);background:none;
   border:1px solid transparent;border-radius:999px;padding:8px 14px;cursor:pointer;transition:color .2s,border-color .2s}
 .lkfs-end:hover,.lkfs-end:focus-visible{color:var(--lk-ink);border-color:var(--lk-border)}
@@ -1338,6 +1348,9 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     <div class="lkfs-r"><div class="lkfs-lbl">BACK AT</div><div class="lkfs-big" id="lkAt">--:--</div><div class="lkfs-s"><b id="lkSess">10 min</b> session</div></div>
   </div>
   <div class="lkfs-hints">Hold <span class="k2" id="lkEsc"><i></i>Esc</span> to end this session early · 1 left this month<br><span class="f">Stuck on your lockscreen? Press Ctrl Alt Delete to get back in.</span></div>
+  <div class="lkfs-amb" id="lkAmb" aria-hidden="true"><canvas id="lkAmbCv"></canvas>
+    <div class="lkfs-ambT" id="lkAmbT"><b id="lkAmbLeft"></b><span id="lkAmbBack"></span></div>
+    <div class="lkfs-ambH">The screen dims, as it does in the app. Move the mouse or tap to wake it.</div></div>
 </div>
 
 <!-- ═══ BELOW THE HERO ═══ -->
@@ -1992,6 +2005,7 @@ function lockOpen(){
   L.level = 0; L.target = 0;
   fsLeft.textContent = mmss(total); fsAt.textContent = hhmm(new Date(Date.now() + total * 1000)); fsSess.textContent = human(total);
   fsRun = { total: total, t0: null, to: lineY(total) };
+  ambWake();
   snd.press(); snd.strike();
   setTimeout(function(){ if (!fsRun) return; fsRun.t0 = performance.now(); L.target = 1; state = "burning"; snd.ignite(); snd.startBed(); }, 420);
   document.getElementById("lkEnd").focus({ preventScroll: true });
@@ -2009,10 +2023,61 @@ function lockFinish(stopped){
 }
 function lockClose(){
   if (fsRun){ fsRun = null; L.target = 0; snd.stopBed(); }
-  state = "idle"; fsOpen = false; escHold(false);
+  state = "idle"; fsOpen = false; escHold(false); ambWake();
   fsEl.classList.remove("on"); document.body.style.overflow = "";
   try { if (document.fullscreenElement) document.exitFullscreen(); } catch (_) {}
   setTimeout(function(){ fsEl.hidden = true; if (fsFocus) fsFocus.focus({ preventScroll: true }); }, 500);
+}
+
+/* the dim screen: the same candle the app draws on black (ui/lock.html) */
+var AMB_AFTER = 5000, amb = { on: false, touched: 0, el: document.getElementById("lkAmb"), cv: document.getElementById("lkAmbCv") };
+function ambWake(){ amb.touched = performance.now(); if (amb.on){ amb.on = false; amb.el.classList.remove("on"); } }
+["mousemove", "mousedown", "keydown", "wheel", "touchstart"].forEach(function(ev){
+  addEventListener(ev, function(){ if (fsOpen) ambWake(); }, { passive: true, capture: true });
+});
+function ambDraw(r, sc){
+  var cv = amb.cv, W = cv.clientWidth, H = cv.clientHeight; if (!W || !H) return;
+  var d = Math.min(3, Math.max(devicePixelRatio || 1, 1));
+  if (cv.width !== Math.round(W * d)){ cv.width = Math.round(W * d); cv.height = Math.round(H * d); }
+  var x = cv.getContext("2d"); x.setTransform(d, 0, 0, d, 0, 0); x.clearRect(0, 0, W, H);
+  var u = Math.max(.9, Math.min(4, H / 870 * 1.4, W / 412 * 1.4));
+  var dx = Math.sin(sc / 37) * 6 * u, dy = Math.cos(sc / 53) * 6 * u;
+  var maxH = Math.min(H * .4, 270 * u), cx = W / 2 + dx;
+  var frac = Math.max(.06, Math.min(1, r / 10800)), wax = maxH * frac, ww = 30 * u;
+  var base = H / 2 + (wax - 37 * u) / 2 + dy, top = base - wax;
+  var n = (Math.sin(sc * 7.3) * .5 + Math.sin(sc * 13.1 + 1.7) * .3 + Math.sin(sc * 2.1 + .4) * .6) / 1.4;
+  var g = Math.pow(Math.max(0, Math.sin(sc * .83 + .6)), 10) * Math.sin(sc * 21);
+  if (reduce){ n = 0; g = 0; }
+  var fl = 1 + .07 * n + .1 * g, sway = reduce ? 0 : Math.sin(sc * 1.7) * 1.4 + Math.sin(sc * 5.3 + 1) * .7 + g * 3.2;
+  var fh = 36 * fl * u, fw = 8.5 * (1.06 - .06 * fl) * u, by = top - 7 * u, tipX = cx + sway * u, tipY = by - fh;
+  var gx = cx + sway * .3 * u, gy = by - fh * .4, edge = Math.min(gx, W - gx, gy, H - gy) - 4;
+  var gr = x.createRadialGradient(gx, gy, 0, gx, gy, Math.max(40, Math.min(190 * u * fl, edge)));
+  gr.addColorStop(0, "rgba(255,170,80," + (.34 * fl).toFixed(3) + ")"); gr.addColorStop(.35, "rgba(255,135,50,.12)"); gr.addColorStop(.75, "rgba(255,120,40,.03)"); gr.addColorStop(1, "rgba(255,120,40,0)");
+  x.fillStyle = gr; x.fillRect(0, 0, W, H);
+  var wg = x.createLinearGradient(0, top, 0, base);
+  wg.addColorStop(0, "rgba(255,222,175," + Math.min(1, .62 * fl).toFixed(3) + ")"); wg.addColorStop(.18, "rgba(185,148,106,.42)"); wg.addColorStop(1, "rgba(60,48,38,0)");
+  x.fillStyle = wg; x.beginPath();
+  if (x.roundRect) x.roundRect(cx - ww / 2, top, ww, base - top, [5 * u, 5 * u, 0, 0]); else x.rect(cx - ww / 2, top, ww, base - top);
+  x.fill();
+  var rim = x.createRadialGradient(cx, top + 2 * u, 0, cx, top + 2 * u, ww * .6); rim.addColorStop(0, "rgba(255,230,188," + Math.min(1, .55 * fl).toFixed(3) + ")"); rim.addColorStop(1, "rgba(255,230,188,0)");
+  x.fillStyle = rim; x.beginPath(); x.ellipse(cx, top + 2 * u, ww / 2, 3.5 * u, 0, 0, 7); x.fill();
+  x.strokeStyle = "#5a4632"; x.lineWidth = 2 * u; x.lineCap = "round"; x.beginPath(); x.moveTo(cx, top + u); x.quadraticCurveTo(cx, top - 5 * u, cx + sway * .15 * u, top - 9 * u); x.stroke();
+  x.fillStyle = "rgba(255,120,48,.95)"; x.beginPath(); x.arc(cx + sway * .15 * u, top - 9 * u, 1.3 * u, 0, 7); x.fill();
+  var fg = x.createRadialGradient(cx + sway * .2 * u, by - fh * .28, 0, cx + sway * .2 * u, by - fh * .35, fh * .75);
+  fg.addColorStop(0, "rgba(255,251,232,1)"); fg.addColorStop(.3, "rgba(255,214,128,.97)"); fg.addColorStop(.7, "rgba(246,140,52,.7)"); fg.addColorStop(1, "rgba(210,70,24,0)");
+  x.fillStyle = fg; x.beginPath(); x.moveTo(cx, by + 2 * u);
+  x.bezierCurveTo(cx - fw * 1.35, by - fh * .18, tipX - fw * .75 + sway * .2 * u, by - fh * .68, tipX, tipY);
+  x.bezierCurveTo(tipX + fw * .75 + sway * .2 * u, by - fh * .68, cx + fw * 1.35, by - fh * .18, cx, by + 2 * u); x.fill();
+  document.getElementById("lkAmbLeft").textContent = fsLeft.textContent;
+  document.getElementById("lkAmbBack").textContent = "BACK AT " + fsAt.textContent;
+  var T = document.getElementById("lkAmbT").style; T.top = (base + 34 * u) + "px"; T.fontSize = (16 * u) + "px";
+}
+function ambTick(t, k){
+  /* never while the escape is held, before the flame is lit, or once it has ended */
+  if (!fsRun || fsRun.t0 === null || escT) amb.touched = t;
+  if (!amb.on && fsOpen && t - amb.touched > AMB_AFTER){ amb.on = true; amb.el.classList.add("on"); }
+  if (!fsRun && amb.on){ amb.on = false; amb.el.classList.remove("on"); }
+  if (amb.on && fsRun) ambDraw(fsRun.total * (1 - Math.min(1, (t - fsRun.t0) / (fsRun.total * 1000))), k);
 }
 function fsFrame(t){
   var dt = fsLast ? Math.min(64, t - fsLast) : 16; fsLast = t; var k = t / 1000;
@@ -2028,6 +2093,7 @@ function fsFrame(t){
     fsLeft.textContent = mmss(fsRun.total * (1 - p));
     if (p >= 1) lockFinish(false);
   }
+  ambTick(t, k);
   if (fsOpen || L.level > .002) fsRaf = requestAnimationFrame(fsFrame); else { fsRaf = 0; fsLast = 0; }
 }
 /* hold Esc for a second and a half to put it out early, as in the app */
