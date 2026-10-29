@@ -46,7 +46,7 @@ try{
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap"></noscript>
 <style>
 /* ═══════════════════════════════════════════════════════════════════
-   theallblock.com — the live page.
+   The live page. Drafts land in /beta/ first.
    Photography: generated for this project, no licence or credit obligations.
    ═══════════════════════════════════════════════════════════════════ */
 :root{
@@ -1157,8 +1157,68 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 .v2 .v-fine{font-size:13px;color:var(--ash);max-width:72ch}
 .v2 .v-step{position:relative}
 </style>
+<style>/* tall-candle hero */
+.nh{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 20px 80px;overflow:hidden;color:var(--ink)}
+.nh h1{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.02;margin:0}
+.nh .em{display:block;color:var(--green-txt);font-family:var(--body);font-weight:700;text-transform:none;font-size:clamp(16px,1.6vw,21px);letter-spacing:0;margin-top:14px}
+.nh .sub{color:var(--ash);margin:14px 0 0;font-size:16.5px}
+.nh .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+.nc-flame{transform-box:fill-box;transform-origin:50% 100%;animation:ncf 2.6s ease-in-out infinite}
+@keyframes ncf{0%,100%{transform:scale(1,1) skewX(0)}30%{transform:scale(.95,1.07) skewX(-2deg)}65%{transform:scale(1.03,.95) skewX(2deg)}}
+.nc-glow{animation:ncg 3.2s ease-in-out infinite}@keyframes ncg{50%{opacity:.7}}
+@media(prefers-reduced-motion:reduce){.nc-flame,.nc-glow{animation:none}}
+.hero#oldtop{position:absolute!important;left:-10000px;top:0;width:1200px}
+.btn-plain{background:none;border:0;padding:0;font:600 15px var(--body);color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:var(--green-txt);text-decoration-thickness:2px;text-underline-offset:5px}
+
+.zsc{position:absolute;inset:0;overflow:hidden;z-index:0}
+.zsc>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.zsc>.tint{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.6}.zsc>.shade{position:absolute;inset:0}
+.zsc>svg{position:absolute;inset:0;width:100%;height:100%}
+.nh>.ov{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:1000px}
+.nh>.ov.lf{align-items:flex-start;text-align:left;align-self:flex-start;max-width:600px}.ov.lf .row{justify-content:flex-start}
+.nh>.ov.rt{align-items:flex-end;text-align:right;align-self:flex-end;max-width:600px}.ov.rt .row{justify-content:flex-end}
+.nh .ov h1{font-size:clamp(34px,4.6vw,66px)}
+.wt{color:#fff;--ink:#fff;--ash:rgba(255,255,255,.82);--line:rgba(255,255,255,.25);background:#0b0b0c}.wt .em{color:#bdf5cf}
+.wt .ov h1,.wt .ov .sub{text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.wt .btn--ghost{color:#fff!important;border-color:rgba(255,255,255,.55)!important;background:rgba(0,0,0,.18)!important}
+.bk{color:#13202b;--ink:#13202b;--ash:#3d4a55;--line:#b9c6cf}.bk .em{color:#15803d}
+header.bk a.btn:not(.btn--ghost){background:#13202b!important;color:#fff!important;border-color:#13202b!important}.bk .btn--ghost{color:#13202b!important;border-color:rgba(0,0,0,.3)!important}
+.lab{font:600 11px var(--mono);letter-spacing:.24em;color:var(--ash);margin:0 0 10px}
+.tw{animation:tw 3.5s ease-in-out infinite alternate}@keyframes tw{to{opacity:.25}}
+.gl{animation:gl 2.4s ease-in-out infinite alternate}@keyframes gl{to{opacity:.12}}
+@keyframes wv{to{transform:translateX(-1440px)}}
+@keyframes kb{to{transform:scale(1.14)}}
+@media(max-width:860px){.nh>.ov.lf,.nh>.ov.rt{align-self:center;align-items:center;text-align:center}.ov.lf .row,.ov.rt .row{justify-content:center}}
+@media(prefers-reduced-motion:reduce){.nh *{animation:none!important}}
+
+.ov{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
+.q-n{position:absolute;display:flex;gap:10px;align-items:center;background:var(--card,#151518);border:1px solid var(--line);border-radius:14px;padding:11px 15px;font-size:13.5px;color:var(--ash);white-space:nowrap;z-index:1}
+.q-n i{width:20px;height:20px;border-radius:6px;background:rgba(127,127,140,.35);flex:none}
+.q-n.q-st{position:relative}
+.q-g{background:rgba(16,16,20,.5)!important;border-color:rgba(255,255,255,.18)!important;color:rgba(255,255,255,.88)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+svg.nc{overflow:visible}
+.q-tall{position:relative;z-index:2;width:clamp(90px,11vw,150px)!important;height:auto!important;align-self:stretch;margin-top:-20px;flex:none}
+.q-out .nc-flame,.q-out .nc-glow{display:none}
+.q-sm path{fill:none;stroke:#b4b4bc;stroke-width:2;stroke-linecap:round;opacity:0;animation:qsm 4s ease-out infinite}
+.q-sm path:nth-child(2){animation-delay:1.3s}.q-sm path:nth-child(3){animation-delay:2.6s}
+@keyframes qsm{0%{opacity:0;transform:translateY(12px)}30%{opacity:.75}100%{opacity:0;transform:translateY(-30px)}}
+.q-k{font:700 11px var(--mono);letter-spacing:.24em;color:var(--green-txt);margin:0 0 22px}.wt .q-k{color:#bdf5cf}
+.q-row{flex-direction:row;align-items:stretch;justify-content:flex-start;gap:clamp(30px,7vw,120px);padding-bottom:0;padding-left:clamp(20px,8vw,140px);padding-right:clamp(20px,5vw,72px)}
+.q-row>.ov{align-self:center!important;padding-bottom:80px}
+.q-ov-w{max-width:780px!important}.q-ex{list-style:none;padding:0;margin:26px 0 0;white-space:nowrap;font:800 clamp(24px,3vw,44px)/1.18 var(--display);letter-spacing:-.02em;text-align:left}
+.q-ex li{white-space:nowrap!important;display:block;width:max-content;color:var(--ash);background:linear-gradient(var(--green),var(--green)) no-repeat 0 55%/0% 6px;animation:qex .5s ease-out forwards}
+.q-ex li.q-last{color:var(--ink);background:none;animation:none}
+@keyframes qex{to{background-size:100% 6px;color:var(--line)}}
+@keyframes qon{to{opacity:1}}@keyframes qoff{to{opacity:0}}
+@keyframes qgo{to{opacity:0;filter:blur(6px);transform:translateY(-12px)}}
+@keyframes qlp{0%,5%{opacity:1;filter:none}12%,88%{opacity:0;filter:blur(6px)}100%{opacity:1;filter:none}}
+.q-ls{display:grid}.q-ls>*{grid-area:1/1}
+@media(max-width:800px){.q-n{display:none}.q-n.q-st{display:flex}.q-row{flex-direction:column;align-items:center;padding-left:20px}
+.q-row>.q-tall{height:220px!important;width:70px!important;align-self:center;margin:0}}
+.tc .q-n{animation:qlp 12s ease-in-out infinite;animation-delay:var(--d)}@media(max-width:800px){.tc>.ov{align-self:stretch!important;max-width:100%!important}.tc .ov h1{font-size:clamp(28px,8.4vw,40px)}}</style>
 </head>
 <body>
+
 
 
 <!-- ═══ NAV ═══ -->
@@ -1167,9 +1227,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     <a class="nav-badge" href="#top" aria-label="The All Block, back to top">
       <svg viewBox="2 2 96 96" aria-hidden="true">
         <circle cx="50" cy="50" r="48" fill="#141416"/>
-        <path d="M50 25V21" stroke="#8a8780" stroke-width="3" stroke-linecap="round"/>
-        <path d="M50 21C46 18,54 15,50 12C47.5 10,51 9,50 8" fill="none" stroke="#9b978f" stroke-width="4" stroke-linecap="round"/>
-        <g fill="none" stroke="#f4f4f6" stroke-width="8" stroke-linecap="round"><circle cx="50" cy="50" r="20"/><path d="M35.9 35.9L64.1 64.1"/></g>
+        <g fill="none" stroke="#f5f5f7" stroke-width="5.24"><circle cx="50" cy="50" r="19.6"/><path d="M36.11 36.11L63.89 63.89"/></g>
       </svg>
     </a>
     <a href="#top" class="here" data-spy="top">Home</a>
@@ -1191,7 +1249,10 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 </nav>
 
 <!-- ═══ HERO ═══ -->
-<header class="hero" id="top">
+<!-- Hero: the tall candle above the clouds, notifications going quiet at the edge. -->
+<header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="q-n q-g" style="right:4%;top:14%;--d:1.0s;--r:1deg"><i></i>Sam replied to your story</div><div class="q-n q-g" style="right:20%;top:22%;--d:2.0s;--r:-2deg"><i></i>12 new messages in the group chat</div><div class="q-n q-g" style="right:10%;top:30%;--d:3.0s;--r:3deg"><i></i>Your streak ends in 1 hour</div><div class="q-n q-g" style="right:2%;top:40%;--d:4.0s;--r:-1deg"><i></i>Autoplay: next episode in 5</div><div class="q-n q-g" style="right:16%;top:48%;--d:5.0s;--r:2deg"><i></i>Jess liked your photo</div><div class="q-n q-g" style="right:3%;top:64%;--d:6.0s;--r:-3deg"><i></i>Someone mentioned you in a comment</div><div class="q-n q-g" style="right:22%;top:70%;--d:7.0s;--r:1deg"><i></i>New video from a channel you follow</div><div class="q-n q-g" style="right:12%;top:80%;--d:8.0s;--r:-2deg"><i></i>3 people viewed your profile</div><svg class="nc q-tall" viewBox="0 0 130 500" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><radialGradient id="g1"><stop offset="0" stop-color="#f2aa50" stop-opacity=".55"/><stop offset="1" stop-color="#f2aa50" stop-opacity="0"/></radialGradient><linearGradient id="w1" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#f1efe8"/><stop offset=".97" stop-color="#f1efe8" stop-opacity="0"/></linearGradient></defs><ellipse class="nc-glow" cx="65" cy="70" rx="62" ry="78" fill="url(#g1)"/><rect x="33" y="110" width="64" height="342" rx="7" fill="url(#w1)"/><line x1="65" y1="110" x2="65" y2="94" stroke="#8a8780" stroke-width="2.6"/><path class="nc-flame" d="M65 98 C 54 84, 55 66, 65 48 C 75 66, 76 84, 65 98 Z" fill="#f2c46d"/></svg><div class="ov lf"><h1>A blocker you can't bypass<span class="em">No Apps. No Exceptions.</span></h1><p class="sub">Just the real world.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div></header>
+<!-- The old hero stays, off-screen, because its drum and Start button run the "Light it" demo. -->
+<header class="hero" id="oldtop" aria-hidden="true">
   <div class="hero-bg" aria-hidden="true">
     <img src="img/photos/forest-1024.jpg"
          srcset="img/photos/forest-800.jpg 800w, img/photos/forest-1024.jpg 1024w"
@@ -1238,11 +1299,7 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
         </svg>
       </div>
       <div class="wheel-foot">
-        <span id="hcFoot">Duration</span>
-        <button class="snd-btn" id="sndBtn" type="button" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="on" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="off" d="M17 9l5 6M22 9l-5 6"/></svg>
-          <span class="off">Sound</span><span class="on">Sound on</span>
-        </button>
+        <span id="hcFoot"></span>
         <button class="go" id="demoStart" type="button">
           <svg width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0l9 5-9 5z"/></svg>
           Start
@@ -1251,23 +1308,16 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
     </div>
 
     <div class="hero-say">
-      <p class="eyebrow mute">Windows + Android &nbsp;·&nbsp; <b>Available now</b></p>
       <h1>A blocker you can't bypass<em>No Apps. No Exceptions.</em></h1>
-      <p class="hero-sub">Start the timer — at bedtime, mid-game,
-        mid-scroll, whenever you need it, or schedule. <b>No clicking, no alt-tabbing,
-        no negotiating your way back in</b> before then.</p>
+      <p class="hero-sub">Just the real world.</p>
       <div class="hero-cta">
-        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.3.exe">
+        <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
-          Download for Windows
-        </a>
-        <a class="btn btn--ghost play-btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.1.0.apk">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="8.5" width="11" height="11.5" rx="2"/><path d="M4 11v5M20 11v5M9.5 3.6l1.2 2M14.5 3.6l-1.2 2M7.5 7.6a4.5 4.5 0 019 0"/></svg>
-          Download for Android
+          Download
         </a>
       </div>
       <div class="hero-meta-line">
-        <p class="hero-note">Light up your distractions
+        <p class="hero-note">Try it
           <svg class="demo-arrow" viewBox="0 0 140 64" aria-hidden="true" focusable="false">
             <path d="M135 5C112 54 59 62 15 12"/>
             <path class="arrowhead" d="M39 16L15 12L16 36"/>
@@ -1280,15 +1330,6 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 </header>
 
-<!-- ═══ TRUST STRIP ═══ -->
-<section class="wrap">
-  <div class="trust grid">
-    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 018 0v3"/></svg><span>Blocks the whole machine</span></div>
-    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18"/><path d="M5 12.5a11 11 0 015-2.8M14.5 10a11 11 0 014.5 2.5"/><path d="M8.5 16a6 6 0 013-1.4"/><path d="M12 19.5h.01"/></svg><span>Works fully offline</span></div>
-    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.9-7.5 9.3C7.5 19.9 4.5 16.4 4.5 12V6z"/></svg><span>Survives a restart</span></div>
-    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="11" height="8" rx="1.5"/><path d="M6 16h5M8.5 12v4"/><rect x="15.5" y="12" width="5.5" height="9" rx="1.2"/><path d="M17.5 14h1.5M14 8.5c2.6 0 4.7 1 6.1 2.6M16.5 6.2c3.1.4 5.2 1.5 6.5 3.1"/></svg><span>Sync across devices</span></div>
-  </div>
-</section>
 
 <!-- ═══ DEMO OVERLAY ═══ -->
 <div class="demo" id="demo" hidden aria-hidden="true" role="dialog" aria-modal="true"
@@ -1355,45 +1396,45 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
 
 <!-- ═══ BELOW THE HERO ═══ -->
 <div class="v2">
-<section id="why" class="v-band v-night"><div class="v-wrap v-center v-narrow"><p class="v-eyebrow">The All Block</p>
- <h2 style="font-size:clamp(34px,5.4vw,64px)">Light up your distractions.</h2><p class="v-lede">Set a length. Hold to start. While the candle burns, nothing else on the computer or phone answers.</p></div>
- <div class="v-wrap v-mt"><img class="v-shot" src="img/v2/lock_aod.webp" alt="The candle during a block"></div></section>
-<section id="app" class="v-band"><div class="v-wrap v-center">
- <p class="v-eyebrow">Windows + Android</p><h2>One block. Every screen you'd reach for.</h2>
- <p class="v-lede">Close the laptop and pick up the phone? Not this time. The same candle burns on both, and schedules sync between them.</p></div>
- <div class="v-wrap v-split v-mt" style="grid-template-columns:2.2fr 1fr"><img class="v-shot v-sw-l" src="img/v2/d_timer_light.webp" alt="Windows timer" loading="lazy"><img class="v-shot v-sw-d" src="img/v2/d_timer_dark.webp" alt="Windows timer" loading="lazy"><img class="v-phone v-sw-l" src="img/v2/p_timer_light.webp" alt="Android timer" loading="lazy"><img class="v-phone v-sw-d" src="img/v2/p_timer_dark.webp" alt="Android timer" loading="lazy"></div></section>
-<section id="who" class="v-band v-sand"><div class="v-wrap v-center"><p class="v-eyebrow">Who it's for</p><h2>Pick the hours you want back.</h2>
- <p class="v-lede">Each of these is one schedule. Set it once and it runs every day.</p></div>
- <div class="v-wrap v-grid v-g4 v-mt"><div class="v-card"><span class="v-num">22:00 → 06:00</span><h3>Sleep</h3><p class="v-ash">No more scrolling until three.</p></div><div class="v-card"><span class="v-num">09:00 → 12:00</span><h3>Deep work</h3><p class="v-ash">Mornings for the work that matters.</p></div><div class="v-card"><span class="v-num">19:00 → 21:00</span><h3>Study</h3><p class="v-ash">Starting is the hard part. Now it starts itself.</p></div><div class="v-card"><span class="v-num">17:00 → 21:00</span><h3>Family</h3><p class="v-ash">Be in the room with the people in it.</p></div></div><div class="v-wrap v-split v-even v-mt" style="align-items:center"><img class="v-shot v-sw-l" src="img/v2/d_sched_light.webp" alt="Schedules on Windows" loading="lazy"><img class="v-shot v-sw-d" src="img/v2/d_sched_dark.webp" alt="Schedules on Windows" loading="lazy"><div class="v-phones"><img class="v-phone v-sw-l" src="img/v2/p_sched_light.webp" alt="Schedules on Android" loading="lazy"><img class="v-phone v-sw-d" src="img/v2/p_sched_dark.webp" alt="Schedules on Android" loading="lazy"></div></div></section>
+<section id="who" class="v-band v-night"><div class="v-wrap v-split v-even">
+ <div><p class="v-eyebrow">For the late nights</p><h2>It's 1 a.m. You said you'd stop at 11.</h2>
+ <p class="v-lede">You don't need more willpower at midnight. You need the decision already made. Set a sleep block once and, at ten, the screen goes to a candle on all your devices, and stays there until morning.</p></div>
+ <div><img class="v-shot" src="img/v2/lock_aod.webp" alt="The candle dimmed for night"></div></div>
+ <div class="v-wrap v-grid v-g4 v-mt"><div class="v-card"><span class="v-num">22:00 → 06:00</span><h3>Sleep</h3><p class="v-ash">No more scrolling until three.</p></div><div class="v-card"><span class="v-num">09:00 → 12:00</span><h3>Deep work</h3><p class="v-ash">Mornings for the work that matters.</p></div><div class="v-card"><span class="v-num">19:00 → 21:00</span><h3>Study</h3><p class="v-ash">Starting is the hard part. Now it starts itself.</p></div><div class="v-card"><span class="v-num">17:00 → 21:00</span><h3>Family</h3><p class="v-ash">Be in the room with the people in it.</p></div></div></section>
+<section id="app" class="v-band" style="padding:56px 0"><div class="v-wrap v-grid v-g4 v-center">
+ <div><h3>Windows</h3><span class="v-chip">Out now</span></div><div><h3>Android</h3><span class="v-chip">Out now</span></div>
+ <div><h3>macOS</h3><span class="v-chip v-soon">Coming soon</span></div><div><h3>iOS</h3><span class="v-chip v-soon">Coming soon</span></div></div></section>
+<section id="devices" class="v-band v-sand"><div class="v-wrap v-split v-flip">
+ <div><p class="v-eyebrow">Android</p><h2>The phone on your<br>bedside.</h2>
+ <p class="v-lede">The candle dims and crackles while you sleep.</p>
+ <div class="v-cta-row"><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.1.5.apk">Get the Android app</a></div></div>
+ <div class="v-phones"><img class="v-phone" src="img/v2/p_aod.webp" alt="Dimmed phone candle"><img class="v-phone v-sw-l" src="img/v2/p_sched_light.webp" alt="Schedules on the phone" loading="lazy"><img class="v-phone v-sw-d" src="img/v2/p_sched_dark.webp" alt="Schedules on the phone" loading="lazy"></div></div></section>
 <section id="how" class="v-band"><div class="v-wrap v-split">
- <div><p class="v-eyebrow">How it holds</p><h2>Not a site blocker. A switch.</h2>
+ <div><p class="v-eyebrow">"The all block" because it's:</p><h2>A COMPLETE block.</h2>
  <ul class="v-ticks"><li>Mouse and keyboard stop, system-wide</li><li>Comes back locked after a restart</li><li>Locking Windows doesn't end it</li><li>Someone else can hold the password (Pro)</li></ul>
  <p class="v-ash" style="margin-top:14px">Need out? One emergency escape a month, three on Pro.</p></div>
- <div><img class="v-shot" src="img/v2/lock_dark.webp" alt="The lock screen during a block"></div></div></section>
-<section id="devices" class="v-band v-sand"><div class="v-wrap v-split v-flip">
- <div><p class="v-eyebrow">Android</p><h2>What about my phone?</h2><p class="v-lede">The Android app blocks the whole phone except calls, and shares your schedules with Windows. iPhone and Mac are coming.</p>
- <div class="v-cta-row"><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.1.0.apk">Get the Android app</a></div></div>
- <div class="v-phones"><img class="v-phone v-sw-l" src="img/v2/p_lock_light.webp" alt="Phone lock" loading="lazy"><img class="v-phone v-sw-d" src="img/v2/p_lock_dark.webp" alt="Phone lock" loading="lazy"><img class="v-phone v-sw-l" src="img/v2/p_sched_light.webp" alt="Phone schedules" loading="lazy"><img class="v-phone v-sw-d" src="img/v2/p_sched_dark.webp" alt="Phone schedules" loading="lazy"></div></div></section>
-<section id="lock" class="v-band"><div class="v-wrap v-split v-flip">
- <div><p class="v-eyebrow">Accountability Lock · Pro</p><h2>Someone else holds the key.</h2><p class="v-lede">Without their password, blocks can't be switched off, edited or closed.</p></div>
+ <div><img class="v-shot v-sw-l" src="img/v2/d_sched_light.webp" alt="Schedules" loading="lazy"><img class="v-shot v-sw-d" src="img/v2/d_sched_dark.webp" alt="Schedules" loading="lazy"></div></div></section>
+<section id="lock" class="v-band v-sand"><div class="v-wrap v-split v-flip">
+ <div><p class="v-eyebrow">Accountability Lock · Pro</p><h2>Keep getting past?</h2><p class="v-lede">Give the password to someone else. Without it, the schedule can't be changed or switched off.</p></div>
  <div><img class="v-shot v-sw-l" src="img/v2/d_guard_light.webp" alt="Accountability Lock" loading="lazy"><img class="v-shot v-sw-d" src="img/v2/d_guard_dark.webp" alt="Accountability Lock" loading="lazy"></div></div></section>
+
 <section class="v-band v-sand" id="pricing"><div class="v-wrap v-center" data-bill="y">
-<p class="v-eyebrow">Pricing</p><h2>Free to use. Pro when you want more.</h2><p class="v-lede">Manual sessions up to three hours are free for good. There is no trial and no card to enter.</p>
+<p class="v-eyebrow">Pricing</p><h2>Control your screen time — for real this time.</h2><p class="v-lede">Manual sessions up to three hours are free for good. There is no trial and no card to enter.</p>
 <div class="v-toggle"><button data-b="m" aria-pressed="false">Monthly</button><button data-b="y" class="v-on" aria-pressed="true">Yearly · save 64%</button></div>
 <div class="v-plans">
- <div class="v-plan"><h3>Free</h3><p class="v-price">£0</p><p class="v-per">for good</p><ul class="v-ticks"><li>Sessions from 10 seconds to 3 hours</li><li>One scheduled block, up to 3 hours</li><li>One emergency escape a month</li><li>No account, no card</li></ul><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.3.exe">Download</a></div>
+ <div class="v-plan"><h3>Free</h3><p class="v-price">£0</p><p class="v-per">for good</p><ul class="v-ticks"><li>Sessions from 10 seconds to 3 hours</li><li>One scheduled block, up to 3 hours</li><li>One emergency escape a month</li><li>No account, no card</li></ul><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">Download</a></div>
  <div class="v-plan v-pick"><h3>Pro</h3><p class="v-price"><span class="v-yr">£2.99</span><span class="v-mo">£7.99</span></p>
-  <p class="v-per"><span class="v-yr">a month, billed £34.99 a year</span><span class="v-mo">a month, billed monthly</span></p><ul class="v-ticks"><li>Sessions and schedules up to 24 hours</li><li>Unlimited scheduled blocks</li><li>Accountability Lock</li><li>Three emergency escapes a month</li><li>Schedules sync with Android</li></ul><a class="v-btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.3.exe">Get Pro in the app</a></div>
- <div class="v-plan"><h3>Lifetime</h3><p class="v-price">£49.99</p><p class="v-per">once</p><ul class="v-ticks"><li>Everything in Pro, for good</li><li>One payment, nothing renews</li><li>Every future update</li></ul><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.3.exe">Get Lifetime in the app</a></div>
+  <p class="v-per"><span class="v-yr">a month, billed £34.99 a year</span><span class="v-mo">a month, billed monthly</span></p><ul class="v-ticks"><li>Sessions and schedules up to 24 hours</li><li>Unlimited scheduled blocks</li><li>Accountability Lock</li><li>Three emergency escapes a month</li><li>Schedules sync with Android</li></ul><a class="v-btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">Get Pro in the app</a></div>
+ <div class="v-plan"><h3>Lifetime</h3><p class="v-price">£49.99</p><p class="v-per">once</p><ul class="v-ticks"><li>Everything in Pro, for good</li><li>One payment, nothing renews</li><li>Every future update</li></ul><a class="v-btn v-btn--ghost" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">Get Lifetime in the app</a></div>
 </div><div class="v-extras"><div class="v-extra"><div><b>£1.99</b><p>Seven days of Pro. Ends on its own.</p></div><span class="v-chip">Week</span></div><div class="v-extra"><div><b>£0.99</b><p>One more escape this month. Never expires.</p></div><span class="v-chip">Escape</span></div></div>
-<div class="v-trust"><span>Cancel any time</span><span>14-day refund, no reason needed</span><span>Paid through Paddle</span></div>
+<div class="v-trust"><span>Cancel any time</span></div>
 </div></section>
 <section class="v-band" id="faq"><div class="v-wrap v-narrow">
 <p class="v-eyebrow">FAQ</p><h2>Questions</h2><div class="v-mt"><details><summary>What if I really need to get out?</summary><p>Use an emergency escape. You get one a month free, three on Pro, and they refill on the 1st. On Windows, hold <kbd>Esc</kbd> for five seconds on the lock screen. On the phone, tap Emergency escape. An extra escape costs £0.99.</p></details><details><summary>What still works on my phone?</summary><p>Calls, the dialer and contacts. Everything else waits for the timer.</p></details><details><summary>Does restarting end a block?</summary><p>No. It comes back locked, with the time that was left.</p></details><details><summary>What if Windows locks during a block?</summary><p>Sign in as usual. The block carries on, and the clock keeps its time.</p></details><details><summary>Windows warned me about the download.</summary><p>The All Block is not code-signed yet, so SmartScreen warns about it. Click <b>More info</b>, then <b>Run anyway</b>, then <b>Yes</b> on the admin prompt.</p></details></div>
-<p class="v-ash v-small v-mt">Still stuck? <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20help">Email me</a>. It is a one-person project, so I answer myself.</p>
+<p class="v-ash v-small v-mt">Still stuck? <a href="mailto:MrAuzeo@protonmail.com?subject=All%20Block%20help">Email me</a>. I love feedback, and I answer personally.</p>
 </div></section>
 <section class="v-photo v-band" id="get"><img src="img/photos/dawn-1536.jpg" alt="" loading="lazy"><div class="v-wrap v-center">
-<h2>Control your screen time — for real this time.</h2><p class="v-lede">Free to download.</p><div class="v-cta-row"><a class="v-btn v-btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.3.exe">Download for Windows</a><a class="v-btn v-btn--clear" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.1.0.apk">Android app</a></div>
+<h2>Light up your distractions.</h2><p class="v-lede">Download for free</p><div class="v-cta-row"><a class="v-btn v-btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">Download for Windows</a><a class="v-btn v-btn--clear" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.1.5.apk">Android app</a></div>
 <p class="v-ash v-small" style="margin-top:18px">Windows 10 and 11 · Android 8 and up · macOS and iOS coming soon</p></div></section>
 </div>
 
@@ -1412,15 +1453,13 @@ footer{background:var(--sand);padding:clamp(54px,7vw,82px) 0 30px}
           <span class="brand-mark">
             <svg viewBox="2 2 96 96" aria-hidden="true">
               <circle cx="50" cy="50" r="48" fill="#141416"/>
-              <path d="M50 25V21" stroke="#8a8780" stroke-width="3" stroke-linecap="round"/>
-              <path d="M50 21C46 18,54 15,50 12C47.5 10,51 9,50 8" fill="none" stroke="#9b978f" stroke-width="4" stroke-linecap="round"/>
-              <g fill="none" stroke="#f4f4f6" stroke-width="8" stroke-linecap="round"><circle cx="50" cy="50" r="20"/><path d="M35.9 35.9L64.1 64.1"/></g>
+              <g fill="none" stroke="#f5f5f7" stroke-width="5.24"><circle cx="50" cy="50" r="19.6"/><path d="M36.11 36.11L63.89 63.89"/></g>
             </svg>
           </span>
           The All Block
         </a>
-        <p class="foot-tag">Built for whatever you can't put down.</p>
-        <p class="foot-meta">Windows 10 &amp; 11 · v8.3.3 · single .exe</p>
+        <p class="foot-tag">"The All Block" because it's total.</p>
+        <p class="foot-meta">Windows 10 &amp; 11 · v8.3.7 · single .exe</p>
         <div class="foot-social">
           <a href="https://github.com/Auzeo/all-block" aria-label="The All Block on GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 015 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
@@ -1896,7 +1935,7 @@ const snd=(()=>{
 })();
 snd.setOn(false);
 var sndBtn = document.getElementById("sndBtn");
-sndBtn.addEventListener("click", function(){
+if (sndBtn) sndBtn.addEventListener("click", function(){
   var v = sndBtn.getAttribute("aria-pressed") !== "true";
   sndBtn.setAttribute("aria-pressed", String(v));
   snd.setOn(v); if (v) snd.press();
@@ -2314,6 +2353,12 @@ var RIG = [["10 min","10 minutes"],["30 min","30 minutes"],["45 min","45 minutes
   addEventListener("scroll",function(){if(queued)return;queued=true;requestAnimationFrame(frame)},{passive:true});addEventListener("resize",frame,{passive:true});frame();
 })();
 })();
+</script>
+<script>window.hsGo=function(i){var w=document.querySelector('.wheel');try{w.focus({preventScroll:true})}catch(_){}
+var v=[10,60,300,600,900,1200,1500,1800,2700,3600,5400,7200,10800],c=v.indexOf(+w.getAttribute('aria-valuenow'));if(c<0)c=3;
+for(var n=Math.abs(i-c),k=i>c?'ArrowDown':'ArrowUp';n--;)w.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true}));
+setTimeout(function(){document.getElementById('demoStart').click()},40)};
+function hsPad(n){return(n<10?'0':'')+n}function hsAt(s){var d=new Date(Date.now()+s*1000);return hsPad(d.getHours())+':'+hsPad(d.getMinutes())}
 </script>
 </body>
 </html>
