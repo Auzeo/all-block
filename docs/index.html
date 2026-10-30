@@ -1260,6 +1260,22 @@ svg.nc{overflow:visible}
 @media(max-width:800px){.hd{flex:none;width:100%;max-width:560px;margin:34px auto 0}}
 .q-row>.ov.lf{min-width:0;flex:1 1 auto}
 .tc .q-n{animation:qlp 12s ease-in-out infinite;animation-delay:var(--d)}@media(max-width:800px){.tc>.ov{align-self:stretch!important;max-width:100%!important}.tc .ov h1{font-size:clamp(28px,8.4vw,40px)}}</style>
+<style>/* phones: no gap in the hero, platforms two by two, phones inside the screen, a two-column footer,
+   tighter sections, and the plans behind tabs, opening on Pro */
+@media(max-width:600px){
+.nh.q-row{min-height:0;justify-content:flex-start;gap:0;padding:104px 20px 56px}
+.q-row>.ov{padding-bottom:0}
+.nh .hd{margin:40px auto 0}
+#app .v-g4{grid-template-columns:1fr 1fr;row-gap:32px}
+.v2 .v-phones{gap:12px}.v2 .v-phones .v-phone{min-width:0;max-width:47%}
+.foot{grid-template-columns:1fr 1fr!important;column-gap:20px}.foot-brand{grid-column:1/-1}
+.v2 .v-band{padding:56px 0}.v2 h2{font-size:28px}
+.ptabs{display:flex;gap:4px;padding:4px;margin:0 auto 14px;width:max-content;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+.ptabs button{border:0;background:none;padding:8px 18px;border-radius:999px;font:600 14px var(--body);color:var(--ash);cursor:pointer}
+.ptabs button.on{background:var(--onyx);color:var(--onyx-txt)}
+.v2 .v-plans.tabbed>.v-plan{display:none}.v2 .v-plans.tabbed>.v-plan.shown{display:flex}}
+@media(min-width:601px){.ptabs{display:none}}
+</style>
 </head>
 <body>
 
@@ -2426,5 +2442,11 @@ function aim(){const b=hd.getBoundingClientRect(),f=fl.getBoundingClientRect(),f
  hd.querySelectorAll('.hm b').forEach(m=>{const l=b.left+parseFloat(m.style.left)/100*b.width,t=b.top+parseFloat(m.style.top)/100*b.height;
   m.style.setProperty('--dx',(fx-l)+'px');m.style.setProperty('--dy',(fy-t)+'px')})}
 addEventListener('load',aim);addEventListener('resize',aim);aim()})();</script>
+<script>/* pricing on phones: one plan at a time behind three tabs */
+(function(){var w=document.querySelector('.v2 .v-plans');if(!w)return;var ps=[].slice.call(w.querySelectorAll(':scope>.v-plan')),t=document.createElement('div');t.className='ptabs';t.setAttribute('role','tablist');
+function show(i){ps.forEach(function(p,j){p.classList.toggle('shown',i==j)});[].forEach.call(t.children,function(b,j){b.classList.toggle('on',i==j);b.setAttribute('aria-selected',i==j)})}
+['Free','Pro','Lifetime'].forEach(function(n,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=n;b.onclick=function(){show(i)};t.appendChild(b)});
+w.parentNode.insertBefore(t,w);w.classList.add('tabbed');show(1)})();
+</script>
 </body>
 </html>
