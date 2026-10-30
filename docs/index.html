@@ -1215,13 +1215,13 @@ svg.nc{overflow:visible}
 .q-ls{display:grid}.q-ls>*{grid-area:1/1}
 @media(max-width:800px){.q-n{display:none}.q-n.q-st{display:flex}.q-row{flex-direction:column;align-items:center;padding-left:20px}
 .q-row>.q-tall{height:220px!important;width:70px!important;align-self:center;margin:0}}
-/* hero devices: the real desktop window and the phone, fanned, the phone tucked over its corner */
+/* hero devices: a wide desktop window, the phone standing across its lower corner */
 .hd{position:relative;z-index:2;flex:0 0 auto;width:clamp(380px,48vw,900px);margin:0 0 0 auto;padding:0;align-self:center;
   animation:hdIn .9s cubic-bezier(.2,.7,.2,1) both}
 .hd img{display:block;width:100%;height:auto}
 .hd-win{border-radius:12px;overflow:hidden;background:#0d0d0f;
   box-shadow:0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.3),0 30px 60px -12px rgba(0,0,0,.55),0 70px 120px -30px rgba(0,0,0,.6)}
-.hd-phone{position:absolute;right:1%;bottom:2%;width:26%;padding:0;transform:rotate(5deg);border-radius:13% / 5.8%;
+.hd-phone{position:absolute;right:0;bottom:0;width:23%;padding:0;border-radius:13% / 5.8%;
   box-shadow:0 24px 50px -10px rgba(0,0,0,.6),0 60px 100px -20px rgba(0,0,0,.55);
   animation:hdIn 1s .15s cubic-bezier(.2,.7,.2,1) both}
 .hd-glass{position:relative;border-radius:13% / 5.8%;overflow:hidden;background:#0d0d0f}
@@ -1229,7 +1229,26 @@ svg.nc{overflow:visible}
   transform:translateX(-50%);background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
 .hd-win::after,.hd-glass::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(125deg,rgba(255,255,255,.07),rgba(255,255,255,0) 38%)}
-.hd-win{position:relative;width:84%;margin-bottom:8%;transform:rotate(-3deg)}
+.hd-win{position:relative;width:82%;margin-bottom:4%}
+/* moths to a flame: the window's candle is lit, and notifications drift in and burn up in it */
+.hd-fl{position:absolute;left:55.25%;top:25.4%;width:4.17%;height:auto;overflow:visible;pointer-events:none}
+.hd-glow{position:absolute;left:57.33%;top:29%;width:22%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(242,170,80,.32),rgba(242,170,80,0));animation:ncg 3.2s ease-in-out infinite}
+.hm{position:absolute;inset:0;z-index:3;pointer-events:none}
+.hm b{position:absolute;display:flex;gap:7px;align-items:center;padding:7px 11px;border-radius:11px;font-size:11.5px;font-weight:500;white-space:nowrap;
+  translate:-50% -50%;background:rgba(16,16,20,.55);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.62);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;
+  animation:hmoth 16s ease-in infinite backwards;animation-delay:calc(var(--i)*1.6s + .8s)}
+.hm b i{width:14px;height:14px;border-radius:4px;background:rgba(127,127,140,.35);flex:none}
+@keyframes hmoth{
+ 0%{opacity:0;transform:translate(0,0);filter:blur(0)}
+ 7.5%{opacity:.9;transform:translate(calc(var(--dx,0px)*.08),calc(var(--dy,0px)*.08));filter:blur(0)}
+ 37.5%{opacity:1;transform:translate(calc(var(--dx,0px)*.72),calc(var(--dy,0px)*.72)) scale(.8);filter:blur(0);
+   background:rgba(74,44,14,.66);border-color:rgba(242,196,109,.75);color:#fff;box-shadow:0 0 26px -2px rgba(242,170,80,.55)}
+ 45%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.2);filter:blur(5px);background:rgba(74,44,14,.66);color:#ff9a4a}
+ 100%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.2);filter:blur(5px)}}
+@media(max-width:800px){.hm b{font-size:10.5px}.hm b:nth-child(n+5){display:none}}
+@media(prefers-reduced-motion:reduce){.hm{display:none}}
 @keyframes hdIn{from{opacity:0;transform:translateY(24px)}}
 @media(max-width:800px){.hd{flex:none;width:100%;max-width:560px;margin:34px auto 0}}
 .q-row>.ov.lf{min-width:0;flex:1 1 auto}
@@ -1269,8 +1288,9 @@ svg.nc{overflow:visible}
 <!-- ═══ HERO ═══ -->
 <!-- Hero: the tall candle above the clouds, notifications going quiet at the edge. -->
 <header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="ov lf"><h1>A blocker you can't bypass<span class="em">Pick a time. Your PC and phone lock until it's over.</span></h1><p class="sub">No apps, no sites, no exceptions.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div><figure class="hd" aria-label="The All Block on a PC and on a phone, both on the timer">
-<div class="hd-win"><img src="img/v2/hero_desk.webp" width="1650" height="1100" alt="The All Block on Windows: choose how long, then hold to start." fetchpriority="high"></div>
+<div class="hd-win"><img src="img/v2/hero_desk.webp" width="1650" height="1100" alt="The All Block on Windows: choose how long, then hold to start." fetchpriority="high"><div class="hd-glow"></div><svg class="hd-fl" viewBox="40 40 50 62" aria-hidden="true"><path class="nc-flame" d="M65 98 C 54 84, 55 66, 65 48 C 75 66, 76 84, 65 98 Z" fill="#f2c46d"/></svg></div>
 <div class="hd-phone"><div class="hd-glass"><img src="img/v2/hero_phone.webp" width="600" height="1346" alt="The All Block on Android: the same timer and candle."></div></div>
+<div class="hm" aria-hidden="true"><b style="left:14%;top:-12%;--i:0"><i></i>Sam replied to your story</b><b style="left:64%;top:-22%;--i:1"><i></i>You've spent 6 hours on your screen today</b><b style="left:4%;top:30%;--i:2"><i></i>Your streak ends in 1 hour</b><b style="left:82%;top:-9%;--i:3"><i></i>12 new messages in the group chat</b><b style="left:26%;top:-27%;--i:4"><i></i>Screen time is up 2 hours on last week</b><b style="left:93%;top:10%;--i:5"><i></i>Autoplay: next episode in 5</b><b style="left:9%;top:-2%;--i:6"><i></i>You picked up your phone 96 times today</b><b style="left:46%;top:-12%;--i:7"><i></i>Jess liked your photo</b><b style="left:2%;top:58%;--i:8"><i></i>3 hours on short videos today</b><b style="left:74%;top:-30%;--i:9"><i></i>Someone mentioned you in a comment</b></div>
 </figure></header>
 <!-- The old hero stays, off-screen, because its drum and Start button run the "Light it" demo. -->
 <header class="hero" id="oldtop" aria-hidden="true">
@@ -2393,5 +2413,11 @@ for(var n=Math.abs(i-c),k=i>c?'ArrowDown':'ArrowUp';n--;)w.dispatchEvent(new Key
 setTimeout(function(){document.getElementById('demoStart').click()},40)};
 function hsPad(n){return(n<10?'0':'')+n}function hsAt(s){var d=new Date(Date.now()+s*1000);return hsPad(d.getHours())+':'+hsPad(d.getMinutes())}
 </script>
+<script>/* hero: aim each drifting notification at the lit flame in the window */
+(function(){const hd=document.querySelector('.hd'),fl=hd&&hd.querySelector('.hd-fl');if(!fl)return;
+function aim(){const b=hd.getBoundingClientRect(),f=fl.getBoundingClientRect(),fx=f.left+f.width/2,fy=f.top+f.height*.62;
+ hd.querySelectorAll('.hm b').forEach(m=>{const l=b.left+parseFloat(m.style.left)/100*b.width,t=b.top+parseFloat(m.style.top)/100*b.height;
+  m.style.setProperty('--dx',(fx-l)+'px');m.style.setProperty('--dy',(fy-t)+'px')})}
+addEventListener('load',aim);addEventListener('resize',aim);aim()})();</script>
 </body>
 </html>
