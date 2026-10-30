@@ -1215,6 +1215,24 @@ svg.nc{overflow:visible}
 .q-ls{display:grid}.q-ls>*{grid-area:1/1}
 @media(max-width:800px){.q-n{display:none}.q-n.q-st{display:flex}.q-row{flex-direction:column;align-items:center;padding-left:20px}
 .q-row>.q-tall{height:220px!important;width:70px!important;align-self:center;margin:0}}
+/* hero devices: the real desktop window and the phone, fanned, the phone tucked over its corner */
+.hd{position:relative;z-index:2;flex:0 0 auto;width:clamp(380px,48vw,900px);margin:0 0 0 auto;padding:0;align-self:center;
+  animation:hdIn .9s cubic-bezier(.2,.7,.2,1) both}
+.hd img{display:block;width:100%;height:auto}
+.hd-win{border-radius:12px;overflow:hidden;background:#0d0d0f;
+  box-shadow:0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.3),0 30px 60px -12px rgba(0,0,0,.55),0 70px 120px -30px rgba(0,0,0,.6)}
+.hd-phone{position:absolute;right:1%;bottom:2%;width:26%;padding:0;transform:rotate(5deg);border-radius:13% / 5.8%;
+  box-shadow:0 24px 50px -10px rgba(0,0,0,.6),0 60px 100px -20px rgba(0,0,0,.55);
+  animation:hdIn 1s .15s cubic-bezier(.2,.7,.2,1) both}
+.hd-glass{position:relative;border-radius:13% / 5.8%;overflow:hidden;background:#0d0d0f}
+.hd-glass::before{content:"";position:absolute;z-index:1;left:50%;top:1.6%;width:7%;aspect-ratio:1;border-radius:50%;
+  transform:translateX(-50%);background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+.hd-win::after,.hd-glass::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(125deg,rgba(255,255,255,.07),rgba(255,255,255,0) 38%)}
+.hd-win{position:relative;width:84%;margin-bottom:8%;transform:rotate(-3deg)}
+@keyframes hdIn{from{opacity:0;transform:translateY(24px)}}
+@media(max-width:800px){.hd{flex:none;width:100%;max-width:560px;margin:34px auto 0}}
+.q-row>.ov.lf{min-width:0;flex:1 1 auto}
 .tc .q-n{animation:qlp 12s ease-in-out infinite;animation-delay:var(--d)}@media(max-width:800px){.tc>.ov{align-self:stretch!important;max-width:100%!important}.tc .ov h1{font-size:clamp(28px,8.4vw,40px)}}</style>
 </head>
 <body>
@@ -1250,7 +1268,10 @@ svg.nc{overflow:visible}
 
 <!-- ═══ HERO ═══ -->
 <!-- Hero: the tall candle above the clouds, notifications going quiet at the edge. -->
-<header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="q-n q-g" style="right:4%;top:14%;--d:1.0s;--r:1deg"><i></i>Sam replied to your story</div><div class="q-n q-g" style="right:20%;top:22%;--d:2.0s;--r:-2deg"><i></i>12 new messages in the group chat</div><div class="q-n q-g" style="right:10%;top:30%;--d:3.0s;--r:3deg"><i></i>Your streak ends in 1 hour</div><div class="q-n q-g" style="right:2%;top:40%;--d:4.0s;--r:-1deg"><i></i>Autoplay: next episode in 5</div><div class="q-n q-g" style="right:16%;top:48%;--d:5.0s;--r:2deg"><i></i>Jess liked your photo</div><div class="q-n q-g" style="right:3%;top:64%;--d:6.0s;--r:-3deg"><i></i>Someone mentioned you in a comment</div><div class="q-n q-g" style="right:22%;top:70%;--d:7.0s;--r:1deg"><i></i>New video from a channel you follow</div><div class="q-n q-g" style="right:12%;top:80%;--d:8.0s;--r:-2deg"><i></i>3 people viewed your profile</div><svg class="nc q-tall" viewBox="0 0 130 500" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><radialGradient id="g1"><stop offset="0" stop-color="#f2aa50" stop-opacity=".55"/><stop offset="1" stop-color="#f2aa50" stop-opacity="0"/></radialGradient><linearGradient id="w1" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#f1efe8"/><stop offset=".97" stop-color="#f1efe8" stop-opacity="0"/></linearGradient></defs><ellipse class="nc-glow" cx="65" cy="70" rx="62" ry="78" fill="url(#g1)"/><rect x="33" y="110" width="64" height="342" rx="7" fill="url(#w1)"/><line x1="65" y1="110" x2="65" y2="94" stroke="#8a8780" stroke-width="2.6"/><path class="nc-flame" d="M65 98 C 54 84, 55 66, 65 48 C 75 66, 76 84, 65 98 Z" fill="#f2c46d"/></svg><div class="ov lf"><h1>A blocker you can't bypass<span class="em">Pick a time. Your PC and phone lock until it's over.</span></h1><p class="sub">No apps, no sites, no exceptions.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div></header>
+<header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="ov lf"><h1>A blocker you can't bypass<span class="em">Pick a time. Your PC and phone lock until it's over.</span></h1><p class="sub">No apps, no sites, no exceptions.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div><figure class="hd" aria-label="The All Block on a PC and on a phone, both on the timer">
+<div class="hd-win"><img src="img/v2/hero_desk.webp" width="1650" height="1100" alt="The All Block on Windows: choose how long, then hold to start." fetchpriority="high"></div>
+<div class="hd-phone"><div class="hd-glass"><img src="img/v2/hero_phone.webp" width="600" height="1346" alt="The All Block on Android: the same timer and candle."></div></div>
+</figure></header>
 <!-- The old hero stays, off-screen, because its drum and Start button run the "Light it" demo. -->
 <header class="hero" id="oldtop" aria-hidden="true">
   <div class="hero-bg" aria-hidden="true">
