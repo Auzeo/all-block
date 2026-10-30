@@ -1236,17 +1236,21 @@ svg.nc{overflow:visible}
   background:radial-gradient(closest-side,rgba(242,170,80,.32),rgba(242,170,80,0));animation:ncg 3.2s ease-in-out infinite}
 .hm{position:absolute;inset:0;z-index:3;pointer-events:none}
 .hm b{position:absolute;display:flex;gap:7px;align-items:center;padding:7px 11px;border-radius:11px;font-size:11.5px;font-weight:500;white-space:nowrap;
-  translate:-50% -50%;background:rgba(16,16,20,.55);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.62);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;
-  animation:hmoth 16s ease-in infinite backwards;animation-delay:calc(var(--i)*1.6s + .8s)}
+  translate:-50% -50%;background:rgba(22,22,26,.82);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);
+  isolation:isolate;opacity:0;will-change:transform,opacity;
+  animation:hmoth 12s linear infinite backwards;animation-delay:calc(var(--i)*1.2s + .6s)}
+/* the warm light is a layer of its own that only fades in, so nothing is repainted while a message moves */
+.hm b::before{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;opacity:0;will-change:opacity;
+  background:rgba(74,44,14,.92);border:1px solid rgba(242,196,109,.75);box-shadow:0 0 26px -2px rgba(242,170,80,.55);
+  animation:hmlit 12s linear infinite backwards;animation-delay:inherit}
 .hm b i{width:14px;height:14px;border-radius:4px;background:rgba(127,127,140,.35);flex:none}
 @keyframes hmoth{
- 0%{opacity:0;transform:translate(0,0);filter:blur(0)}
- 7.5%{opacity:.9;transform:translate(calc(var(--dx,0px)*.08),calc(var(--dy,0px)*.08));filter:blur(0)}
- 37.5%{opacity:1;transform:translate(calc(var(--dx,0px)*.72),calc(var(--dy,0px)*.72)) scale(.8);filter:blur(0);
-   background:rgba(74,44,14,.66);border-color:rgba(242,196,109,.75);color:#fff;box-shadow:0 0 26px -2px rgba(242,170,80,.55)}
- 45%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.2);filter:blur(5px);background:rgba(74,44,14,.66);color:#ff9a4a}
- 100%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.2);filter:blur(5px)}}
+ 0%{opacity:0;transform:translate(0,0) scale(.96);animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+ 5%{opacity:1;transform:translate(calc(var(--dx,0px)*.06),calc(var(--dy,0px)*.06)) scale(1);animation-timing-function:cubic-bezier(.45,.05,.8,.5)}
+ 33%{opacity:1;transform:translate(calc(var(--dx,0px)*.86),calc(var(--dy,0px)*.86)) scale(.72);animation-timing-function:cubic-bezier(.3,0,.7,1)}
+ 40%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.15)}
+ 100%{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.15)}}
+@keyframes hmlit{0%,14%{opacity:0}30%,100%{opacity:1}}
 @media(max-width:800px){.hm b{font-size:10.5px}.hm b:nth-child(n+5){display:none}}
 @media(prefers-reduced-motion:reduce){.hm{display:none}}
 @keyframes hdIn{from{opacity:0;transform:translateY(24px)}}
@@ -1287,7 +1291,7 @@ svg.nc{overflow:visible}
 
 <!-- ═══ HERO ═══ -->
 <!-- Hero: the tall candle above the clouds, notifications going quiet at the edge. -->
-<header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="ov lf"><h1>A blocker you can't bypass<span class="em">Pick a time. Your PC and phone lock until it's over.</span></h1><p class="sub">No apps, no sites, no exceptions.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div><figure class="hd" aria-label="The All Block on a PC and on a phone, both on the timer">
+<header class="nh tc wt q-row" id="top"><div class="zsc "><img src="img/photos/dawn-1536.jpg" alt="" style="object-position:50% 50%;filter:brightness(0.62)"><div class="shade" style="background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 70%)"></div></div><div class="ov lf"><h1>A blocker you can't bypass<span class="em">Other apps limit your screen time. This one ends it.</span></h1><p class="sub">Start immediately, or schedule a lock for later.</p><div class="row"><a class="btn btn--light" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>Download</a><button class="btn btn--ghost" type="button" onclick="hsGo(3)">Light it</button></div></div><figure class="hd" aria-label="The All Block on a PC and on a phone, both on the timer">
 <div class="hd-win"><img src="img/v2/hero_desk.webp" width="1650" height="1100" alt="The All Block on Windows: choose how long, then hold to start." fetchpriority="high"><div class="hd-glow"></div><svg class="hd-fl" viewBox="40 40 50 62" aria-hidden="true"><path class="nc-flame" d="M65 98 C 54 84, 55 66, 65 48 C 75 66, 76 84, 65 98 Z" fill="#f2c46d"/></svg></div>
 <div class="hd-phone"><div class="hd-glass"><img src="img/v2/hero_phone.webp" width="600" height="1346" alt="The All Block on Android: the same timer and candle."></div></div>
 <div class="hm" aria-hidden="true"><b style="left:14%;top:-12%;--i:0"><i></i>Sam replied to your story</b><b style="left:64%;top:-22%;--i:1"><i></i>You've spent 6 hours on your screen today</b><b style="left:4%;top:30%;--i:2"><i></i>Your streak ends in 1 hour</b><b style="left:82%;top:-9%;--i:3"><i></i>12 new messages in the group chat</b><b style="left:26%;top:-27%;--i:4"><i></i>Screen time is up 2 hours on last week</b><b style="left:93%;top:10%;--i:5"><i></i>Autoplay: next episode in 5</b><b style="left:9%;top:-2%;--i:6"><i></i>You picked up your phone 96 times today</b><b style="left:46%;top:-12%;--i:7"><i></i>Jess liked your photo</b><b style="left:2%;top:58%;--i:8"><i></i>3 hours on short videos today</b><b style="left:74%;top:-30%;--i:9"><i></i>Someone mentioned you in a comment</b></div>
