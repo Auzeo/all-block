@@ -9,11 +9,9 @@ try{
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Short on purpose: a browser tab shows roughly 25 characters before it
-     truncates, and the old title was cut mid-phrase at "there's no…". The
-     search-result headline lives in the description and og: tags. -->
-<title>The All Block for Windows</title>
-<meta name="description" content="Set the timer and The All Block switches your mouse and keyboard off system-wide — at bedtime, mid-scroll, mid-game — until it ends. Free for Windows.">
+<title>The All Block: lock your PC and phone until focus is done</title>
+<meta name="description" content="A focus blocker for Windows and Android that locks the whole device, not a list of sites. Free sessions up to three hours. Survives restarts. No card needed.">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "The All Block", "url": "https://theallblock.com/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows 10, Windows 11, Android 8.0+", "description": "A focus blocker for Windows and Android that locks the whole device, not a list of sites.", "publisher": {"@type": "Organization", "name": "Auzeo"}, "offers": [{"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Week pass", "price": "1.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Pro monthly", "price": "7.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Pro yearly", "price": "34.99", "priceCurrency": "GBP"}, {"@type": "Offer", "name": "Lifetime", "price": "49.99", "priceCurrency": "GBP"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What if I really need to get out?", "acceptedAnswer": {"@type": "Answer", "text": "Use an emergency escape. You get one a month free, three on Pro, and they refill on the 1st. On Windows, hold Esc for five seconds on the lock screen. On the phone, tap Emergency escape. An extra escape costs £0.99."}}, {"@type": "Question", "name": "What still works on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Calls, the dialer and contacts. Everything else waits for the timer."}}, {"@type": "Question", "name": "Does restarting end a block?", "acceptedAnswer": {"@type": "Answer", "text": "No. It comes back locked, with the time that was left."}}, {"@type": "Question", "name": "What if Windows locks during a block?", "acceptedAnswer": {"@type": "Answer", "text": "Sign in as usual. The block carries on, and the clock keeps its time."}}, {"@type": "Question", "name": "Windows warned me about the download.", "acceptedAnswer": {"@type": "Answer", "text": "The All Block is not code-signed yet, so SmartScreen warns about it. Click More info, then Run anyway, then Yes on the admin prompt."}}]}]</script>
 <meta property="og:title" content="The All Block">
 <meta property="og:description" content="A blocker you can't bypass: The All Block switches your mouse and keyboard off system-wide, so the 1am spiral, the doomscroll and the one-more-game session never get the chance to start.">
 <!-- .ico first, for the browsers that only ever ask for /favicon.ico; the SVG
@@ -238,12 +236,12 @@ h2.big{font-size:clamp(30px,4.2vw,48px)}
    paper and vanishes over the forest, on dark especially */
 .hero .btn--ghost{border-color:color-mix(in srgb,var(--ink) 28%,transparent)}
 .hero .btn--ghost:hover{border-color:color-mix(in srgb,var(--ink) 55%,transparent)}
-.hero h1{font-size:clamp(38px,4.7vw,62px);text-transform:uppercase;
+.hero .oh1{font-size:clamp(38px,4.7vw,62px);text-transform:uppercase;
   margin-top:16px;line-height:1.08;letter-spacing:-.005em;max-width:15ch;
   font-variation-settings:"wdth" 100}
 /* the second line steps down and changes case — hierarchy, not two
    equal lines of shouting */
-.hero h1 em{font-style:normal;display:block;color:var(--green-txt);
+.hero .oh1 em{font-style:normal;display:block;color:var(--green-txt);
   font-size:.34em;text-transform:none;letter-spacing:-.01em;line-height:1.25;
   font-weight:700;margin-top:.5em;max-width:34ch}
 .hero-sub{color:var(--ash);margin:24px 0 0;max-width:44ch;font-size:16.5px}
@@ -1281,6 +1279,45 @@ svg.nc{overflow:visible}
 .v2 .v-plans.tabbed>.v-plan{display:none}.v2 .v-plans.tabbed>.v-plan.shown{display:flex}}
 @media(min-width:601px){.ptabs{display:none}}
 </style>
+<style>/* why do I need this: the numbers, then the reader's own */
+.v2 .w-g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.v2 .w-s{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 26px 22px;display:flex;flex-direction:column}
+.v2 .w-s .w-n{font-family:var(--display);font-weight:800;font-size:clamp(40px,4.6vw,58px);line-height:1;letter-spacing:-.02em;margin:0 0 12px;font-variant-numeric:tabular-nums}
+.v2 .w-n small{font-size:.45em;letter-spacing:0;margin-left:3px}
+.v2 .w-s p{margin:0 0 14px;font-size:15.5px;line-height:1.55}
+.v2 .w-src{margin-top:auto!important;font-family:var(--mono);font-size:10.5px!important;letter-spacing:.06em;color:var(--ash)}
+.v2 .w-close{max-width:60ch;margin:44px auto 0;text-align:center;font-size:clamp(19px,2vw,23px);line-height:1.5}
+.v2 .w-close b{color:var(--green-txt);font-weight:600}
+.v2 .q-card{max-width:640px;margin:36px auto 0;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(24px,4vw,44px);box-shadow:0 30px 60px -36px rgba(0,0,0,.35);text-align:center;position:relative;overflow:hidden}
+.v2 .q-dots{display:flex;gap:6px;justify-content:center;margin-bottom:26px}
+.v2 .q-dots i{width:22px;height:5px;border-radius:9px;background:var(--line);transition:background .3s,width .3s}
+.v2 .q-dots i.on{background:var(--ink);width:36px}
+.v2 .q-step{display:none}.v2 .q-step.on{display:block;animation:qin .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes qin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.v2 .q-k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ash);margin:0 0 10px}
+.v2 .q-q{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.6vw,28px);line-height:1.2;margin:0 0 22px}
+.v2 .q-big{font-family:var(--display);font-weight:800;font-size:clamp(56px,8vw,84px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:0 0 22px}
+.v2 .q-big small{font-size:.38em;letter-spacing:0;color:var(--ash);font-weight:600;margin-left:6px}
+.v2 .q-r{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:9px;background:linear-gradient(90deg,var(--green) var(--p,30%),var(--line) var(--p,30%));outline-offset:6px;margin:0 0 10px;cursor:pointer}
+.v2 .q-r::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--onyx);border:4px solid var(--card);box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.v2 .q-r::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--onyx);border:4px solid var(--card);box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.v2 .q-ends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ash);margin-bottom:20px}
+.v2 .q-hint{font-size:14px;color:var(--ash);margin:0 0 24px}
+.v2 .q-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.v2 .q-back{background:none;border:1px solid var(--line);color:var(--ink);padding:14px 22px;border-radius:999px;font:600 15px var(--body);cursor:pointer}
+.v2 .q-lead{font-size:17px;margin:0 0 8px}
+.v2 .q-res{color:#e2483d}
+.v2 .q-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:26px 0;text-align:left}
+.v2 .q-facts div{background:var(--sand);border-radius:14px;padding:14px 16px;font-size:13.5px;line-height:1.45;color:var(--ash)}
+.v2 .q-facts b{display:block;font-family:var(--display);font-size:24px;color:var(--ink);margin-bottom:4px;font-variant-numeric:tabular-nums}
+.v2 .q-win{font-size:16.5px;margin:0 0 24px}.v2 .q-win b{color:var(--green-txt)}
+.v2 .q-note{font-size:12.5px;color:var(--ash);margin:18px 0 0}
+@media(max-width:900px){.v2 .w-g{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.v2 .w-g{grid-template-columns:1fr;gap:10px}.v2 .w-s{padding:20px 20px 16px}.v2 .w-s .w-n{font-size:42px;margin-bottom:8px}
+.v2 .w-close{margin-top:32px}.v2 .q-facts{grid-template-columns:1fr}.v2 .q-facts div{display:flex;gap:12px;align-items:baseline}.v2 .q-facts b{font-size:20px;flex:none;min-width:84px}}
+@media (prefers-reduced-motion:reduce){.v2 .q-step.on{animation:none}}
+</style>
+<style id="mobile-fixes">.mbar,.fx-soon,.fx-bill{display:none}@media(max-width:700px){.nh .em{font-weight:500!important;color:#fff!important;font-size:18px!important;line-height:1.4;margin-top:14px!important;max-width:30ch;margin-left:auto;margin-right:auto}.nh .sub{font-size:15px!important;opacity:.75;margin-top:8px!important}.nh .row{flex-direction:column!important;align-items:stretch!important;width:100%;max-width:320px;gap:10px!important;margin-left:auto;margin-right:auto}.nh .row .btn{width:100%;justify-content:center;height:52px}.v2 #who .v-g4{display:block!important;border-top:1px solid var(--line);margin-top:28px}.v2 #who .v-card{display:grid;grid-template-columns:118px 1fr;column-gap:12px;background:none!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;padding:14px 0!important;box-shadow:none!important}.v2 #who .v-card .v-num{grid-row:1/3;padding-top:4px;font-size:12px}.v2 #who .v-card h3{font-size:17px;margin:0}.v2 #who .v-card p{font-size:14px;margin:2px 0 0}.v2 #app .v-g4{grid-template-columns:1fr 1fr!important;gap:10px!important;row-gap:10px!important}.v2 #app .v-g4>div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 10px}.v2 #app .v-g4>div:nth-child(n+3){display:none}.v2 #app .v-g4 h3{margin:0 0 6px}.v2 #app .fx-soon{display:block!important;text-align:center;color:var(--ash);font-size:14px;margin:14px 0 0}.v2 .v-band{padding:52px 0!important}.v2 #app{padding:0 0 52px!important}.v2 .v-mt{margin-top:24px!important}.v2 .v-split{gap:24px!important}.v2 #how .v-shot{aspect-ratio:1/1;width:100%;object-fit:cover;object-position:60% 50%}.v2 #lock .v-shot{aspect-ratio:4/5;width:100%;object-fit:cover;object-position:56% 50%}.v2 #pricing .v-wrap{text-align:left!important}.v2 #pricing .v-lede{margin-left:0}.v2 #pricing .ptabs{width:100%;margin:0 0 14px}.v2 #pricing .ptabs button{flex:1}.v2 #pricing .v-plans>.v-toggle,.v2 #pricing .v-wrap>.v-toggle{display:none!important}.v2 #pricing .fx-bill{display:flex!important;width:100%;margin:0 0 18px!important}.v2 #pricing .fx-bill button{flex:1;padding:8px 6px}.mbar{display:flex!important;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;gap:8px;padding:6px;border-radius:999px;background:var(--card);border:1px solid var(--line);box-shadow:0 16px 40px -16px rgba(0,0,0,.6);transform:translateY(160%);transition:transform .3s ease}.mbar.on{transform:none}.mbar a{flex:1;display:flex;align-items:center;justify-content:center;height:48px;border-radius:999px;font:700 15px var(--body);text-decoration:none;color:var(--ink)}.mbar a.p{flex:1.6;background:var(--onyx);color:var(--onyx-txt)}footer{padding-bottom:80px}}</style>
 </head>
 <body>
 
@@ -1377,7 +1414,7 @@ svg.nc{overflow:visible}
     </div>
 
     <div class="hero-say">
-      <h1>A blocker you can't bypass<em>No Apps. No Exceptions.</em></h1>
+      <p class="oh1">A blocker you can't bypass<em>No Apps. No Exceptions.</em></p>
       <p class="hero-sub">Just the real world.</p>
       <div class="hero-cta">
         <a class="btn" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe">
@@ -2453,5 +2490,50 @@ function show(i){ps.forEach(function(p,j){p.classList.toggle('shown',i==j)});[].
 ['Free','Pro','Lifetime'].forEach(function(n,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=n;b.onclick=function(){show(i)};t.appendChild(b)});
 w.parentNode.insertBefore(t,w);w.classList.add('tabbed');show(1)})();
 </script>
+<script>/* why do I need this: count the numbers up as they arrive, and the two-question reckoner */
+(()=>{
+const calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(!calm&&"IntersectionObserver" in window){
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,to=el.dataset.to,
+  parts=to.match(/\d+|\D+/g),nums=parts.map(p=>/\d/.test(p)?+p:null),t0=performance.now(),D=1300;
+  const tick=t=>{const k=Math.min(1,(t-t0)/D),f=1-Math.pow(1-k,3);
+   el.innerHTML=parts.map((p,i)=>nums[i]==null?(p==="s"?"<small>sec</small>":p):Math.round(nums[i]*f)).join("");if(k<1)requestAnimationFrame(tick)};
+  requestAnimationFrame(tick)}),{threshold:.6});
+ document.querySelectorAll("#why .w-n[data-to]").forEach(el=>io.observe(el))}
+const $=id=>document.getElementById(id),card=$("qc");if(!card)return;
+const hr=$("qHr"),ar=$("qAr"),steps=[...card.querySelectorAll(".q-step")],dots=[...card.querySelectorAll(".q-dots i")];
+const hrs=()=>hr.value/4,hm=h=>{const H=Math.floor(h),M=Math.round((h-H)*60);return [H,M]};
+const words=h=>{const [H,M]=hm(h);return [H?H+(H==1?" hour":" hours"):"",M?M+" minutes":""].filter(Boolean).join(" ")};
+const yrs=y=>y<1?Math.round(y*12)+" months":(y<10?y.toFixed(1):Math.round(y))+(y==1?" year":" years");
+const fill=r=>r.style.setProperty("--p",(r.value-r.min)/(r.max-r.min)*100+"%");
+function show(){const h=hrs(),[H,M]=hm(h);
+ $("qH").innerHTML=(H?H+"<small>h</small>":"")+(M?(H?" ":"")+M+"<small>m</small>":"");hr.setAttribute("aria-valuetext",words(h));
+ $("qA").textContent=ar.value;fill(hr);fill(ar)}
+function result(){const h=hrs(),left=Math.max(1,80-ar.value);
+ $("qRh").textContent=words(h);$("qY").textContent=yrs(h/24*left);
+ const d=Math.round(h*365/24);$("qD").textContent=d+(d==1?" day":" days");
+ $("qP").textContent=Math.round(h/16*100)+"%";$("qB").textContent=Math.round(h*365/6);
+ $("qW").textContent=yrs(Math.min(1,h)/24*left)}
+function go(n){if(n==2)result();steps.forEach((s,i)=>s.classList.toggle("on",i==n));dots.forEach((d,i)=>d.classList.toggle("on",i<=n))}
+hr.addEventListener("input",show);ar.addEventListener("input",show);
+card.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(+b.dataset.go)});
+show()})();
+</script>
+<!-- Phone-width fixes (2026-11-06): download bar, platform note, Monthly/Yearly inside Pro -->
+<div class="mbar" id="mbar"><a class="p" id="mdl" href="https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.2.8.apk">Get it for Android</a><a href="#pricing">Plans</a></div>
+<script>(function(){if(!matchMedia('(max-width:700px)').matches){var m=document.getElementById('mbar');if(m)m.remove();return}var g=document.querySelector('#app .v-g4');if(g){var p=document.createElement('p');p.className='fx-soon';p.textContent='macOS and iOS: coming soon';g.after(p)}
+var t=document.querySelector('#pricing .v-toggle'),pro=document.querySelector('#pricing .v-plan.v-pick');
+if(t&&pro){var c=t.cloneNode(true);c.classList.add('fx-bill');pro.insertBefore(c,pro.querySelector('.v-price'));
+ var host=t.closest('[data-bill]');c.querySelectorAll('button').forEach(function(x){x.addEventListener('click',function(){
+  [t,c].forEach(function(T){T.querySelectorAll('button').forEach(function(y){var o=y.dataset.b==x.dataset.b;y.classList.toggle('v-on',o);y.setAttribute('aria-pressed',String(o))})});
+  host.setAttribute('data-bill',x.dataset.b)})})}
+var b=document.getElementById('mbar'),D=document.getElementById('mdl');
+if(!/Android/i.test(navigator.userAgent)&&/Windows/i.test(navigator.userAgent)){D.href='https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.v8.3.7.exe';D.textContent='Get it for Windows'}
+var a=false,e=false;function u(){b.classList.toggle('on',a&&!e)}
+new IntersectionObserver(function(x){a=!x[0].isIntersecting;u()}).observe(document.getElementById('top'));
+new IntersectionObserver(function(x){e=x[0].isIntersecting;u()}).observe(document.getElementById('get'));
+if(/Android/i.test(navigator.userAgent)){document.querySelectorAll('.v-plan a[href$=".exe"]').forEach(function(l){l.href='https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.2.8.apk'});
+ var h=document.querySelector('#top .row .btn--light');if(h)h.href='https://github.com/Auzeo/all-block/releases/latest/download/The.All.Block.Companion.v1.2.8.apk';}
+})();</script>
 </body>
 </html>

@@ -105,7 +105,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
   <h1>Privacy policy</h1>
   <p class="lede">The All Block works without an account and sends nothing anywhere
      until you ask it to. This page says exactly what that means.</p>
-  <p class="stamp">Last updated 1 October 2026</p>
+  <p class="stamp">Last updated 6 November 2026</p>
 </header>
 
 <section>
@@ -173,6 +173,14 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           stored as a salted hash by our authentication provider; we never see it.</td>
     </tr>
     <tr>
+      <td>Your Google account's email address, name and profile picture</td>
+      <td>Only if you choose Continue with Google on the phone</td>
+      <td>Google sends these to our authentication provider when you sign in with it.
+          We use the email address to sign you in; the name and picture are stored
+          with the account but not used or shown anywhere. We never see your Google
+          password.</td>
+    </tr>
+    <tr>
       <td>Account ID and Pro status</td>
       <td>With an account</td>
       <td>So the app knows whether to unlock Pro features.</td>
@@ -216,7 +224,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           and removed when the account is deleted.</td>
     </tr>
   </table></div>
-  <p>That is the complete list. No name, no postal address, no usage statistics,
+  <p>That is the complete list. No name (unless Google passes one, as above), no postal address, no usage statistics,
      no session history, no list of the apps on your phone, no location, and
      nothing that identifies your device beyond the random number above.</p>
 </section>
@@ -243,6 +251,10 @@ footer a:hover{color:var(--ink);text-decoration:underline}
     <li><b>Supabase</b> — hosts the account database, the licence table and
         your synced schedules.</li>
     <li><b>Paddle</b> — payments, tax and receipts, as above.</li>
+    <li><b>Google</b> — signs you in if you choose Continue with Google, as above.</li>
+    <li><b>Resend</b> — sends the emails the service needs: confirming your
+        address, resetting your password, and Accountability Lock recovery links.
+        It receives the address and the email, nothing else.</li>
     <li><b>Google Play</b> — payments made in the Android app, as above.</li>
     <li><b>GitHub</b> — hosts this website and the download. GitHub records
         requests to it, including IP addresses, in its own server logs.</li>
@@ -250,6 +262,10 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         which means your browser's request (and therefore your IP address)
         reaches Google. No cookies are set by it.</li>
   </ul>
+  <p>If you email us, including from the app's Send feedback button, we get
+     what you send. The Android app fills in your phone's make, model and Android
+     version so we can reproduce a problem; you can delete those lines before
+     sending. We use it only to reply.</p>
   <p>We do not sell data, share it for advertising, or pass it to anyone else
      except where the law requires it.</p>
 </section>
