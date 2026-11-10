@@ -112,14 +112,14 @@ footer a:hover{color:var(--ink);text-decoration:underline}
   <h2>The short version</h2>
   <div class="callout">
     <p>There is no analytics, no telemetry, no advertising and no tracking in
-       The All Block, on Windows or on Android. Your sessions, history and
+       The All Block, on Windows, Android or iPhone. Your sessions, history and
        Accountability Lock password never leave your device. Without an account,
        nothing else does either. If you choose to make one, we hold your email
        address, what you have bought, and your scheduled blocks, so that your
        plan and your schedules follow you between your computer and your
        phone.</p>
-    <p>This policy covers the Windows app, the Android app and this
-       website.</p>
+    <p>This policy covers the Windows app, the Android app, the iPhone app
+       and this website.</p>
   </div>
   <p>The data controller is <b>Auzeo</b>, a sole trader in the United Kingdom.
      Contact: <a href="mailto:MrAuzeo@protonmail.com">MrAuzeo@protonmail.com</a>.</p>
@@ -128,8 +128,8 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 <section>
   <h2>What stays on your device</h2>
   <p>On Windows, The All Block keeps its data in a folder in your user profile
-     (<code>~/.allblock</code>). On Android, it keeps it in the app's own
-     private storage. That includes:</p>
+     (<code>~/.allblock</code>). On Android and iPhone, it keeps it in the
+     app's own private storage. That includes:</p>
   <ul>
     <li>your scheduled blocks and their settings (also copied to your account
         if you have one &mdash; see below);</li>
@@ -139,7 +139,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         with a random salt — never in plain text, and never uploaded.</li>
   </ul>
   <p>We can't read any of it. Deleting that folder, or uninstalling the
-     Android app, deletes all of it.</p>
+     Android or iPhone app, deletes all of it.</p>
   <p>That last one holds even if you add a recovery email to the Accountability
      Lock. The password still never leaves your computer and we still cannot
      read it or reset it. All a recovery email lets us do is send a link to
@@ -163,6 +163,17 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 </section>
 
 <section>
+  <h2>The iPhone app and Screen Time</h2>
+  <p>To block apps on an iPhone, the app uses Apple's Screen Time. You choose the
+     apps to block in Apple's own picker. Apple gives the app only coded tokens
+     for your choices, not the names of the apps, and the app hands those tokens
+     back to Screen Time when a block starts and ends.</p>
+  <p>The app cannot see which apps you open, what you do in them, or how long you
+     use your phone. Nothing Screen Time gives it is sent off your phone &mdash;
+     not to us and not to anyone else.</p>
+</section>
+
+<section>
   <h2>What we collect, and only if you opt in</h2>
   <div class="overflow"><table>
     <tr><th>Data</th><th>When</th><th>Why</th></tr>
@@ -178,6 +189,15 @@ footer a:hover{color:var(--ink);text-decoration:underline}
       <td>Google sends these to our authentication provider when you sign in with it.
           We use the email address to sign you in; the name and picture are stored
           with the account but not used or shown anywhere. We never see your Google
+          password.</td>
+    </tr>
+    <tr>
+      <td>Your Apple Account's email address, or the private relay address Apple
+          makes for you, and your name if you choose to share it</td>
+      <td>Only if you choose Sign in with Apple on the iPhone</td>
+      <td>Apple sends these to our authentication provider when you sign in with it.
+          We use the email address to sign you in; the name is stored with the
+          account but not used or shown anywhere. We never see your Apple Account
           password.</td>
     </tr>
     <tr>
@@ -224,7 +244,7 @@ footer a:hover{color:var(--ink);text-decoration:underline}
           and removed when the account is deleted.</td>
     </tr>
   </table></div>
-  <p>That is the complete list. No name (unless Google passes one, as above), no postal address, no usage statistics,
+  <p>That is the complete list. No name (unless Google or Apple passes one, as above), no postal address, no usage statistics,
      no session history, no list of the apps on your phone, no location, and
      nothing that identifies your device beyond the random number above.</p>
 </section>
@@ -243,6 +263,12 @@ footer a:hover{color:var(--ink);text-decoration:underline}
      privacy policy</a>; we never see them. What comes back to us is a purchase
      token and the product bought, which we check with Google and keep against
      your account.</p>
+  <p>Purchases made inside the iPhone app go through <b>Apple's App Store</b>.
+     Apple handles the payment and your card details under
+     <a href="https://www.apple.com/legal/privacy/" rel="noopener">its own
+     privacy policy</a>; we never see them. The app checks what you have bought
+     with the App Store on the phone itself, and nothing about an iPhone purchase
+     is sent to us.</p>
 </section>
 
 <section>
@@ -256,6 +282,8 @@ footer a:hover{color:var(--ink);text-decoration:underline}
         address, resetting your password, and Accountability Lock recovery links.
         It receives the address and the email, nothing else.</li>
     <li><b>Google Play</b> — payments made in the Android app, as above.</li>
+    <li><b>Apple</b> — payments made in the iPhone app, and signing you in if you
+        choose Sign in with Apple, as above.</li>
     <li><b>GitHub</b> — hosts this website and the download. GitHub records
         requests to it, including IP addresses, in its own server logs.</li>
     <li><b>Google Fonts</b> — this website loads its typefaces from Google's CDN,
@@ -272,8 +300,8 @@ footer a:hover{color:var(--ink);text-decoration:underline}
 
 <section>
   <h2>Cookies</h2>
-  <p>This website sets no cookies and runs no analytics. Neither app sets any
-     either. Paddle's checkout, which opens in your browser, uses its own
+  <p>This website sets no cookies and runs no analytics. None of the apps sets
+     any either. Paddle's checkout, which opens in your browser, uses its own
      cookies for the payment session.</p>
 </section>
 
@@ -289,7 +317,8 @@ footer a:hover{color:var(--ink);text-decoration:underline}
      nothing installed. Either route removes the email address, the password,
      the profile, your synced schedules, the record of escapes you have spent
      and any Google Play purchase records held against the account. It happens
-     immediately.</p>
+     immediately. Purchases made in the iPhone app are held by Apple, not by us,
+     so deleting the account does not touch them.</p>
   <p>Two things outlive it. A licence key you bought is unlinked from you rather
      than deleted, so what remains is a random string with nobody's name against
      it &mdash; and so that you can redeem it again on a new account, because you
